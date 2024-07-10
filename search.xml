@@ -13,85 +13,6 @@
       </tags>
   </entry>
   <entry>
-    <title>分析ios闪退日志的简易方法</title>
-    <url>/2019/05/08/iosCrashAnalyse/</url>
-    <content><![CDATA[<ol>
-<li>首先在打包机上找到dSYM文件，每次发布都会被覆盖为最新的，具体目录为jenkins对应的pipeline下platform&#x2F;ios&#x2F;build&#x2F;device&#x2F;，拷贝至桌面方便操作；</li>
-<li>将设备链接至mac，在xcode的window-&gt;devices and simulators-&gt;下点击view device logs，在this device下等待所有的日志加载好后点击type排序，在对应的app里找到闪退时间一致的闪退日志，查看日志；<span id="more"></span></li>
-<li>对比闪退日志和dSYM日志的uuid，确认dSYM文件，在桌面执行命令<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dwarfdump --uuid SogalNew.app.dSYM</span><br></pre></td></tr></table></figure>
-解析dSYM文件的uuid，输出结果如下<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">UUID: 89E89BFC-43CE-3BC6-8D16-07C24394B0DB (armv7)</span><br><span class="line">dSYMs/SogalNew.app.dSYM/Contents/Resources/DWARF/SogalNew</span><br><span class="line">UUID: 101C2198-E694-3D3A-9BC6-F7A30D4451EF (arm64)</span><br><span class="line">dSYMs/SogalNew.app.dSYM/Contents/Resources/DWARF/SogalNew</span><br></pre></td></tr></table></figure>
-在闪退日志里找到如下一行，对比&lt;&gt;里的uuid，在确保都为arm64时如果一致代表dSYM文件可以用<img src="/2019/05/08/iosCrashAnalyse/uuid.png" class="" title="uuid"></li>
-<li>在桌面执行如下命令，开始解析闪退日志：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/Applications/Xcode.app/Contents/Developer/usr/bin/atos -o SogalNew.app.dSYM/Contents/Resources/DWARF/SogalNew -l 0x100084000 -arch arm64</span><br></pre></td></tr></table></figure>
-其中0x100084000与<img src="/2019/05/08/iosCrashAnalyse/uuid1.png" class="" title="uuid1">
-及<img src="/2019/05/08/iosCrashAnalyse/uuid2.png" class="" title="uuid2">
-一致</li>
-<li>接下来输入闪退日志里前几句<img src="/2019/05/08/iosCrashAnalyse/uuid3.png" class="" title="uuid3">进行解析即可看到大致报错位置。</li>
-</ol>
-<p>注：SogalNew指应用名称</p>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>js</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>更新cordova时出现的报错及解决方案</title>
-    <url>/2018/06/08/cordovaUpdate/</url>
-    <content><![CDATA[<h4 id="今天在利用cordova-build安卓apk的时候出现了报错，并且提示更新cordova，于是执行以下命令做更新："><a href="#今天在利用cordova-build安卓apk的时候出现了报错，并且提示更新cordova，于是执行以下命令做更新：" class="headerlink" title="今天在利用cordova build安卓apk的时候出现了报错，并且提示更新cordova，于是执行以下命令做更新："></a>今天在利用cordova build安卓apk的时候出现了报错，并且提示更新cordova，于是执行以下命令做更新：</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install -g cordova</span><br></pre></td></tr></table></figure>
-<p>结果出现了报错，如下</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm WARN update-linked node_modules\cordova needs updating to 8.0.0 from 6.4.0 but we can&#x27;t, as it&#x27;s a symlink</span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<p>在网上查了半天也没找到原因，于是尝试了先去remove再install，结果成功了，如下</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm remove -g cordova</span><br><span class="line">npm install -g cordova</span><br></pre></td></tr></table></figure>
-<p>至于报错的原因，还有待后面研究下…</p>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>npm</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>js promise简例及一些注意点</title>
-    <url>/2018/05/11/jsPromise/</url>
-    <content><![CDATA[<h4 id="无论promise中的执行结果是什么，它总会给你返回一个状态，成功或者失败"><a href="#无论promise中的执行结果是什么，它总会给你返回一个状态，成功或者失败" class="headerlink" title="无论promise中的执行结果是什么，它总会给你返回一个状态，成功或者失败"></a>无论promise中的执行结果是什么，它总会给你返回一个状态，成功或者失败</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//封装promise</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getURL</span>(<span class="params">URL</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="keyword">function</span> (<span class="params">resolve, reject</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> req = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line">        req.<span class="title function_">open</span>(<span class="string">&#x27;GET&#x27;</span>, <span class="variable constant_">URL</span>, <span class="literal">true</span>);</span><br><span class="line">        req.<span class="property">onload</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (req.<span class="property">status</span> === <span class="number">200</span>) &#123;</span><br><span class="line">                <span class="title function_">resolve</span>(req.<span class="property">responseText</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="title function_">reject</span>(<span class="keyword">new</span> <span class="title class_">Error</span>(req.<span class="property">statusText</span>));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        req.<span class="property">onerror</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">            <span class="title function_">reject</span>(<span class="keyword">new</span> <span class="title class_">Error</span>(req.<span class="property">statusText</span>));</span><br><span class="line">        &#125;;</span><br><span class="line">        req.<span class="title function_">send</span>();</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//执行</span></span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">URL</span> = <span class="string">&quot;http:***&quot;</span>;</span><br><span class="line"><span class="title function_">getURL</span>(<span class="variable constant_">URL</span>).<span class="title function_">then</span>(<span class="keyword">function</span>(<span class="params">value</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(value);</span><br><span class="line">&#125;).<span class="title function_">catch</span>(<span class="keyword">function</span>(<span class="params">error</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">error</span>(error);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">//也可以这样写</span></span><br><span class="line"><span class="comment">//getURL(URL).then(function(value) &#123;</span></span><br><span class="line"><span class="comment">//    console.log(value);</span></span><br><span class="line"><span class="comment">//&#125;, function(error)&#123;</span></span><br><span class="line"><span class="comment">//    console.error(error);</span></span><br><span class="line"><span class="comment">//&#125;)</span></span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<h4 id="在angularjs中可以通过-q实现异步操作："><a href="#在angularjs中可以通过-q实现异步操作：" class="headerlink" title="在angularjs中可以通过$q实现异步操作："></a>在angularjs中可以通过$q实现异步操作：</h4><p>通过调用  $q.defer() 可以构建一个新的 deffered 实例,deffered 对象用来将 Promise 实例与 标记任务状态(执行成功还是不成功)的 API 相关联，<br>deffered 对象的方法</p>
-<blockquote>
-<ul>
-<li>resolve(value) ——成功，如果 value 是一个通过 $q.reject 构造的拒绝对象(rejection) , 该promise 将被拒绝。</li>
-<li>reject(reason) ——失败，这相当于通过 $q.reject构造的拒绝对象(rejection)作为参数传递给 resolve。</li>
-<li>notify(value)  ——在 promise 执行的过程中提供状态更新。 这在 promise 被解决或拒绝之前可能会被多次调用。</li>
-</ul>
-</blockquote>
-<p>例子如下：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//封装promise</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">asyncGreet</span>(<span class="params">name</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> deferred = $q.<span class="title function_">defer</span>();</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">        deferred.<span class="title function_">notify</span>(<span class="string">&#x27;即将问候 &#x27;</span> + name + <span class="string">&#x27;.&#x27;</span>);</span><br><span class="line">        <span class="keyword">if</span> (<span class="title function_">okToGreet</span>(name)) &#123;</span><br><span class="line">            deferred.<span class="title function_">resolve</span>(<span class="string">&#x27;你好, &#x27;</span> + name + <span class="string">&#x27;!&#x27;</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            deferred.<span class="title function_">reject</span>(<span class="string">&#x27;拒绝问候 &#x27;</span> + name + <span class="string">&#x27; .&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, <span class="number">1000</span>);</span><br><span class="line">    <span class="keyword">return</span> deferred.<span class="property">promise</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//执行</span></span><br><span class="line"><span class="keyword">var</span> promise = <span class="title function_">asyncGreet</span>(<span class="string">&#x27;***&#x27;</span>);</span><br><span class="line">promise.<span class="title function_">then</span>(<span class="keyword">function</span> (<span class="params">res</span>) &#123;</span><br><span class="line"></span><br><span class="line">&#125;, <span class="keyword">function</span> (<span class="params">error</span>) &#123;</span><br><span class="line"></span><br><span class="line">&#125;, <span class="keyword">function</span> (<span class="params">update</span>) &#123;</span><br><span class="line"></span><br><span class="line">&#125;);  </span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>js</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>React的Ref属性在TypeScript中的写法</title>
-    <url>/2018/05/04/reactRefs/</url>
-    <content><![CDATA[<h4 id="在TypeScript中使用ref属性的时候，如果不定义它的类型直接去使用this-refs-XXX，就会在编译的时候报错。参考如下代码："><a href="#在TypeScript中使用ref属性的时候，如果不定义它的类型直接去使用this-refs-XXX，就会在编译的时候报错。参考如下代码：" class="headerlink" title="在TypeScript中使用ref属性的时候，如果不定义它的类型直接去使用this.refs.XXX，就会在编译的时候报错。参考如下代码："></a>在TypeScript中使用ref属性的时候，如果不定义它的类型直接去使用this.refs.XXX，就会在编译的时候报错。参考如下代码：</h4><span id="more"></span>
-<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">CustomTextInput</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span>&lt;&#123;&#125;, &#123;&#125;&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//在此处统一定义refs</span></span><br><span class="line">    <span class="keyword">public</span> <span class="attr">refs</span>: &#123;</span><br><span class="line">        <span class="attr">textInput</span>: <span class="title class_">HTMLInputElement</span>,</span><br><span class="line">        <span class="attr">loadMoreDiv</span>: <span class="title class_">HTMLElement</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">componentDidMount</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> loadMore = <span class="variable language_">this</span>.<span class="property">refs</span>.<span class="property">loadMoreDiv</span>;</span><br><span class="line">        <span class="keyword">const</span> myInput = <span class="variable language_">this</span>.<span class="property">refs</span>.<span class="property">textInput</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">ref</span>= <span class="string">&quot;textInput&quot;</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">ref</span>= <span class="string">&quot;loadMoreDiv&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>转自：<a href="https://goenning.net/2016/11/02/strongly-typed-react-refs-with-typescript/">Strongly Typed React Refs with TypeScript</a></p>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>React</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hexo使用小记</title>
     <url>/2018/05/04/Hexo/</url>
     <content><![CDATA[<h3 id="1-关于部署到github时用户名密码报错的问题"><a href="#1-关于部署到github时用户名密码报错的问题" class="headerlink" title="1.  关于部署到github时用户名密码报错的问题"></a>1.  关于部署到github时用户名密码报错的问题</h3><p>刚开始部署的配置如下</p>
@@ -134,6 +55,100 @@
       </tags>
   </entry>
   <entry>
+    <title>更新cordova时出现的报错及解决方案</title>
+    <url>/2018/06/08/cordovaUpdate/</url>
+    <content><![CDATA[<h4 id="今天在利用cordova-build安卓apk的时候出现了报错，并且提示更新cordova，于是执行以下命令做更新："><a href="#今天在利用cordova-build安卓apk的时候出现了报错，并且提示更新cordova，于是执行以下命令做更新：" class="headerlink" title="今天在利用cordova build安卓apk的时候出现了报错，并且提示更新cordova，于是执行以下命令做更新："></a>今天在利用cordova build安卓apk的时候出现了报错，并且提示更新cordova，于是执行以下命令做更新：</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install -g cordova</span><br></pre></td></tr></table></figure>
+<p>结果出现了报错，如下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm WARN update-linked node_modules\cordova needs updating to 8.0.0 from 6.4.0 but we can&#x27;t, as it&#x27;s a symlink</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<p>在网上查了半天也没找到原因，于是尝试了先去remove再install，结果成功了，如下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm remove -g cordova</span><br><span class="line">npm install -g cordova</span><br></pre></td></tr></table></figure>
+<p>至于报错的原因，还有待后面研究下…</p>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>npm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>分析ios闪退日志的简易方法</title>
+    <url>/2019/05/08/iosCrashAnalyse/</url>
+    <content><![CDATA[<ol>
+<li>首先在打包机上找到dSYM文件，每次发布都会被覆盖为最新的，具体目录为jenkins对应的pipeline下platform&#x2F;ios&#x2F;build&#x2F;device&#x2F;，拷贝至桌面方便操作；</li>
+<li>将设备链接至mac，在xcode的window-&gt;devices and simulators-&gt;下点击view device logs，在this device下等待所有的日志加载好后点击type排序，在对应的app里找到闪退时间一致的闪退日志，查看日志；<span id="more"></span></li>
+<li>对比闪退日志和dSYM日志的uuid，确认dSYM文件，在桌面执行命令<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dwarfdump --uuid SogalNew.app.dSYM</span><br></pre></td></tr></table></figure>
+解析dSYM文件的uuid，输出结果如下<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">UUID: 89E89BFC-43CE-3BC6-8D16-07C24394B0DB (armv7)</span><br><span class="line">dSYMs/SogalNew.app.dSYM/Contents/Resources/DWARF/SogalNew</span><br><span class="line">UUID: 101C2198-E694-3D3A-9BC6-F7A30D4451EF (arm64)</span><br><span class="line">dSYMs/SogalNew.app.dSYM/Contents/Resources/DWARF/SogalNew</span><br></pre></td></tr></table></figure>
+在闪退日志里找到如下一行，对比&lt;&gt;里的uuid，在确保都为arm64时如果一致代表dSYM文件可以用<img src="/2019/05/08/iosCrashAnalyse/uuid.png" class="" title="uuid"></li>
+<li>在桌面执行如下命令，开始解析闪退日志：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/Applications/Xcode.app/Contents/Developer/usr/bin/atos -o SogalNew.app.dSYM/Contents/Resources/DWARF/SogalNew -l 0x100084000 -arch arm64</span><br></pre></td></tr></table></figure>
+其中0x100084000与<img src="/2019/05/08/iosCrashAnalyse/uuid1.png" class="" title="uuid1">
+及<img src="/2019/05/08/iosCrashAnalyse/uuid2.png" class="" title="uuid2">
+一致</li>
+<li>接下来输入闪退日志里前几句<img src="/2019/05/08/iosCrashAnalyse/uuid3.png" class="" title="uuid3">进行解析即可看到大致报错位置。</li>
+</ol>
+<p>注：SogalNew指应用名称</p>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>js promise简例及一些注意点</title>
+    <url>/2018/05/11/jsPromise/</url>
+    <content><![CDATA[<h4 id="无论promise中的执行结果是什么，它总会给你返回一个状态，成功或者失败"><a href="#无论promise中的执行结果是什么，它总会给你返回一个状态，成功或者失败" class="headerlink" title="无论promise中的执行结果是什么，它总会给你返回一个状态，成功或者失败"></a>无论promise中的执行结果是什么，它总会给你返回一个状态，成功或者失败</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//封装promise</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getURL</span>(<span class="params">URL</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="keyword">function</span> (<span class="params">resolve, reject</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> req = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line">        req.<span class="title function_">open</span>(<span class="string">&#x27;GET&#x27;</span>, <span class="variable constant_">URL</span>, <span class="literal">true</span>);</span><br><span class="line">        req.<span class="property">onload</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (req.<span class="property">status</span> === <span class="number">200</span>) &#123;</span><br><span class="line">                <span class="title function_">resolve</span>(req.<span class="property">responseText</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="title function_">reject</span>(<span class="keyword">new</span> <span class="title class_">Error</span>(req.<span class="property">statusText</span>));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        req.<span class="property">onerror</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">            <span class="title function_">reject</span>(<span class="keyword">new</span> <span class="title class_">Error</span>(req.<span class="property">statusText</span>));</span><br><span class="line">        &#125;;</span><br><span class="line">        req.<span class="title function_">send</span>();</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//执行</span></span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">URL</span> = <span class="string">&quot;http:***&quot;</span>;</span><br><span class="line"><span class="title function_">getURL</span>(<span class="variable constant_">URL</span>).<span class="title function_">then</span>(<span class="keyword">function</span>(<span class="params">value</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(value);</span><br><span class="line">&#125;).<span class="title function_">catch</span>(<span class="keyword">function</span>(<span class="params">error</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">error</span>(error);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">//也可以这样写</span></span><br><span class="line"><span class="comment">//getURL(URL).then(function(value) &#123;</span></span><br><span class="line"><span class="comment">//    console.log(value);</span></span><br><span class="line"><span class="comment">//&#125;, function(error)&#123;</span></span><br><span class="line"><span class="comment">//    console.error(error);</span></span><br><span class="line"><span class="comment">//&#125;)</span></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h4 id="在angularjs中可以通过-q实现异步操作："><a href="#在angularjs中可以通过-q实现异步操作：" class="headerlink" title="在angularjs中可以通过$q实现异步操作："></a>在angularjs中可以通过$q实现异步操作：</h4><p>通过调用  $q.defer() 可以构建一个新的 deffered 实例,deffered 对象用来将 Promise 实例与 标记任务状态(执行成功还是不成功)的 API 相关联，<br>deffered 对象的方法</p>
+<blockquote>
+<ul>
+<li>resolve(value) ——成功，如果 value 是一个通过 $q.reject 构造的拒绝对象(rejection) , 该promise 将被拒绝。</li>
+<li>reject(reason) ——失败，这相当于通过 $q.reject构造的拒绝对象(rejection)作为参数传递给 resolve。</li>
+<li>notify(value)  ——在 promise 执行的过程中提供状态更新。 这在 promise 被解决或拒绝之前可能会被多次调用。</li>
+</ul>
+</blockquote>
+<p>例子如下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//封装promise</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">asyncGreet</span>(<span class="params">name</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> deferred = $q.<span class="title function_">defer</span>();</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">        deferred.<span class="title function_">notify</span>(<span class="string">&#x27;即将问候 &#x27;</span> + name + <span class="string">&#x27;.&#x27;</span>);</span><br><span class="line">        <span class="keyword">if</span> (<span class="title function_">okToGreet</span>(name)) &#123;</span><br><span class="line">            deferred.<span class="title function_">resolve</span>(<span class="string">&#x27;你好, &#x27;</span> + name + <span class="string">&#x27;!&#x27;</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            deferred.<span class="title function_">reject</span>(<span class="string">&#x27;拒绝问候 &#x27;</span> + name + <span class="string">&#x27; .&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, <span class="number">1000</span>);</span><br><span class="line">    <span class="keyword">return</span> deferred.<span class="property">promise</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//执行</span></span><br><span class="line"><span class="keyword">var</span> promise = <span class="title function_">asyncGreet</span>(<span class="string">&#x27;***&#x27;</span>);</span><br><span class="line">promise.<span class="title function_">then</span>(<span class="keyword">function</span> (<span class="params">res</span>) &#123;</span><br><span class="line"></span><br><span class="line">&#125;, <span class="keyword">function</span> (<span class="params">error</span>) &#123;</span><br><span class="line"></span><br><span class="line">&#125;, <span class="keyword">function</span> (<span class="params">update</span>) &#123;</span><br><span class="line"></span><br><span class="line">&#125;);  </span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>js中的Map和Set</title>
+    <url>/2018/07/25/mapset/</url>
+    <content><![CDATA[<h2 id="1-Map"><a href="#1-Map" class="headerlink" title="1.Map"></a>1.Map</h2><h4 id="Map是一组键值对的结构，具有极快的查找速度，如下："><a href="#Map是一组键值对的结构，具有极快的查找速度，如下：" class="headerlink" title="Map是一组键值对的结构，具有极快的查找速度，如下："></a>Map是一组键值对的结构，具有极快的查找速度，如下：</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> m = <span class="keyword">new</span> <span class="title class_">Map</span>(); <span class="comment">// 创建一个空Map</span></span><br><span class="line"><span class="comment">//也可以像这样创建：var m = new Map([[&#x27;Michael&#x27;, 95], [&#x27;Bob&#x27;, 75], [&#x27;Tracy&#x27;, 85]]);</span></span><br><span class="line">m.<span class="title function_">set</span>(<span class="string">&#x27;leo&#x27;</span>, <span class="number">25</span>); <span class="comment">// 添加新的key-value</span></span><br><span class="line">m.<span class="title function_">set</span>(<span class="string">&#x27;Bob&#x27;</span>, <span class="number">30</span>);</span><br><span class="line">m.<span class="title function_">set</span>(<span class="number">10</span>, <span class="string">&quot;john&quot;</span>);</span><br><span class="line">m.<span class="title function_">has</span>(<span class="string">&#x27;leo&#x27;</span>); <span class="comment">// 是否存在key &#x27;Adam&#x27;: true</span></span><br><span class="line">m.<span class="title function_">get</span>(<span class="string">&#x27;leo&#x27;</span>); <span class="comment">// 25</span></span><br><span class="line">m.<span class="title function_">delete</span>(<span class="string">&#x27;leo&#x27;</span>); <span class="comment">// 删除key &#x27;leo&#x27;</span></span><br><span class="line">m.<span class="title function_">get</span>(<span class="string">&#x27;leo&#x27;</span>); <span class="comment">// undefined</span></span><br><span class="line">m.<span class="property">size</span>;<span class="comment">// 获取map的长度：2</span></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h4 id="由于一个key只能对应一个value，所以，多次对一个key放入value，后面的value会把之前的覆盖："><a href="#由于一个key只能对应一个value，所以，多次对一个key放入value，后面的value会把之前的覆盖：" class="headerlink" title="由于一个key只能对应一个value，所以，多次对一个key放入value，后面的value会把之前的覆盖："></a>由于一个key只能对应一个value，所以，多次对一个key放入value，后面的value会把之前的覆盖：</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">m.<span class="title function_">set</span>(<span class="string">&#x27;Bob&#x27;</span>, <span class="number">300</span>);</span><br><span class="line">m.<span class="title function_">get</span>(<span class="string">&#x27;Bob&#x27;</span>); <span class="comment">// 300</span></span><br></pre></td></tr></table></figure>
+<h4 id="在Map中，key值可以是任何基本类型-String-Number-Boolean-undefined-NaN…-，或者对象-Map-Set-Object-Function-Symbol-null…"><a href="#在Map中，key值可以是任何基本类型-String-Number-Boolean-undefined-NaN…-，或者对象-Map-Set-Object-Function-Symbol-null…" class="headerlink" title="在Map中，key值可以是任何基本类型(String, Number, Boolean, undefined, NaN….)，或者对象(Map, Set, Object, Function , Symbol , null…)"></a>在Map中，key值可以是任何基本类型(String, Number, Boolean, undefined, NaN….)，或者对象(Map, Set, Object, Function , Symbol , null…)</h4><h2 id="2-Set"><a href="#2-Set" class="headerlink" title="2.Set"></a>2.Set</h2><h4 id="Set和Map类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在Set中，没有重复的key"><a href="#Set和Map类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在Set中，没有重复的key" class="headerlink" title="Set和Map类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在Set中，没有重复的key"></a>Set和Map类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在Set中，没有重复的key</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> s = <span class="keyword">new</span> <span class="title class_">Set</span>(); <span class="comment">// 创建一个空Set</span></span><br><span class="line"><span class="comment">//也可以像这样创建：var s2 = new Set([1, 2, 3]);</span></span><br><span class="line"><span class="keyword">var</span> s = <span class="keyword">new</span> <span class="title class_">Set</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="string">&#x27;3&#x27;</span>]);<span class="comment">//重复元素在Set中自动被过滤：&#123;1, 2, 3, &quot;3&quot;&#125;</span></span><br><span class="line"><span class="keyword">var</span> s = <span class="keyword">new</span> <span class="title class_">Set</span>();<span class="comment">//&#123;&#125;</span></span><br><span class="line">s.<span class="title function_">add</span>(<span class="number">10</span>);<span class="comment">//添加元素</span></span><br><span class="line">s.<span class="title function_">add</span>(<span class="number">100</span>);</span><br><span class="line">s.<span class="title function_">add</span>(<span class="string">&quot;10&quot;</span>);<span class="comment">//&#123;10, 100, &quot;10&quot;&#125;</span></span><br><span class="line">s.<span class="title function_">delete</span>(<span class="number">10</span>);<span class="comment">//删除：&#123;100, &quot;10&quot;&#125;</span></span><br><span class="line">s.<span class="property">size</span>;<span class="comment">//获取长度：2</span></span><br></pre></td></tr></table></figure>
+<h4 id="在Set中，key值可以是任何基本类型-String-Number-Boolean-undefined-NaN…-，或者对象-Map-Set-Object-Function-Symbol-null…"><a href="#在Set中，key值可以是任何基本类型-String-Number-Boolean-undefined-NaN…-，或者对象-Map-Set-Object-Function-Symbol-null…" class="headerlink" title="在Set中，key值可以是任何基本类型(String, Number, Boolean, undefined, NaN….)，或者对象(Map, Set, Object, Function , Symbol , null…)"></a>在Set中，key值可以是任何基本类型(String, Number, Boolean, undefined, NaN….)，或者对象(Map, Set, Object, Function , Symbol , null…)</h4>]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>React的Ref属性在TypeScript中的写法</title>
+    <url>/2018/05/04/reactRefs/</url>
+    <content><![CDATA[<h4 id="在TypeScript中使用ref属性的时候，如果不定义它的类型直接去使用this-refs-XXX，就会在编译的时候报错。参考如下代码："><a href="#在TypeScript中使用ref属性的时候，如果不定义它的类型直接去使用this-refs-XXX，就会在编译的时候报错。参考如下代码：" class="headerlink" title="在TypeScript中使用ref属性的时候，如果不定义它的类型直接去使用this.refs.XXX，就会在编译的时候报错。参考如下代码："></a>在TypeScript中使用ref属性的时候，如果不定义它的类型直接去使用this.refs.XXX，就会在编译的时候报错。参考如下代码：</h4><span id="more"></span>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">CustomTextInput</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span>&lt;&#123;&#125;, &#123;&#125;&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//在此处统一定义refs</span></span><br><span class="line">    <span class="keyword">public</span> <span class="attr">refs</span>: &#123;</span><br><span class="line">        <span class="attr">textInput</span>: <span class="title class_">HTMLInputElement</span>,</span><br><span class="line">        <span class="attr">loadMoreDiv</span>: <span class="title class_">HTMLElement</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">componentDidMount</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> loadMore = <span class="variable language_">this</span>.<span class="property">refs</span>.<span class="property">loadMoreDiv</span>;</span><br><span class="line">        <span class="keyword">const</span> myInput = <span class="variable language_">this</span>.<span class="property">refs</span>.<span class="property">textInput</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">ref</span>= <span class="string">&quot;textInput&quot;</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">ref</span>= <span class="string">&quot;loadMoreDiv&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>转自：<a href="https://goenning.net/2016/11/02/strongly-typed-react-refs-with-typescript/">Strongly Typed React Refs with TypeScript</a></p>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>React</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>记录一些零散的知识点</title>
     <url>/2018/08/06/notes/</url>
     <content><![CDATA[<h3 id="1、JS的for-in循环可以用来遍历对象，用在取用对象中不确定的属性名。"><a href="#1、JS的for-in循环可以用来遍历对象，用在取用对象中不确定的属性名。" class="headerlink" title="1、JS的for in循环可以用来遍历对象，用在取用对象中不确定的属性名。"></a>1、JS的for in循环可以用来遍历对象，用在取用对象中不确定的属性名。</h3><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> person = &#123;<span class="attr">fname</span>:<span class="string">&quot;John&quot;</span>, <span class="attr">lname</span>:<span class="string">&quot;Doe&quot;</span>, <span class="attr">age</span>:<span class="number">25</span>&#125;;</span><br><span class="line"><span class="keyword">var</span> text = <span class="string">&quot;&quot;</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> person) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(text += person[key] + <span class="string">&quot; &quot;</span>);<span class="comment">//John Doe 25</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -152,21 +167,6 @@
       </categories>
       <tags>
         <tag>js html css</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>js中的Map和Set</title>
-    <url>/2018/07/25/mapset/</url>
-    <content><![CDATA[<h2 id="1-Map"><a href="#1-Map" class="headerlink" title="1.Map"></a>1.Map</h2><h4 id="Map是一组键值对的结构，具有极快的查找速度，如下："><a href="#Map是一组键值对的结构，具有极快的查找速度，如下：" class="headerlink" title="Map是一组键值对的结构，具有极快的查找速度，如下："></a>Map是一组键值对的结构，具有极快的查找速度，如下：</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> m = <span class="keyword">new</span> <span class="title class_">Map</span>(); <span class="comment">// 创建一个空Map</span></span><br><span class="line"><span class="comment">//也可以像这样创建：var m = new Map([[&#x27;Michael&#x27;, 95], [&#x27;Bob&#x27;, 75], [&#x27;Tracy&#x27;, 85]]);</span></span><br><span class="line">m.<span class="title function_">set</span>(<span class="string">&#x27;leo&#x27;</span>, <span class="number">25</span>); <span class="comment">// 添加新的key-value</span></span><br><span class="line">m.<span class="title function_">set</span>(<span class="string">&#x27;Bob&#x27;</span>, <span class="number">30</span>);</span><br><span class="line">m.<span class="title function_">set</span>(<span class="number">10</span>, <span class="string">&quot;john&quot;</span>);</span><br><span class="line">m.<span class="title function_">has</span>(<span class="string">&#x27;leo&#x27;</span>); <span class="comment">// 是否存在key &#x27;Adam&#x27;: true</span></span><br><span class="line">m.<span class="title function_">get</span>(<span class="string">&#x27;leo&#x27;</span>); <span class="comment">// 25</span></span><br><span class="line">m.<span class="title function_">delete</span>(<span class="string">&#x27;leo&#x27;</span>); <span class="comment">// 删除key &#x27;leo&#x27;</span></span><br><span class="line">m.<span class="title function_">get</span>(<span class="string">&#x27;leo&#x27;</span>); <span class="comment">// undefined</span></span><br><span class="line">m.<span class="property">size</span>;<span class="comment">// 获取map的长度：2</span></span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<h4 id="由于一个key只能对应一个value，所以，多次对一个key放入value，后面的value会把之前的覆盖："><a href="#由于一个key只能对应一个value，所以，多次对一个key放入value，后面的value会把之前的覆盖：" class="headerlink" title="由于一个key只能对应一个value，所以，多次对一个key放入value，后面的value会把之前的覆盖："></a>由于一个key只能对应一个value，所以，多次对一个key放入value，后面的value会把之前的覆盖：</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">m.<span class="title function_">set</span>(<span class="string">&#x27;Bob&#x27;</span>, <span class="number">300</span>);</span><br><span class="line">m.<span class="title function_">get</span>(<span class="string">&#x27;Bob&#x27;</span>); <span class="comment">// 300</span></span><br></pre></td></tr></table></figure>
-<h4 id="在Map中，key值可以是任何基本类型-String-Number-Boolean-undefined-NaN…-，或者对象-Map-Set-Object-Function-Symbol-null…"><a href="#在Map中，key值可以是任何基本类型-String-Number-Boolean-undefined-NaN…-，或者对象-Map-Set-Object-Function-Symbol-null…" class="headerlink" title="在Map中，key值可以是任何基本类型(String, Number, Boolean, undefined, NaN….)，或者对象(Map, Set, Object, Function , Symbol , null…)"></a>在Map中，key值可以是任何基本类型(String, Number, Boolean, undefined, NaN….)，或者对象(Map, Set, Object, Function , Symbol , null…)</h4><h2 id="2-Set"><a href="#2-Set" class="headerlink" title="2.Set"></a>2.Set</h2><h4 id="Set和Map类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在Set中，没有重复的key"><a href="#Set和Map类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在Set中，没有重复的key" class="headerlink" title="Set和Map类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在Set中，没有重复的key"></a>Set和Map类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在Set中，没有重复的key</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> s = <span class="keyword">new</span> <span class="title class_">Set</span>(); <span class="comment">// 创建一个空Set</span></span><br><span class="line"><span class="comment">//也可以像这样创建：var s2 = new Set([1, 2, 3]);</span></span><br><span class="line"><span class="keyword">var</span> s = <span class="keyword">new</span> <span class="title class_">Set</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="string">&#x27;3&#x27;</span>]);<span class="comment">//重复元素在Set中自动被过滤：&#123;1, 2, 3, &quot;3&quot;&#125;</span></span><br><span class="line"><span class="keyword">var</span> s = <span class="keyword">new</span> <span class="title class_">Set</span>();<span class="comment">//&#123;&#125;</span></span><br><span class="line">s.<span class="title function_">add</span>(<span class="number">10</span>);<span class="comment">//添加元素</span></span><br><span class="line">s.<span class="title function_">add</span>(<span class="number">100</span>);</span><br><span class="line">s.<span class="title function_">add</span>(<span class="string">&quot;10&quot;</span>);<span class="comment">//&#123;10, 100, &quot;10&quot;&#125;</span></span><br><span class="line">s.<span class="title function_">delete</span>(<span class="number">10</span>);<span class="comment">//删除：&#123;100, &quot;10&quot;&#125;</span></span><br><span class="line">s.<span class="property">size</span>;<span class="comment">//获取长度：2</span></span><br></pre></td></tr></table></figure>
-<h4 id="在Set中，key值可以是任何基本类型-String-Number-Boolean-undefined-NaN…-，或者对象-Map-Set-Object-Function-Symbol-null…"><a href="#在Set中，key值可以是任何基本类型-String-Number-Boolean-undefined-NaN…-，或者对象-Map-Set-Object-Function-Symbol-null…" class="headerlink" title="在Set中，key值可以是任何基本类型(String, Number, Boolean, undefined, NaN….)，或者对象(Map, Set, Object, Function , Symbol , null…)"></a>在Set中，key值可以是任何基本类型(String, Number, Boolean, undefined, NaN….)，或者对象(Map, Set, Object, Function , Symbol , null…)</h4>]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>js</tag>
       </tags>
   </entry>
   <entry>
@@ -195,31 +195,6 @@
       </tags>
   </entry>
   <entry>
-    <title>如何通过url跳转到微信公众号关注页</title>
-    <url>/2018/05/24/wechatFollow/</url>
-    <content><![CDATA[<h2 id="微信端"><a href="#微信端" class="headerlink" title="微信端"></a>微信端</h2><h4 id="微信端实现相对比较简单，首先需要获取公众号关注页的url，步骤如下："><a href="#微信端实现相对比较简单，首先需要获取公众号关注页的url，步骤如下：" class="headerlink" title="微信端实现相对比较简单，首先需要获取公众号关注页的url，步骤如下："></a>微信端实现相对比较简单，首先需要获取公众号关注页的url，步骤如下：</h4><p>1.点击公众号的历史消息</p>
-
-<span id="more"></span>
-<p>2.复制链接</p>
-
-<p>3.接下来在微信里直接跳转这个链接即可</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">location</span>.<span class="property">href</span>=<span class="string">&quot;https://mp.weixin.qq.com/mp/profile_ext?action=home&amp;__biz=MzAxNjU0MjEyNA==&amp;scene=123&amp;from=singlemessage&amp;isappinstalled=0#wechat_redirect&quot;</span></span><br></pre></td></tr></table></figure>
-<h2 id="手机QQ"><a href="#手机QQ" class="headerlink" title="手机QQ"></a>手机QQ</h2><p>直接跳转这个链接即可唤起微信：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">location</span>.<span class="property">href</span> = <span class="string">&#x27;weixin://&#x27;</span>;</span><br></pre></td></tr></table></figure>
-<p>但是不能在QQ里跳转微信的那个链接，如下图</p>
-<img src="/2018/05/24/wechatFollow/qq_error.png" class="" title="qq_error">
-
-<h2 id="平台的判断"><a href="#平台的判断" class="headerlink" title="平台的判断"></a>平台的判断</h2><p>这里用的到是userAgent，代码如下</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> ua = navigator.<span class="property">userAgent</span>.<span class="title function_">toLowerCase</span>();</span><br><span class="line"><span class="keyword">if</span> (ua.<span class="title function_">indexOf</span>(<span class="string">&quot;micromessenger&quot;</span>) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">//微信端</span></span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (ua.<span class="title function_">indexOf</span>(<span class="string">&quot;qq&quot;</span>) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">//手机qq</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>js</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>小程序开发笔记</title>
     <url>/2018/11/28/weapp/</url>
     <content><![CDATA[<h2 id="在小程序里如何关注公众号（公众号如何关联小程序）"><a href="#在小程序里如何关注公众号（公众号如何关联小程序）" class="headerlink" title="在小程序里如何关注公众号（公众号如何关联小程序）"></a>在小程序里如何关注公众号（公众号如何关联小程序）</h2><h4 id="首先你需要在公众号里给小程序发送一个关联邀请，如下图："><a href="#首先你需要在公众号里给小程序发送一个关联邀请，如下图：" class="headerlink" title="首先你需要在公众号里给小程序发送一个关联邀请，如下图："></a>首先你需要在公众号里给小程序发送一个关联邀请，如下图：</h4><img src="/2018/11/28/weapp/yaoqing.png" class="" title="yaoqing">
@@ -243,6 +218,31 @@
       </categories>
       <tags>
         <tag>小程序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何通过url跳转到微信公众号关注页</title>
+    <url>/2018/05/24/wechatFollow/</url>
+    <content><![CDATA[<h2 id="微信端"><a href="#微信端" class="headerlink" title="微信端"></a>微信端</h2><h4 id="微信端实现相对比较简单，首先需要获取公众号关注页的url，步骤如下："><a href="#微信端实现相对比较简单，首先需要获取公众号关注页的url，步骤如下：" class="headerlink" title="微信端实现相对比较简单，首先需要获取公众号关注页的url，步骤如下："></a>微信端实现相对比较简单，首先需要获取公众号关注页的url，步骤如下：</h4><p>1.点击公众号的历史消息</p>
+
+<span id="more"></span>
+<p>2.复制链接</p>
+
+<p>3.接下来在微信里直接跳转这个链接即可</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">location</span>.<span class="property">href</span>=<span class="string">&quot;https://mp.weixin.qq.com/mp/profile_ext?action=home&amp;__biz=MzAxNjU0MjEyNA==&amp;scene=123&amp;from=singlemessage&amp;isappinstalled=0#wechat_redirect&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="手机QQ"><a href="#手机QQ" class="headerlink" title="手机QQ"></a>手机QQ</h2><p>直接跳转这个链接即可唤起微信：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">location</span>.<span class="property">href</span> = <span class="string">&#x27;weixin://&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>但是不能在QQ里跳转微信的那个链接，如下图</p>
+<img src="/2018/05/24/wechatFollow/qq_error.png" class="" title="qq_error">
+
+<h2 id="平台的判断"><a href="#平台的判断" class="headerlink" title="平台的判断"></a>平台的判断</h2><p>这里用的到是userAgent，代码如下</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> ua = navigator.<span class="property">userAgent</span>.<span class="title function_">toLowerCase</span>();</span><br><span class="line"><span class="keyword">if</span> (ua.<span class="title function_">indexOf</span>(<span class="string">&quot;micromessenger&quot;</span>) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">//微信端</span></span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (ua.<span class="title function_">indexOf</span>(<span class="string">&quot;qq&quot;</span>) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">//手机qq</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>js</tag>
       </tags>
   </entry>
 </search>
