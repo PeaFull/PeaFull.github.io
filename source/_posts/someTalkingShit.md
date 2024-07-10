@@ -1,5 +1,5 @@
 ---
-title: 总会好起来的，不是吗？
+title: 一切都会变得更美好
 date: 2024-07-10 16:08:29
 categories: 生活
 tags: Life
