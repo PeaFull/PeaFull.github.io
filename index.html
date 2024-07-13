@@ -125,7 +125,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -136,7 +136,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -158,6 +158,153 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/07/13/chromeExtensions/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="PeaFull">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="PeaFull's Notes">
+      <meta itemprop="description" content="这么巧，你也在网上冲浪啊">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | PeaFull's Notes">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/07/13/chromeExtensions/" class="post-title-link" itemprop="url">Chrome浏览器插件开发</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2024-07-13 16:22:24 / Modified: 16:41:29" itemprop="dateCreated datePublished" datetime="2024-07-13T16:22:24+08:00">2024-07-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/programming/" itemprop="url" rel="index"><span itemprop="name">编程</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2024/07/13/chromeExtensions/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2024/07/13/chromeExtensions/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>713</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>3 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>chrome浏览器插件开发</p>
+<h4 id="1-项目目录结构："><a href="#1-项目目录结构：" class="headerlink" title="1. 项目目录结构："></a>1. 项目目录结构：</h4><ul>
+<li><strong>manifest.json：插件的配置文件</strong><ol>
+<li>每个扩展程序的根目录（必须）中都必须包含一个 manifest.json 文件</li>
+<li>文档：<a target="_blank" rel="noopener" href="https://developer.chrome.com/docs/extensions/reference/manifest?hl=zh-cn#minimal-manifest">https://developer.chrome.com/docs/extensions/reference/manifest?hl=zh-cn#minimal-manifest</a></li>
+</ol>
+</li>
+<li><strong>service worker</strong><ol>
+<li>处理和监听浏览器事件，相当于在后台运行的脚本，可以使用浏览器的全部api，但是不能和页面内容直接交互</li>
+<li>文档：<a target="_blank" rel="noopener" href="https://developer.chrome.com/docs/extensions/get-started/tutorial/service-worker-events?hl=zh-cn">https://developer.chrome.com/docs/extensions/get-started/tutorial/service-worker-events?hl=zh-cn</a></li>
+<li>由于mv3版本的service_worker在五分钟后就会终止进程，其中所有的状态和定时任务都将丢失。所以不要再service_worker中直接定义变量和使用setTimeout、setInterval等定时任务。改用chrome.storage储存需要的变量。使用chrome.alarm来执行定时任务。</li>
+</ol>
+</li>
+<li><strong>Content scripts</strong><ol>
+<li>在网页环境中运行的文件。通过使用标准文档对象模型 (DOM)，用户能够读取浏览器所访问网页的详细信息，对这些网页进行更改，并将信息传递给父级扩展程序</li>
+<li>文档：<a target="_blank" rel="noopener" href="https://developer.chrome.com/docs/extensions/develop/concepts/content-scripts?hl=zh-cn">https://developer.chrome.com/docs/extensions/develop/concepts/content-scripts?hl=zh-cn</a></li>
+</ol>
+</li>
+<li><strong>插件的页面</strong><ol>
+<li>浏览器的图标以及点击后的效果，例如popup页面：default_popup</li>
+<li>options页面：右键插件图标后，下拉框中点击选项后，弹出的页面：options_page</li>
+<li>除过上述之外的其他插件页面</li>
+<li>注意：所有的插件页面都可以使用浏览器api</li>
+</ol>
+</li>
+</ul>
+<h4 id="2-两种options页面的区别：整页、嵌入式页"><a href="#2-两种options页面的区别：整页、嵌入式页" class="headerlink" title="2.两种options页面的区别：整页、嵌入式页"></a>2.两种options页面的区别：整页、嵌入式页</h4><ul>
+<li>整页：系统会在新标签页中显示整页options页面。在清单中的 “options_page” 字段中注册选项 HTML 文件</li>
+<li>嵌入式：在当前页面以弹窗形式展示options页面。如需声明嵌入式选项，请在扩展程序清单中的 “options_ui” 字段下注册 HTML 文件，并将 “open_in_tab” 键设置为 false。但如果open_in_tab设置为true，效果与整页一致。</li>
+</ul>
+<h4 id="不同script运行的位置："><a href="#不同script运行的位置：" class="headerlink" title="不同script运行的位置："></a>不同script运行的位置：</h4><ul>
+<li>service_worker中的script，当启用插件后，运行在整个后台，日志在插件的service_worker检查视图中查看</li>
+<li>插入的script，运行在网页环境中，日志在具体页面的控制台中查看<ol>
+<li>静态注入的content_scripts，只要打开matches中匹配到的网页即可执行</li>
+<li>通过chrome.scripting.executeScript动态注入的，只有在指定动作触发后才执行。例如：通过service_worker监听tab后，动态注入一段脚本</li>
+<li>注意：插入的script，如果不设置其运行环境，默认为”ISOLATED”，运行在该插件的隔离环境中，如果设置 world: “MAIN” ，则该脚本运行在Top中</li>
+</ol>
+</li>
+</ul>
+<p>参考文档：	<a target="_blank" rel="noopener" href="https://docs.plasmo.com/">https://docs.plasmo.com/</a><br>            <a target="_blank" rel="noopener" href="https://developer.chrome.com/docs/extensions/get-started?hl=zh-cn">https://developer.chrome.com/docs/extensions/get-started?hl=zh-cn</a><br>            官网源码：<a target="_blank" rel="noopener" href="https://github.com/GoogleChrome/chrome-extensions-samples/tree/main">https://github.com/GoogleChrome/chrome-extensions-samples/tree/main</a><br>            B站教程源码： <a target="_blank" rel="noopener" href="https://github.com/tuntun0609/chrome-extension-study">https://github.com/tuntun0609/chrome-extension-study</a><br>            B站教程文档：<a target="_blank" rel="noopener" href="https://www.yuque.com/tuntun-nozomi/gurht0">https://www.yuque.com/tuntun-nozomi/gurht0</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -197,7 +344,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2024-07-10 16:08:29 / Modified: 22:08:49" itemprop="dateCreated datePublished" datetime="2024-07-10T16:08:29+08:00">2024-07-10</time>
+      <time title="Created: 2024-07-10 16:08:29 / Modified: 22:15:55" itemprop="dateCreated datePublished" datetime="2024-07-10T16:08:29+08:00">2024-07-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -318,7 +465,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-07-10 21:04:29" itemprop="dateModified" datetime="2024-07-10T21:04:29+08:00">2024-07-10</time>
+      <time title="Modified: 2024-07-10 22:15:55" itemprop="dateModified" datetime="2024-07-10T22:15:55+08:00">2024-07-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -441,7 +588,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-07-10 21:05:11" itemprop="dateModified" datetime="2024-07-10T21:05:11+08:00">2024-07-10</time>
+      <time title="Modified: 2024-07-10 22:15:55" itemprop="dateModified" datetime="2024-07-10T22:15:55+08:00">2024-07-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -563,7 +710,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2018-12-05 17:47:02" itemprop="dateModified" datetime="2018-12-05T17:47:02+08:00">2018-12-05</time>
+      <time title="Modified: 2024-07-10 22:15:55" itemprop="dateModified" datetime="2024-07-10T22:15:55+08:00">2024-07-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -676,9 +823,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2018-07-25 10:31:41 / Modified: 10:32:06" itemprop="dateCreated datePublished" datetime="2018-07-25T10:31:41+08:00">2018-07-25</time>
+      <time title="Created: 2018-07-25 10:31:41" itemprop="dateCreated datePublished" datetime="2018-07-25T10:31:41+08:00">2018-07-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-07-10 22:15:55" itemprop="dateModified" datetime="2024-07-10T22:15:55+08:00">2024-07-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -791,9 +944,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2018-07-04 16:20:34 / Modified: 16:49:00" itemprop="dateCreated datePublished" datetime="2018-07-04T16:20:34+08:00">2018-07-04</time>
+      <time title="Created: 2018-07-04 16:20:34" itemprop="dateCreated datePublished" datetime="2018-07-04T16:20:34+08:00">2018-07-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-07-10 22:15:55" itemprop="dateModified" datetime="2024-07-10T22:15:55+08:00">2024-07-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -906,9 +1065,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2018-06-08 10:57:43 / Modified: 11:07:22" itemprop="dateCreated datePublished" datetime="2018-06-08T10:57:43+08:00">2018-06-08</time>
+      <time title="Created: 2018-06-08 10:57:43" itemprop="dateCreated datePublished" datetime="2018-06-08T10:57:43+08:00">2018-06-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-07-10 22:15:55" itemprop="dateModified" datetime="2024-07-10T22:15:55+08:00">2024-07-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1031,7 +1196,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-07-10 21:05:32" itemprop="dateModified" datetime="2024-07-10T21:05:32+08:00">2024-07-10</time>
+      <time title="Modified: 2024-07-10 22:15:55" itemprop="dateModified" datetime="2024-07-10T22:15:55+08:00">2024-07-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1152,7 +1317,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2018-06-08 11:09:04" itemprop="dateModified" datetime="2018-06-08T11:09:04+08:00">2018-06-08</time>
+      <time title="Modified: 2024-07-10 22:15:55" itemprop="dateModified" datetime="2024-07-10T22:15:55+08:00">2024-07-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1229,121 +1394,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/04/20180504Essay/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-      <meta itemprop="name" content="PeaFull">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="PeaFull's Notes">
-      <meta itemprop="description" content="这么巧，你也在网上冲浪啊">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | PeaFull's Notes">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/05/04/20180504Essay/" class="post-title-link" itemprop="url">20180504随笔</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2018-05-04 14:47:47 / Modified: 14:55:08" itemprop="dateCreated datePublished" datetime="2018-05-04T14:47:47+08:00">2018-05-04</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/life/" itemprop="url" rel="index"><span itemprop="name">生活</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2018/05/04/20180504Essay/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/05/04/20180504Essay/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Word count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Word count in article: </span>
-      <span>149</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="3月份的时候了解到了Hexo，感觉还是挺有意思的，主要是很多东西需要自己折腾，而且比博客园要好看很多，就折腾了下；"><a href="#3月份的时候了解到了Hexo，感觉还是挺有意思的，主要是很多东西需要自己折腾，而且比博客园要好看很多，就折腾了下；" class="headerlink" title="3月份的时候了解到了Hexo，感觉还是挺有意思的，主要是很多东西需要自己折腾，而且比博客园要好看很多，就折腾了下；"></a>3月份的时候了解到了Hexo，感觉还是挺有意思的，主要是很多东西需要自己折腾，而且比博客园要好看很多，就折腾了下；</h3>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/05/04/20180504Essay/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
@@ -1373,7 +1423,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">13 mins.</span>
+    <span title="Reading time total">16 mins.</span>
   </span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a>

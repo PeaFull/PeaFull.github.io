@@ -13,6 +13,24 @@
       </tags>
   </entry>
   <entry>
+    <title>更新cordova时出现的报错及解决方案</title>
+    <url>/2018/06/08/cordovaUpdate/</url>
+    <content><![CDATA[<h4 id="今天在利用cordova-build安卓apk的时候出现了报错，并且提示更新cordova，于是执行以下命令做更新："><a href="#今天在利用cordova-build安卓apk的时候出现了报错，并且提示更新cordova，于是执行以下命令做更新：" class="headerlink" title="今天在利用cordova build安卓apk的时候出现了报错，并且提示更新cordova，于是执行以下命令做更新："></a>今天在利用cordova build安卓apk的时候出现了报错，并且提示更新cordova，于是执行以下命令做更新：</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install -g cordova</span><br></pre></td></tr></table></figure>
+<p>结果出现了报错，如下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm WARN update-linked node_modules\cordova needs updating to 8.0.0 from 6.4.0 but we can&#x27;t, as it&#x27;s a symlink</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<p>在网上查了半天也没找到原因，于是尝试了先去remove再install，结果成功了，如下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm remove -g cordova</span><br><span class="line">npm install -g cordova</span><br></pre></td></tr></table></figure>
+<p>至于报错的原因，还有待后面研究下…</p>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>npm</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo使用小记</title>
     <url>/2018/05/04/Hexo/</url>
     <content><![CDATA[<h3 id="1-关于部署到github时用户名密码报错的问题"><a href="#1-关于部署到github时用户名密码报错的问题" class="headerlink" title="1.  关于部署到github时用户名密码报错的问题"></a>1.  关于部署到github时用户名密码报错的问题</h3><p>刚开始部署的配置如下</p>
@@ -55,21 +73,54 @@
       </tags>
   </entry>
   <entry>
-    <title>更新cordova时出现的报错及解决方案</title>
-    <url>/2018/06/08/cordovaUpdate/</url>
-    <content><![CDATA[<h4 id="今天在利用cordova-build安卓apk的时候出现了报错，并且提示更新cordova，于是执行以下命令做更新："><a href="#今天在利用cordova-build安卓apk的时候出现了报错，并且提示更新cordova，于是执行以下命令做更新：" class="headerlink" title="今天在利用cordova build安卓apk的时候出现了报错，并且提示更新cordova，于是执行以下命令做更新："></a>今天在利用cordova build安卓apk的时候出现了报错，并且提示更新cordova，于是执行以下命令做更新：</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install -g cordova</span><br></pre></td></tr></table></figure>
-<p>结果出现了报错，如下</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm WARN update-linked node_modules\cordova needs updating to 8.0.0 from 6.4.0 but we can&#x27;t, as it&#x27;s a symlink</span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<p>在网上查了半天也没找到原因，于是尝试了先去remove再install，结果成功了，如下</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm remove -g cordova</span><br><span class="line">npm install -g cordova</span><br></pre></td></tr></table></figure>
-<p>至于报错的原因，还有待后面研究下…</p>
+    <title>Chrome浏览器插件开发</title>
+    <url>/2024/07/13/chromeExtensions/</url>
+    <content><![CDATA[<p>chrome浏览器插件开发</p>
+<h4 id="1-项目目录结构："><a href="#1-项目目录结构：" class="headerlink" title="1. 项目目录结构："></a>1. 项目目录结构：</h4><ul>
+<li><strong>manifest.json：插件的配置文件</strong><ol>
+<li>每个扩展程序的根目录（必须）中都必须包含一个 manifest.json 文件</li>
+<li>文档：<a href="https://developer.chrome.com/docs/extensions/reference/manifest?hl=zh-cn#minimal-manifest">https://developer.chrome.com/docs/extensions/reference/manifest?hl=zh-cn#minimal-manifest</a></li>
+</ol>
+</li>
+<li><strong>service worker</strong><ol>
+<li>处理和监听浏览器事件，相当于在后台运行的脚本，可以使用浏览器的全部api，但是不能和页面内容直接交互</li>
+<li>文档：<a href="https://developer.chrome.com/docs/extensions/get-started/tutorial/service-worker-events?hl=zh-cn">https://developer.chrome.com/docs/extensions/get-started/tutorial/service-worker-events?hl=zh-cn</a></li>
+<li>由于mv3版本的service_worker在五分钟后就会终止进程，其中所有的状态和定时任务都将丢失。所以不要再service_worker中直接定义变量和使用setTimeout、setInterval等定时任务。改用chrome.storage储存需要的变量。使用chrome.alarm来执行定时任务。</li>
+</ol>
+</li>
+<li><strong>Content scripts</strong><ol>
+<li>在网页环境中运行的文件。通过使用标准文档对象模型 (DOM)，用户能够读取浏览器所访问网页的详细信息，对这些网页进行更改，并将信息传递给父级扩展程序</li>
+<li>文档：<a href="https://developer.chrome.com/docs/extensions/develop/concepts/content-scripts?hl=zh-cn">https://developer.chrome.com/docs/extensions/develop/concepts/content-scripts?hl=zh-cn</a></li>
+</ol>
+</li>
+<li><strong>插件的页面</strong><ol>
+<li>浏览器的图标以及点击后的效果，例如popup页面：default_popup</li>
+<li>options页面：右键插件图标后，下拉框中点击选项后，弹出的页面：options_page</li>
+<li>除过上述之外的其他插件页面</li>
+<li>注意：所有的插件页面都可以使用浏览器api</li>
+</ol>
+</li>
+</ul>
+<h4 id="2-两种options页面的区别：整页、嵌入式页"><a href="#2-两种options页面的区别：整页、嵌入式页" class="headerlink" title="2.两种options页面的区别：整页、嵌入式页"></a>2.两种options页面的区别：整页、嵌入式页</h4><ul>
+<li>整页：系统会在新标签页中显示整页options页面。在清单中的 “options_page” 字段中注册选项 HTML 文件</li>
+<li>嵌入式：在当前页面以弹窗形式展示options页面。如需声明嵌入式选项，请在扩展程序清单中的 “options_ui” 字段下注册 HTML 文件，并将 “open_in_tab” 键设置为 false。但如果open_in_tab设置为true，效果与整页一致。</li>
+</ul>
+<h4 id="不同script运行的位置："><a href="#不同script运行的位置：" class="headerlink" title="不同script运行的位置："></a>不同script运行的位置：</h4><ul>
+<li>service_worker中的script，当启用插件后，运行在整个后台，日志在插件的service_worker检查视图中查看</li>
+<li>插入的script，运行在网页环境中，日志在具体页面的控制台中查看<ol>
+<li>静态注入的content_scripts，只要打开matches中匹配到的网页即可执行</li>
+<li>通过chrome.scripting.executeScript动态注入的，只有在指定动作触发后才执行。例如：通过service_worker监听tab后，动态注入一段脚本</li>
+<li>注意：插入的script，如果不设置其运行环境，默认为”ISOLATED”，运行在该插件的隔离环境中，如果设置 world: “MAIN” ，则该脚本运行在Top中</li>
+</ol>
+</li>
+</ul>
+<p>参考文档：	<a href="https://docs.plasmo.com/">https://docs.plasmo.com/</a><br>            <a href="https://developer.chrome.com/docs/extensions/get-started?hl=zh-cn">https://developer.chrome.com/docs/extensions/get-started?hl=zh-cn</a><br>            官网源码：<a href="https://github.com/GoogleChrome/chrome-extensions-samples/tree/main">https://github.com/GoogleChrome/chrome-extensions-samples/tree/main</a><br>            B站教程源码： <a href="https://github.com/tuntun0609/chrome-extension-study">https://github.com/tuntun0609/chrome-extension-study</a><br>            B站教程文档：<a href="https://www.yuque.com/tuntun-nozomi/gurht0">https://www.yuque.com/tuntun-nozomi/gurht0</a></p>
 ]]></content>
       <categories>
         <category>编程</category>
       </categories>
       <tags>
-        <tag>npm</tag>
+        <tag>chrome extensions</tag>
       </tags>
   </entry>
   <entry>
@@ -89,6 +140,21 @@
 </ol>
 <p>注：SogalNew指应用名称</p>
 ]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>js中的Map和Set</title>
+    <url>/2018/07/25/mapset/</url>
+    <content><![CDATA[<h2 id="1-Map"><a href="#1-Map" class="headerlink" title="1.Map"></a>1.Map</h2><h4 id="Map是一组键值对的结构，具有极快的查找速度，如下："><a href="#Map是一组键值对的结构，具有极快的查找速度，如下：" class="headerlink" title="Map是一组键值对的结构，具有极快的查找速度，如下："></a>Map是一组键值对的结构，具有极快的查找速度，如下：</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> m = <span class="keyword">new</span> <span class="title class_">Map</span>(); <span class="comment">// 创建一个空Map</span></span><br><span class="line"><span class="comment">//也可以像这样创建：var m = new Map([[&#x27;Michael&#x27;, 95], [&#x27;Bob&#x27;, 75], [&#x27;Tracy&#x27;, 85]]);</span></span><br><span class="line">m.<span class="title function_">set</span>(<span class="string">&#x27;leo&#x27;</span>, <span class="number">25</span>); <span class="comment">// 添加新的key-value</span></span><br><span class="line">m.<span class="title function_">set</span>(<span class="string">&#x27;Bob&#x27;</span>, <span class="number">30</span>);</span><br><span class="line">m.<span class="title function_">set</span>(<span class="number">10</span>, <span class="string">&quot;john&quot;</span>);</span><br><span class="line">m.<span class="title function_">has</span>(<span class="string">&#x27;leo&#x27;</span>); <span class="comment">// 是否存在key &#x27;Adam&#x27;: true</span></span><br><span class="line">m.<span class="title function_">get</span>(<span class="string">&#x27;leo&#x27;</span>); <span class="comment">// 25</span></span><br><span class="line">m.<span class="title function_">delete</span>(<span class="string">&#x27;leo&#x27;</span>); <span class="comment">// 删除key &#x27;leo&#x27;</span></span><br><span class="line">m.<span class="title function_">get</span>(<span class="string">&#x27;leo&#x27;</span>); <span class="comment">// undefined</span></span><br><span class="line">m.<span class="property">size</span>;<span class="comment">// 获取map的长度：2</span></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h4 id="由于一个key只能对应一个value，所以，多次对一个key放入value，后面的value会把之前的覆盖："><a href="#由于一个key只能对应一个value，所以，多次对一个key放入value，后面的value会把之前的覆盖：" class="headerlink" title="由于一个key只能对应一个value，所以，多次对一个key放入value，后面的value会把之前的覆盖："></a>由于一个key只能对应一个value，所以，多次对一个key放入value，后面的value会把之前的覆盖：</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">m.<span class="title function_">set</span>(<span class="string">&#x27;Bob&#x27;</span>, <span class="number">300</span>);</span><br><span class="line">m.<span class="title function_">get</span>(<span class="string">&#x27;Bob&#x27;</span>); <span class="comment">// 300</span></span><br></pre></td></tr></table></figure>
+<h4 id="在Map中，key值可以是任何基本类型-String-Number-Boolean-undefined-NaN…-，或者对象-Map-Set-Object-Function-Symbol-null…"><a href="#在Map中，key值可以是任何基本类型-String-Number-Boolean-undefined-NaN…-，或者对象-Map-Set-Object-Function-Symbol-null…" class="headerlink" title="在Map中，key值可以是任何基本类型(String, Number, Boolean, undefined, NaN….)，或者对象(Map, Set, Object, Function , Symbol , null…)"></a>在Map中，key值可以是任何基本类型(String, Number, Boolean, undefined, NaN….)，或者对象(Map, Set, Object, Function , Symbol , null…)</h4><h2 id="2-Set"><a href="#2-Set" class="headerlink" title="2.Set"></a>2.Set</h2><h4 id="Set和Map类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在Set中，没有重复的key"><a href="#Set和Map类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在Set中，没有重复的key" class="headerlink" title="Set和Map类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在Set中，没有重复的key"></a>Set和Map类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在Set中，没有重复的key</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> s = <span class="keyword">new</span> <span class="title class_">Set</span>(); <span class="comment">// 创建一个空Set</span></span><br><span class="line"><span class="comment">//也可以像这样创建：var s2 = new Set([1, 2, 3]);</span></span><br><span class="line"><span class="keyword">var</span> s = <span class="keyword">new</span> <span class="title class_">Set</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="string">&#x27;3&#x27;</span>]);<span class="comment">//重复元素在Set中自动被过滤：&#123;1, 2, 3, &quot;3&quot;&#125;</span></span><br><span class="line"><span class="keyword">var</span> s = <span class="keyword">new</span> <span class="title class_">Set</span>();<span class="comment">//&#123;&#125;</span></span><br><span class="line">s.<span class="title function_">add</span>(<span class="number">10</span>);<span class="comment">//添加元素</span></span><br><span class="line">s.<span class="title function_">add</span>(<span class="number">100</span>);</span><br><span class="line">s.<span class="title function_">add</span>(<span class="string">&quot;10&quot;</span>);<span class="comment">//&#123;10, 100, &quot;10&quot;&#125;</span></span><br><span class="line">s.<span class="title function_">delete</span>(<span class="number">10</span>);<span class="comment">//删除：&#123;100, &quot;10&quot;&#125;</span></span><br><span class="line">s.<span class="property">size</span>;<span class="comment">//获取长度：2</span></span><br></pre></td></tr></table></figure>
+<h4 id="在Set中，key值可以是任何基本类型-String-Number-Boolean-undefined-NaN…-，或者对象-Map-Set-Object-Function-Symbol-null…"><a href="#在Set中，key值可以是任何基本类型-String-Number-Boolean-undefined-NaN…-，或者对象-Map-Set-Object-Function-Symbol-null…" class="headerlink" title="在Set中，key值可以是任何基本类型(String, Number, Boolean, undefined, NaN….)，或者对象(Map, Set, Object, Function , Symbol , null…)"></a>在Set中，key值可以是任何基本类型(String, Number, Boolean, undefined, NaN….)，或者对象(Map, Set, Object, Function , Symbol , null…)</h4>]]></content>
       <categories>
         <category>编程</category>
       </categories>
@@ -120,21 +186,6 @@
       </tags>
   </entry>
   <entry>
-    <title>js中的Map和Set</title>
-    <url>/2018/07/25/mapset/</url>
-    <content><![CDATA[<h2 id="1-Map"><a href="#1-Map" class="headerlink" title="1.Map"></a>1.Map</h2><h4 id="Map是一组键值对的结构，具有极快的查找速度，如下："><a href="#Map是一组键值对的结构，具有极快的查找速度，如下：" class="headerlink" title="Map是一组键值对的结构，具有极快的查找速度，如下："></a>Map是一组键值对的结构，具有极快的查找速度，如下：</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> m = <span class="keyword">new</span> <span class="title class_">Map</span>(); <span class="comment">// 创建一个空Map</span></span><br><span class="line"><span class="comment">//也可以像这样创建：var m = new Map([[&#x27;Michael&#x27;, 95], [&#x27;Bob&#x27;, 75], [&#x27;Tracy&#x27;, 85]]);</span></span><br><span class="line">m.<span class="title function_">set</span>(<span class="string">&#x27;leo&#x27;</span>, <span class="number">25</span>); <span class="comment">// 添加新的key-value</span></span><br><span class="line">m.<span class="title function_">set</span>(<span class="string">&#x27;Bob&#x27;</span>, <span class="number">30</span>);</span><br><span class="line">m.<span class="title function_">set</span>(<span class="number">10</span>, <span class="string">&quot;john&quot;</span>);</span><br><span class="line">m.<span class="title function_">has</span>(<span class="string">&#x27;leo&#x27;</span>); <span class="comment">// 是否存在key &#x27;Adam&#x27;: true</span></span><br><span class="line">m.<span class="title function_">get</span>(<span class="string">&#x27;leo&#x27;</span>); <span class="comment">// 25</span></span><br><span class="line">m.<span class="title function_">delete</span>(<span class="string">&#x27;leo&#x27;</span>); <span class="comment">// 删除key &#x27;leo&#x27;</span></span><br><span class="line">m.<span class="title function_">get</span>(<span class="string">&#x27;leo&#x27;</span>); <span class="comment">// undefined</span></span><br><span class="line">m.<span class="property">size</span>;<span class="comment">// 获取map的长度：2</span></span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<h4 id="由于一个key只能对应一个value，所以，多次对一个key放入value，后面的value会把之前的覆盖："><a href="#由于一个key只能对应一个value，所以，多次对一个key放入value，后面的value会把之前的覆盖：" class="headerlink" title="由于一个key只能对应一个value，所以，多次对一个key放入value，后面的value会把之前的覆盖："></a>由于一个key只能对应一个value，所以，多次对一个key放入value，后面的value会把之前的覆盖：</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">m.<span class="title function_">set</span>(<span class="string">&#x27;Bob&#x27;</span>, <span class="number">300</span>);</span><br><span class="line">m.<span class="title function_">get</span>(<span class="string">&#x27;Bob&#x27;</span>); <span class="comment">// 300</span></span><br></pre></td></tr></table></figure>
-<h4 id="在Map中，key值可以是任何基本类型-String-Number-Boolean-undefined-NaN…-，或者对象-Map-Set-Object-Function-Symbol-null…"><a href="#在Map中，key值可以是任何基本类型-String-Number-Boolean-undefined-NaN…-，或者对象-Map-Set-Object-Function-Symbol-null…" class="headerlink" title="在Map中，key值可以是任何基本类型(String, Number, Boolean, undefined, NaN….)，或者对象(Map, Set, Object, Function , Symbol , null…)"></a>在Map中，key值可以是任何基本类型(String, Number, Boolean, undefined, NaN….)，或者对象(Map, Set, Object, Function , Symbol , null…)</h4><h2 id="2-Set"><a href="#2-Set" class="headerlink" title="2.Set"></a>2.Set</h2><h4 id="Set和Map类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在Set中，没有重复的key"><a href="#Set和Map类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在Set中，没有重复的key" class="headerlink" title="Set和Map类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在Set中，没有重复的key"></a>Set和Map类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在Set中，没有重复的key</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> s = <span class="keyword">new</span> <span class="title class_">Set</span>(); <span class="comment">// 创建一个空Set</span></span><br><span class="line"><span class="comment">//也可以像这样创建：var s2 = new Set([1, 2, 3]);</span></span><br><span class="line"><span class="keyword">var</span> s = <span class="keyword">new</span> <span class="title class_">Set</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="string">&#x27;3&#x27;</span>]);<span class="comment">//重复元素在Set中自动被过滤：&#123;1, 2, 3, &quot;3&quot;&#125;</span></span><br><span class="line"><span class="keyword">var</span> s = <span class="keyword">new</span> <span class="title class_">Set</span>();<span class="comment">//&#123;&#125;</span></span><br><span class="line">s.<span class="title function_">add</span>(<span class="number">10</span>);<span class="comment">//添加元素</span></span><br><span class="line">s.<span class="title function_">add</span>(<span class="number">100</span>);</span><br><span class="line">s.<span class="title function_">add</span>(<span class="string">&quot;10&quot;</span>);<span class="comment">//&#123;10, 100, &quot;10&quot;&#125;</span></span><br><span class="line">s.<span class="title function_">delete</span>(<span class="number">10</span>);<span class="comment">//删除：&#123;100, &quot;10&quot;&#125;</span></span><br><span class="line">s.<span class="property">size</span>;<span class="comment">//获取长度：2</span></span><br></pre></td></tr></table></figure>
-<h4 id="在Set中，key值可以是任何基本类型-String-Number-Boolean-undefined-NaN…-，或者对象-Map-Set-Object-Function-Symbol-null…"><a href="#在Set中，key值可以是任何基本类型-String-Number-Boolean-undefined-NaN…-，或者对象-Map-Set-Object-Function-Symbol-null…" class="headerlink" title="在Set中，key值可以是任何基本类型(String, Number, Boolean, undefined, NaN….)，或者对象(Map, Set, Object, Function , Symbol , null…)"></a>在Set中，key值可以是任何基本类型(String, Number, Boolean, undefined, NaN….)，或者对象(Map, Set, Object, Function , Symbol , null…)</h4>]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>js</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>记录一些零散的知识点</title>
     <url>/2018/08/06/notes/</url>
     <content><![CDATA[<h3 id="1、JS的for-in循环可以用来遍历对象，用在取用对象中不确定的属性名。"><a href="#1、JS的for-in循环可以用来遍历对象，用在取用对象中不确定的属性名。" class="headerlink" title="1、JS的for in循环可以用来遍历对象，用在取用对象中不确定的属性名。"></a>1、JS的for in循环可以用来遍历对象，用在取用对象中不确定的属性名。</h3><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> person = &#123;<span class="attr">fname</span>:<span class="string">&quot;John&quot;</span>, <span class="attr">lname</span>:<span class="string">&quot;Doe&quot;</span>, <span class="attr">age</span>:<span class="number">25</span>&#125;;</span><br><span class="line"><span class="keyword">var</span> text = <span class="string">&quot;&quot;</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> person) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(text += person[key] + <span class="string">&quot; &quot;</span>);<span class="comment">//John Doe 25</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -153,6 +204,33 @@
       </categories>
       <tags>
         <tag>js html css</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>React的Ref属性在TypeScript中的写法</title>
+    <url>/2018/05/04/reactRefs/</url>
+    <content><![CDATA[<h4 id="在TypeScript中使用ref属性的时候，如果不定义它的类型直接去使用this-refs-XXX，就会在编译的时候报错。参考如下代码："><a href="#在TypeScript中使用ref属性的时候，如果不定义它的类型直接去使用this-refs-XXX，就会在编译的时候报错。参考如下代码：" class="headerlink" title="在TypeScript中使用ref属性的时候，如果不定义它的类型直接去使用this.refs.XXX，就会在编译的时候报错。参考如下代码："></a>在TypeScript中使用ref属性的时候，如果不定义它的类型直接去使用this.refs.XXX，就会在编译的时候报错。参考如下代码：</h4><span id="more"></span>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">CustomTextInput</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span>&lt;&#123;&#125;, &#123;&#125;&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//在此处统一定义refs</span></span><br><span class="line">    <span class="keyword">public</span> <span class="attr">refs</span>: &#123;</span><br><span class="line">        <span class="attr">textInput</span>: <span class="title class_">HTMLInputElement</span>,</span><br><span class="line">        <span class="attr">loadMoreDiv</span>: <span class="title class_">HTMLElement</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">componentDidMount</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> loadMore = <span class="variable language_">this</span>.<span class="property">refs</span>.<span class="property">loadMoreDiv</span>;</span><br><span class="line">        <span class="keyword">const</span> myInput = <span class="variable language_">this</span>.<span class="property">refs</span>.<span class="property">textInput</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">ref</span>= <span class="string">&quot;textInput&quot;</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">ref</span>= <span class="string">&quot;loadMoreDiv&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>转自：<a href="https://goenning.net/2016/11/02/strongly-typed-react-refs-with-typescript/">Strongly Typed React Refs with TypeScript</a></p>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>React</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>react如何在组件外部调用组件内的方法</title>
+    <url>/2018/07/04/reactTechnology/</url>
+    <content><![CDATA[<h4 id="在开发中，难免会遇到这种场景：我们需要在组件外部调用组件内的方法，从而达到在外部操作组件或者获取组件内部数据的目的。"><a href="#在开发中，难免会遇到这种场景：我们需要在组件外部调用组件内的方法，从而达到在外部操作组件或者获取组件内部数据的目的。" class="headerlink" title="在开发中，难免会遇到这种场景：我们需要在组件外部调用组件内的方法，从而达到在外部操作组件或者获取组件内部数据的目的。"></a>在开发中，难免会遇到这种场景：我们需要在组件外部调用组件内的方法，从而达到在外部操作组件或者获取组件内部数据的目的。</h4><h4 id="示例代码如下："><a href="#示例代码如下：" class="headerlink" title="示例代码如下："></a>示例代码如下：</h4><span id="more"></span>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//外层组件</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">Parent</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span>&lt;&#123;&#125;, &#123;&#125;&gt; &#123;</span><br><span class="line">    <span class="comment">//用一个变量接收子组件的this</span></span><br><span class="line">    <span class="keyword">public</span> <span class="attr">child</span>: <span class="built_in">any</span>;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//绑定子组件的this到this.child</span></span><br><span class="line">    bindChild = <span class="function">(<span class="params"><span class="attr">ref</span>:<span class="built_in">any</span></span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">child</span> = ref;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//用于调用子组件的方法</span></span><br><span class="line">    click = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">child</span>.<span class="title function_">myName</span>()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">Child</span> <span class="attr">bindChild</span>=<span class="string">&#123;this.bindChild&#125;</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;this.click&#125;</span> &gt;</span>getName<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//子组件</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">ChildOwnProps</span> &#123;</span><br><span class="line">    <span class="attr">bindChild</span>: <span class="title class_">Function</span>;<span class="comment">//提供一个属性，用于把this传递给外部组件</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Child</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span>&lt;<span class="title class_">ChildOwnProps</span>&gt; &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"><span class="attr">props</span>:<span class="title class_">ChildOwnProps</span></span>) &#123;</span><br><span class="line">        <span class="variable language_">super</span>(props);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">componentDidMount</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="comment">//传递this</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">props</span>.<span class="title function_">bindChild</span>(<span class="variable language_">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//供外部调用的方法</span></span><br><span class="line">    myName = <span class="function">() =&gt;</span> <span class="title function_">alert</span>(<span class="string">&#x27;xiaohesong&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>child<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="其实原理很简单，即子组件向外提供一个属性，用于把自己的this传递给外部组件，外部组件用一个变量接收子组件传递过来的this之后就可以随意调用子组件内部的方法。"><a href="#其实原理很简单，即子组件向外提供一个属性，用于把自己的this传递给外部组件，外部组件用一个变量接收子组件传递过来的this之后就可以随意调用子组件内部的方法。" class="headerlink" title="其实原理很简单，即子组件向外提供一个属性，用于把自己的this传递给外部组件，外部组件用一个变量接收子组件传递过来的this之后就可以随意调用子组件内部的方法。"></a>其实原理很简单，即子组件向外提供一个属性，用于把自己的this传递给外部组件，外部组件用一个变量接收子组件传递过来的this之后就可以随意调用子组件内部的方法。</h4>]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>React</tag>
       </tags>
   </entry>
   <entry>
@@ -182,17 +260,15 @@
       </tags>
   </entry>
   <entry>
-    <title>React的Ref属性在TypeScript中的写法</title>
-    <url>/2018/05/04/reactRefs/</url>
-    <content><![CDATA[<h4 id="在TypeScript中使用ref属性的时候，如果不定义它的类型直接去使用this-refs-XXX，就会在编译的时候报错。参考如下代码："><a href="#在TypeScript中使用ref属性的时候，如果不定义它的类型直接去使用this-refs-XXX，就会在编译的时候报错。参考如下代码：" class="headerlink" title="在TypeScript中使用ref属性的时候，如果不定义它的类型直接去使用this.refs.XXX，就会在编译的时候报错。参考如下代码："></a>在TypeScript中使用ref属性的时候，如果不定义它的类型直接去使用this.refs.XXX，就会在编译的时候报错。参考如下代码：</h4><span id="more"></span>
-<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">CustomTextInput</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span>&lt;&#123;&#125;, &#123;&#125;&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//在此处统一定义refs</span></span><br><span class="line">    <span class="keyword">public</span> <span class="attr">refs</span>: &#123;</span><br><span class="line">        <span class="attr">textInput</span>: <span class="title class_">HTMLInputElement</span>,</span><br><span class="line">        <span class="attr">loadMoreDiv</span>: <span class="title class_">HTMLElement</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">componentDidMount</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> loadMore = <span class="variable language_">this</span>.<span class="property">refs</span>.<span class="property">loadMoreDiv</span>;</span><br><span class="line">        <span class="keyword">const</span> myInput = <span class="variable language_">this</span>.<span class="property">refs</span>.<span class="property">textInput</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">ref</span>= <span class="string">&quot;textInput&quot;</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">ref</span>= <span class="string">&quot;loadMoreDiv&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>转自：<a href="https://goenning.net/2016/11/02/strongly-typed-react-refs-with-typescript/">Strongly Typed React Refs with TypeScript</a></p>
-]]></content>
+    <title>一切都会变得更美好</title>
+    <url>/2024/07/10/someTalkingShit/</url>
+    <content><![CDATA[<h3 id="假如生活欺骗了你，"><a href="#假如生活欺骗了你，" class="headerlink" title="假如生活欺骗了你，"></a><center>假如生活欺骗了你，</center></h3><span id="more"></span>
+<h3 id="不要悲伤，不要心急！"><a href="#不要悲伤，不要心急！" class="headerlink" title="不要悲伤，不要心急！"></a><center>不要悲伤，不要心急！</center></h3><h3 id="忧郁的日子里须要镇静："><a href="#忧郁的日子里须要镇静：" class="headerlink" title="忧郁的日子里须要镇静："></a><center>忧郁的日子里须要镇静：</center></h3><h3 id="相信吧，快乐的日子将会来临！"><a href="#相信吧，快乐的日子将会来临！" class="headerlink" title="相信吧，快乐的日子将会来临！"></a><center>相信吧，快乐的日子将会来临！</center></h3><h3 id="心儿永远向往着未来；"><a href="#心儿永远向往着未来；" class="headerlink" title="心儿永远向往着未来；"></a><center>心儿永远向往着未来；</center></h3><h3 id="现在却常是忧郁。"><a href="#现在却常是忧郁。" class="headerlink" title="现在却常是忧郁。"></a><center>现在却常是忧郁。</center></h3><h3 id="一切都是瞬息，一切都将会过去；"><a href="#一切都是瞬息，一切都将会过去；" class="headerlink" title="一切都是瞬息，一切都将会过去；"></a><center>一切都是瞬息，一切都将会过去；</center></h3><h3 id="而那过去了的，就会成为亲切的怀恋。"><a href="#而那过去了的，就会成为亲切的怀恋。" class="headerlink" title="而那过去了的，就会成为亲切的怀恋。"></a><center>而那过去了的，就会成为亲切的怀恋。</center></h3><h3 id=""><a href="#" class="headerlink" title=""></a><br/></h3><h3 id="总会好起来的，不是吗？"><a href="#总会好起来的，不是吗？" class="headerlink" title="总会好起来的，不是吗？"></a><center>总会好起来的，不是吗？</center></h3><img src="/2024/07/10/someTalkingShit/image.png" class="" title="Everything will be all right.">]]></content>
       <categories>
-        <category>编程</category>
+        <category>生活</category>
       </categories>
       <tags>
-        <tag>React</tag>
+        <tag>Life</tag>
       </tags>
   </entry>
   <entry>
@@ -218,31 +294,6 @@
       </categories>
       <tags>
         <tag>js</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>一切都会变得更美好</title>
-    <url>/2024/07/10/someTalkingShit/</url>
-    <content><![CDATA[<h3 id="假如生活欺骗了你，"><a href="#假如生活欺骗了你，" class="headerlink" title="假如生活欺骗了你，"></a><center>假如生活欺骗了你，</center></h3><span id="more"></span>
-<h3 id="不要悲伤，不要心急！"><a href="#不要悲伤，不要心急！" class="headerlink" title="不要悲伤，不要心急！"></a><center>不要悲伤，不要心急！</center></h3><h3 id="忧郁的日子里须要镇静："><a href="#忧郁的日子里须要镇静：" class="headerlink" title="忧郁的日子里须要镇静："></a><center>忧郁的日子里须要镇静：</center></h3><h3 id="相信吧，快乐的日子将会来临！"><a href="#相信吧，快乐的日子将会来临！" class="headerlink" title="相信吧，快乐的日子将会来临！"></a><center>相信吧，快乐的日子将会来临！</center></h3><h3 id="心儿永远向往着未来；"><a href="#心儿永远向往着未来；" class="headerlink" title="心儿永远向往着未来；"></a><center>心儿永远向往着未来；</center></h3><h3 id="现在却常是忧郁。"><a href="#现在却常是忧郁。" class="headerlink" title="现在却常是忧郁。"></a><center>现在却常是忧郁。</center></h3><h3 id="一切都是瞬息，一切都将会过去；"><a href="#一切都是瞬息，一切都将会过去；" class="headerlink" title="一切都是瞬息，一切都将会过去；"></a><center>一切都是瞬息，一切都将会过去；</center></h3><h3 id="而那过去了的，就会成为亲切的怀恋。"><a href="#而那过去了的，就会成为亲切的怀恋。" class="headerlink" title="而那过去了的，就会成为亲切的怀恋。"></a><center>而那过去了的，就会成为亲切的怀恋。</center></h3><h3 id=""><a href="#" class="headerlink" title=""></a><br/></h3><h3 id="总会好起来的，不是吗？"><a href="#总会好起来的，不是吗？" class="headerlink" title="总会好起来的，不是吗？"></a><center>总会好起来的，不是吗？</center></h3><img src="/2024/07/10/someTalkingShit/image.png" class="" title="Everything will be all right.">]]></content>
-      <categories>
-        <category>生活</category>
-      </categories>
-      <tags>
-        <tag>Life</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>react如何在组件外部调用组件内的方法</title>
-    <url>/2018/07/04/reactTechnology/</url>
-    <content><![CDATA[<h4 id="在开发中，难免会遇到这种场景：我们需要在组件外部调用组件内的方法，从而达到在外部操作组件或者获取组件内部数据的目的。"><a href="#在开发中，难免会遇到这种场景：我们需要在组件外部调用组件内的方法，从而达到在外部操作组件或者获取组件内部数据的目的。" class="headerlink" title="在开发中，难免会遇到这种场景：我们需要在组件外部调用组件内的方法，从而达到在外部操作组件或者获取组件内部数据的目的。"></a>在开发中，难免会遇到这种场景：我们需要在组件外部调用组件内的方法，从而达到在外部操作组件或者获取组件内部数据的目的。</h4><h4 id="示例代码如下："><a href="#示例代码如下：" class="headerlink" title="示例代码如下："></a>示例代码如下：</h4><span id="more"></span>
-<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//外层组件</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">Parent</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span>&lt;&#123;&#125;, &#123;&#125;&gt; &#123;</span><br><span class="line">    <span class="comment">//用一个变量接收子组件的this</span></span><br><span class="line">    <span class="keyword">public</span> <span class="attr">child</span>: <span class="built_in">any</span>;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//绑定子组件的this到this.child</span></span><br><span class="line">    bindChild = <span class="function">(<span class="params"><span class="attr">ref</span>:<span class="built_in">any</span></span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">child</span> = ref;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//用于调用子组件的方法</span></span><br><span class="line">    click = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">child</span>.<span class="title function_">myName</span>()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">Child</span> <span class="attr">bindChild</span>=<span class="string">&#123;this.bindChild&#125;</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;this.click&#125;</span> &gt;</span>getName<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//子组件</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">ChildOwnProps</span> &#123;</span><br><span class="line">    <span class="attr">bindChild</span>: <span class="title class_">Function</span>;<span class="comment">//提供一个属性，用于把this传递给外部组件</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Child</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span>&lt;<span class="title class_">ChildOwnProps</span>&gt; &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"><span class="attr">props</span>:<span class="title class_">ChildOwnProps</span></span>) &#123;</span><br><span class="line">        <span class="variable language_">super</span>(props);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">componentDidMount</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="comment">//传递this</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">props</span>.<span class="title function_">bindChild</span>(<span class="variable language_">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//供外部调用的方法</span></span><br><span class="line">    myName = <span class="function">() =&gt;</span> <span class="title function_">alert</span>(<span class="string">&#x27;xiaohesong&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>child<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h4 id="其实原理很简单，即子组件向外提供一个属性，用于把自己的this传递给外部组件，外部组件用一个变量接收子组件传递过来的this之后就可以随意调用子组件内部的方法。"><a href="#其实原理很简单，即子组件向外提供一个属性，用于把自己的this传递给外部组件，外部组件用一个变量接收子组件传递过来的this之后就可以随意调用子组件内部的方法。" class="headerlink" title="其实原理很简单，即子组件向外提供一个属性，用于把自己的this传递给外部组件，外部组件用一个变量接收子组件传递过来的this之后就可以随意调用子组件内部的方法。"></a>其实原理很简单，即子组件向外提供一个属性，用于把自己的this传递给外部组件，外部组件用一个变量接收子组件传递过来的this之后就可以随意调用子组件内部的方法。</h4>]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>React</tag>
       </tags>
   </entry>
 </search>
