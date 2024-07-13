@@ -13,24 +13,6 @@
       </tags>
   </entry>
   <entry>
-    <title>更新cordova时出现的报错及解决方案</title>
-    <url>/2018/06/08/cordovaUpdate/</url>
-    <content><![CDATA[<h4 id="今天在利用cordova-build安卓apk的时候出现了报错，并且提示更新cordova，于是执行以下命令做更新："><a href="#今天在利用cordova-build安卓apk的时候出现了报错，并且提示更新cordova，于是执行以下命令做更新：" class="headerlink" title="今天在利用cordova build安卓apk的时候出现了报错，并且提示更新cordova，于是执行以下命令做更新："></a>今天在利用cordova build安卓apk的时候出现了报错，并且提示更新cordova，于是执行以下命令做更新：</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install -g cordova</span><br></pre></td></tr></table></figure>
-<p>结果出现了报错，如下</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm WARN update-linked node_modules\cordova needs updating to 8.0.0 from 6.4.0 but we can&#x27;t, as it&#x27;s a symlink</span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<p>在网上查了半天也没找到原因，于是尝试了先去remove再install，结果成功了，如下</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm remove -g cordova</span><br><span class="line">npm install -g cordova</span><br></pre></td></tr></table></figure>
-<p>至于报错的原因，还有待后面研究下…</p>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>npm</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hexo使用小记</title>
     <url>/2018/05/04/Hexo/</url>
     <content><![CDATA[<h3 id="1-关于部署到github时用户名密码报错的问题"><a href="#1-关于部署到github时用户名密码报错的问题" class="headerlink" title="1.  关于部署到github时用户名密码报错的问题"></a>1.  关于部署到github时用户名密码报错的问题</h3><p>刚开始部署的配置如下</p>
@@ -102,10 +84,10 @@
 </li>
 </ul>
 <h4 id="2-两种options页面的区别：整页、嵌入式页"><a href="#2-两种options页面的区别：整页、嵌入式页" class="headerlink" title="2.两种options页面的区别：整页、嵌入式页"></a>2.两种options页面的区别：整页、嵌入式页</h4><ul>
-<li>整页：系统会在新标签页中显示整页options页面。在清单中的 “options_page” 字段中注册选项 HTML 文件</li>
-<li>嵌入式：在当前页面以弹窗形式展示options页面。如需声明嵌入式选项，请在扩展程序清单中的 “options_ui” 字段下注册 HTML 文件，并将 “open_in_tab” 键设置为 false。但如果open_in_tab设置为true，效果与整页一致。</li>
+<li>整页：系统会在新标签页中显示整页options页面。在manifest中的 “options_page” 字段中注册选项 HTML 文件</li>
+<li>嵌入式：在当前页面以弹窗形式展示options页面。如需声明嵌入式选项，请在manifest中的 “options_ui” 字段下注册 HTML 文件，并将 “open_in_tab” 键设置为 false。但如果open_in_tab设置为true，效果与整页一致。</li>
 </ul>
-<h4 id="不同script运行的位置："><a href="#不同script运行的位置：" class="headerlink" title="不同script运行的位置："></a>不同script运行的位置：</h4><ul>
+<h4 id="3-不同script运行的位置："><a href="#3-不同script运行的位置：" class="headerlink" title="3.不同script运行的位置："></a>3.不同script运行的位置：</h4><ul>
 <li>service_worker中的script，当启用插件后，运行在整个后台，日志在插件的service_worker检查视图中查看</li>
 <li>插入的script，运行在网页环境中，日志在具体页面的控制台中查看<ol>
 <li>静态注入的content_scripts，只要打开matches中匹配到的网页即可执行</li>
@@ -114,7 +96,13 @@
 </ol>
 </li>
 </ul>
-<p>参考文档：	<a href="https://docs.plasmo.com/">https://docs.plasmo.com/</a><br>            <a href="https://developer.chrome.com/docs/extensions/get-started?hl=zh-cn">https://developer.chrome.com/docs/extensions/get-started?hl=zh-cn</a><br>            官网源码：<a href="https://github.com/GoogleChrome/chrome-extensions-samples/tree/main">https://github.com/GoogleChrome/chrome-extensions-samples/tree/main</a><br>            B站教程源码： <a href="https://github.com/tuntun0609/chrome-extension-study">https://github.com/tuntun0609/chrome-extension-study</a><br>            B站教程文档：<a href="https://www.yuque.com/tuntun-nozomi/gurht0">https://www.yuque.com/tuntun-nozomi/gurht0</a></p>
+<h4 id="4-参考文档："><a href="#4-参考文档：" class="headerlink" title="4.参考文档："></a>4.参考文档：</h4><ul>
+<li><a href="https://docs.plasmo.com/">https://docs.plasmo.com/</a></li>
+<li><a href="https://developer.chrome.com/docs/extensions/get-started?hl=zh-cn">https://developer.chrome.com/docs/extensions/get-started?hl=zh-cn</a></li>
+<li>官网源码：<a href="https://github.com/GoogleChrome/chrome-extensions-samples/tree/main">https://github.com/GoogleChrome/chrome-extensions-samples/tree/main</a> </li>
+<li>B站教程源码： <a href="https://github.com/tuntun0609/chrome-extension-study">https://github.com/tuntun0609/chrome-extension-study</a></li>
+<li>B站教程文档：<a href="https://www.yuque.com/tuntun-nozomi/gurht0">https://www.yuque.com/tuntun-nozomi/gurht0</a></li>
+</ul>
 ]]></content>
       <categories>
         <category>编程</category>
@@ -145,6 +133,24 @@
       </categories>
       <tags>
         <tag>js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>更新cordova时出现的报错及解决方案</title>
+    <url>/2018/06/08/cordovaUpdate/</url>
+    <content><![CDATA[<h4 id="今天在利用cordova-build安卓apk的时候出现了报错，并且提示更新cordova，于是执行以下命令做更新："><a href="#今天在利用cordova-build安卓apk的时候出现了报错，并且提示更新cordova，于是执行以下命令做更新：" class="headerlink" title="今天在利用cordova build安卓apk的时候出现了报错，并且提示更新cordova，于是执行以下命令做更新："></a>今天在利用cordova build安卓apk的时候出现了报错，并且提示更新cordova，于是执行以下命令做更新：</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install -g cordova</span><br></pre></td></tr></table></figure>
+<p>结果出现了报错，如下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm WARN update-linked node_modules\cordova needs updating to 8.0.0 from 6.4.0 but we can&#x27;t, as it&#x27;s a symlink</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<p>在网上查了半天也没找到原因，于是尝试了先去remove再install，结果成功了，如下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm remove -g cordova</span><br><span class="line">npm install -g cordova</span><br></pre></td></tr></table></figure>
+<p>至于报错的原因，还有待后面研究下…</p>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>npm</tag>
       </tags>
   </entry>
   <entry>
@@ -207,6 +213,19 @@
       </tags>
   </entry>
   <entry>
+    <title>react如何在组件外部调用组件内的方法</title>
+    <url>/2018/07/04/reactTechnology/</url>
+    <content><![CDATA[<h4 id="在开发中，难免会遇到这种场景：我们需要在组件外部调用组件内的方法，从而达到在外部操作组件或者获取组件内部数据的目的。"><a href="#在开发中，难免会遇到这种场景：我们需要在组件外部调用组件内的方法，从而达到在外部操作组件或者获取组件内部数据的目的。" class="headerlink" title="在开发中，难免会遇到这种场景：我们需要在组件外部调用组件内的方法，从而达到在外部操作组件或者获取组件内部数据的目的。"></a>在开发中，难免会遇到这种场景：我们需要在组件外部调用组件内的方法，从而达到在外部操作组件或者获取组件内部数据的目的。</h4><h4 id="示例代码如下："><a href="#示例代码如下：" class="headerlink" title="示例代码如下："></a>示例代码如下：</h4><span id="more"></span>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//外层组件</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">Parent</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span>&lt;&#123;&#125;, &#123;&#125;&gt; &#123;</span><br><span class="line">    <span class="comment">//用一个变量接收子组件的this</span></span><br><span class="line">    <span class="keyword">public</span> <span class="attr">child</span>: <span class="built_in">any</span>;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//绑定子组件的this到this.child</span></span><br><span class="line">    bindChild = <span class="function">(<span class="params"><span class="attr">ref</span>:<span class="built_in">any</span></span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">child</span> = ref;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//用于调用子组件的方法</span></span><br><span class="line">    click = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">child</span>.<span class="title function_">myName</span>()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">Child</span> <span class="attr">bindChild</span>=<span class="string">&#123;this.bindChild&#125;</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;this.click&#125;</span> &gt;</span>getName<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//子组件</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">ChildOwnProps</span> &#123;</span><br><span class="line">    <span class="attr">bindChild</span>: <span class="title class_">Function</span>;<span class="comment">//提供一个属性，用于把this传递给外部组件</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Child</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span>&lt;<span class="title class_">ChildOwnProps</span>&gt; &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"><span class="attr">props</span>:<span class="title class_">ChildOwnProps</span></span>) &#123;</span><br><span class="line">        <span class="variable language_">super</span>(props);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">componentDidMount</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="comment">//传递this</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">props</span>.<span class="title function_">bindChild</span>(<span class="variable language_">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//供外部调用的方法</span></span><br><span class="line">    myName = <span class="function">() =&gt;</span> <span class="title function_">alert</span>(<span class="string">&#x27;xiaohesong&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>child<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="其实原理很简单，即子组件向外提供一个属性，用于把自己的this传递给外部组件，外部组件用一个变量接收子组件传递过来的this之后就可以随意调用子组件内部的方法。"><a href="#其实原理很简单，即子组件向外提供一个属性，用于把自己的this传递给外部组件，外部组件用一个变量接收子组件传递过来的this之后就可以随意调用子组件内部的方法。" class="headerlink" title="其实原理很简单，即子组件向外提供一个属性，用于把自己的this传递给外部组件，外部组件用一个变量接收子组件传递过来的this之后就可以随意调用子组件内部的方法。"></a>其实原理很简单，即子组件向外提供一个属性，用于把自己的this传递给外部组件，外部组件用一个变量接收子组件传递过来的this之后就可以随意调用子组件内部的方法。</h4>]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>React</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>React的Ref属性在TypeScript中的写法</title>
     <url>/2018/05/04/reactRefs/</url>
     <content><![CDATA[<h4 id="在TypeScript中使用ref属性的时候，如果不定义它的类型直接去使用this-refs-XXX，就会在编译的时候报错。参考如下代码："><a href="#在TypeScript中使用ref属性的时候，如果不定义它的类型直接去使用this-refs-XXX，就会在编译的时候报错。参考如下代码：" class="headerlink" title="在TypeScript中使用ref属性的时候，如果不定义它的类型直接去使用this.refs.XXX，就会在编译的时候报错。参考如下代码："></a>在TypeScript中使用ref属性的时候，如果不定义它的类型直接去使用this.refs.XXX，就会在编译的时候报错。参考如下代码：</h4><span id="more"></span>
@@ -221,16 +240,15 @@
       </tags>
   </entry>
   <entry>
-    <title>react如何在组件外部调用组件内的方法</title>
-    <url>/2018/07/04/reactTechnology/</url>
-    <content><![CDATA[<h4 id="在开发中，难免会遇到这种场景：我们需要在组件外部调用组件内的方法，从而达到在外部操作组件或者获取组件内部数据的目的。"><a href="#在开发中，难免会遇到这种场景：我们需要在组件外部调用组件内的方法，从而达到在外部操作组件或者获取组件内部数据的目的。" class="headerlink" title="在开发中，难免会遇到这种场景：我们需要在组件外部调用组件内的方法，从而达到在外部操作组件或者获取组件内部数据的目的。"></a>在开发中，难免会遇到这种场景：我们需要在组件外部调用组件内的方法，从而达到在外部操作组件或者获取组件内部数据的目的。</h4><h4 id="示例代码如下："><a href="#示例代码如下：" class="headerlink" title="示例代码如下："></a>示例代码如下：</h4><span id="more"></span>
-<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//外层组件</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">Parent</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span>&lt;&#123;&#125;, &#123;&#125;&gt; &#123;</span><br><span class="line">    <span class="comment">//用一个变量接收子组件的this</span></span><br><span class="line">    <span class="keyword">public</span> <span class="attr">child</span>: <span class="built_in">any</span>;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//绑定子组件的this到this.child</span></span><br><span class="line">    bindChild = <span class="function">(<span class="params"><span class="attr">ref</span>:<span class="built_in">any</span></span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">child</span> = ref;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//用于调用子组件的方法</span></span><br><span class="line">    click = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">child</span>.<span class="title function_">myName</span>()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">Child</span> <span class="attr">bindChild</span>=<span class="string">&#123;this.bindChild&#125;</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;this.click&#125;</span> &gt;</span>getName<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//子组件</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">ChildOwnProps</span> &#123;</span><br><span class="line">    <span class="attr">bindChild</span>: <span class="title class_">Function</span>;<span class="comment">//提供一个属性，用于把this传递给外部组件</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Child</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span>&lt;<span class="title class_">ChildOwnProps</span>&gt; &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"><span class="attr">props</span>:<span class="title class_">ChildOwnProps</span></span>) &#123;</span><br><span class="line">        <span class="variable language_">super</span>(props);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">componentDidMount</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="comment">//传递this</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">props</span>.<span class="title function_">bindChild</span>(<span class="variable language_">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//供外部调用的方法</span></span><br><span class="line">    myName = <span class="function">() =&gt;</span> <span class="title function_">alert</span>(<span class="string">&#x27;xiaohesong&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>child<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h4 id="其实原理很简单，即子组件向外提供一个属性，用于把自己的this传递给外部组件，外部组件用一个变量接收子组件传递过来的this之后就可以随意调用子组件内部的方法。"><a href="#其实原理很简单，即子组件向外提供一个属性，用于把自己的this传递给外部组件，外部组件用一个变量接收子组件传递过来的this之后就可以随意调用子组件内部的方法。" class="headerlink" title="其实原理很简单，即子组件向外提供一个属性，用于把自己的this传递给外部组件，外部组件用一个变量接收子组件传递过来的this之后就可以随意调用子组件内部的方法。"></a>其实原理很简单，即子组件向外提供一个属性，用于把自己的this传递给外部组件，外部组件用一个变量接收子组件传递过来的this之后就可以随意调用子组件内部的方法。</h4>]]></content>
+    <title>一切都会变得更美好</title>
+    <url>/2024/07/10/someTalkingShit/</url>
+    <content><![CDATA[<h3 id="假如生活欺骗了你，"><a href="#假如生活欺骗了你，" class="headerlink" title="假如生活欺骗了你，"></a><center>假如生活欺骗了你，</center></h3><span id="more"></span>
+<h3 id="不要悲伤，不要心急！"><a href="#不要悲伤，不要心急！" class="headerlink" title="不要悲伤，不要心急！"></a><center>不要悲伤，不要心急！</center></h3><h3 id="忧郁的日子里须要镇静："><a href="#忧郁的日子里须要镇静：" class="headerlink" title="忧郁的日子里须要镇静："></a><center>忧郁的日子里须要镇静：</center></h3><h3 id="相信吧，快乐的日子将会来临！"><a href="#相信吧，快乐的日子将会来临！" class="headerlink" title="相信吧，快乐的日子将会来临！"></a><center>相信吧，快乐的日子将会来临！</center></h3><h3 id="心儿永远向往着未来；"><a href="#心儿永远向往着未来；" class="headerlink" title="心儿永远向往着未来；"></a><center>心儿永远向往着未来；</center></h3><h3 id="现在却常是忧郁。"><a href="#现在却常是忧郁。" class="headerlink" title="现在却常是忧郁。"></a><center>现在却常是忧郁。</center></h3><h3 id="一切都是瞬息，一切都将会过去；"><a href="#一切都是瞬息，一切都将会过去；" class="headerlink" title="一切都是瞬息，一切都将会过去；"></a><center>一切都是瞬息，一切都将会过去；</center></h3><h3 id="而那过去了的，就会成为亲切的怀恋。"><a href="#而那过去了的，就会成为亲切的怀恋。" class="headerlink" title="而那过去了的，就会成为亲切的怀恋。"></a><center>而那过去了的，就会成为亲切的怀恋。</center></h3><h3 id=""><a href="#" class="headerlink" title=""></a><br/></h3><h3 id="总会好起来的，不是吗？"><a href="#总会好起来的，不是吗？" class="headerlink" title="总会好起来的，不是吗？"></a><center>总会好起来的，不是吗？</center></h3><img src="/2024/07/10/someTalkingShit/image.png" class="" title="Everything will be all right.">]]></content>
       <categories>
-        <category>编程</category>
+        <category>生活</category>
       </categories>
       <tags>
-        <tag>React</tag>
+        <tag>Life</tag>
       </tags>
   </entry>
   <entry>
@@ -257,18 +275,6 @@
       </categories>
       <tags>
         <tag>小程序</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>一切都会变得更美好</title>
-    <url>/2024/07/10/someTalkingShit/</url>
-    <content><![CDATA[<h3 id="假如生活欺骗了你，"><a href="#假如生活欺骗了你，" class="headerlink" title="假如生活欺骗了你，"></a><center>假如生活欺骗了你，</center></h3><span id="more"></span>
-<h3 id="不要悲伤，不要心急！"><a href="#不要悲伤，不要心急！" class="headerlink" title="不要悲伤，不要心急！"></a><center>不要悲伤，不要心急！</center></h3><h3 id="忧郁的日子里须要镇静："><a href="#忧郁的日子里须要镇静：" class="headerlink" title="忧郁的日子里须要镇静："></a><center>忧郁的日子里须要镇静：</center></h3><h3 id="相信吧，快乐的日子将会来临！"><a href="#相信吧，快乐的日子将会来临！" class="headerlink" title="相信吧，快乐的日子将会来临！"></a><center>相信吧，快乐的日子将会来临！</center></h3><h3 id="心儿永远向往着未来；"><a href="#心儿永远向往着未来；" class="headerlink" title="心儿永远向往着未来；"></a><center>心儿永远向往着未来；</center></h3><h3 id="现在却常是忧郁。"><a href="#现在却常是忧郁。" class="headerlink" title="现在却常是忧郁。"></a><center>现在却常是忧郁。</center></h3><h3 id="一切都是瞬息，一切都将会过去；"><a href="#一切都是瞬息，一切都将会过去；" class="headerlink" title="一切都是瞬息，一切都将会过去；"></a><center>一切都是瞬息，一切都将会过去；</center></h3><h3 id="而那过去了的，就会成为亲切的怀恋。"><a href="#而那过去了的，就会成为亲切的怀恋。" class="headerlink" title="而那过去了的，就会成为亲切的怀恋。"></a><center>而那过去了的，就会成为亲切的怀恋。</center></h3><h3 id=""><a href="#" class="headerlink" title=""></a><br/></h3><h3 id="总会好起来的，不是吗？"><a href="#总会好起来的，不是吗？" class="headerlink" title="总会好起来的，不是吗？"></a><center>总会好起来的，不是吗？</center></h3><img src="/2024/07/10/someTalkingShit/image.png" class="" title="Everything will be all right.">]]></content>
-      <categories>
-        <category>生活</category>
-      </categories>
-      <tags>
-        <tag>Life</tag>
       </tags>
   </entry>
   <entry>

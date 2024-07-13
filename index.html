@@ -197,7 +197,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2024-07-13 16:22:24 / Modified: 16:41:29" itemprop="dateCreated datePublished" datetime="2024-07-13T16:22:24+08:00">2024-07-13</time>
+      <time title="Created: 2024-07-13 16:22:24 / Modified: 18:00:40" itemprop="dateCreated datePublished" datetime="2024-07-13T16:22:24+08:00">2024-07-13</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -230,7 +230,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Word count in article: </span>
-      <span>713</span>
+      <span>709</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
@@ -275,10 +275,10 @@
 </li>
 </ul>
 <h4 id="2-两种options页面的区别：整页、嵌入式页"><a href="#2-两种options页面的区别：整页、嵌入式页" class="headerlink" title="2.两种options页面的区别：整页、嵌入式页"></a>2.两种options页面的区别：整页、嵌入式页</h4><ul>
-<li>整页：系统会在新标签页中显示整页options页面。在清单中的 “options_page” 字段中注册选项 HTML 文件</li>
-<li>嵌入式：在当前页面以弹窗形式展示options页面。如需声明嵌入式选项，请在扩展程序清单中的 “options_ui” 字段下注册 HTML 文件，并将 “open_in_tab” 键设置为 false。但如果open_in_tab设置为true，效果与整页一致。</li>
+<li>整页：系统会在新标签页中显示整页options页面。在manifest中的 “options_page” 字段中注册选项 HTML 文件</li>
+<li>嵌入式：在当前页面以弹窗形式展示options页面。如需声明嵌入式选项，请在manifest中的 “options_ui” 字段下注册 HTML 文件，并将 “open_in_tab” 键设置为 false。但如果open_in_tab设置为true，效果与整页一致。</li>
 </ul>
-<h4 id="不同script运行的位置："><a href="#不同script运行的位置：" class="headerlink" title="不同script运行的位置："></a>不同script运行的位置：</h4><ul>
+<h4 id="3-不同script运行的位置："><a href="#3-不同script运行的位置：" class="headerlink" title="3.不同script运行的位置："></a>3.不同script运行的位置：</h4><ul>
 <li>service_worker中的script，当启用插件后，运行在整个后台，日志在插件的service_worker检查视图中查看</li>
 <li>插入的script，运行在网页环境中，日志在具体页面的控制台中查看<ol>
 <li>静态注入的content_scripts，只要打开matches中匹配到的网页即可执行</li>
@@ -287,7 +287,13 @@
 </ol>
 </li>
 </ul>
-<p>参考文档：	<a target="_blank" rel="noopener" href="https://docs.plasmo.com/">https://docs.plasmo.com/</a><br>            <a target="_blank" rel="noopener" href="https://developer.chrome.com/docs/extensions/get-started?hl=zh-cn">https://developer.chrome.com/docs/extensions/get-started?hl=zh-cn</a><br>            官网源码：<a target="_blank" rel="noopener" href="https://github.com/GoogleChrome/chrome-extensions-samples/tree/main">https://github.com/GoogleChrome/chrome-extensions-samples/tree/main</a><br>            B站教程源码： <a target="_blank" rel="noopener" href="https://github.com/tuntun0609/chrome-extension-study">https://github.com/tuntun0609/chrome-extension-study</a><br>            B站教程文档：<a target="_blank" rel="noopener" href="https://www.yuque.com/tuntun-nozomi/gurht0">https://www.yuque.com/tuntun-nozomi/gurht0</a></p>
+<h4 id="4-参考文档："><a href="#4-参考文档：" class="headerlink" title="4.参考文档："></a>4.参考文档：</h4><ul>
+<li><a target="_blank" rel="noopener" href="https://docs.plasmo.com/">https://docs.plasmo.com/</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.chrome.com/docs/extensions/get-started?hl=zh-cn">https://developer.chrome.com/docs/extensions/get-started?hl=zh-cn</a></li>
+<li>官网源码：<a target="_blank" rel="noopener" href="https://github.com/GoogleChrome/chrome-extensions-samples/tree/main">https://github.com/GoogleChrome/chrome-extensions-samples/tree/main</a> </li>
+<li>B站教程源码： <a target="_blank" rel="noopener" href="https://github.com/tuntun0609/chrome-extension-study">https://github.com/tuntun0609/chrome-extension-study</a></li>
+<li>B站教程文档：<a target="_blank" rel="noopener" href="https://www.yuque.com/tuntun-nozomi/gurht0">https://www.yuque.com/tuntun-nozomi/gurht0</a></li>
+</ul>
 
       
     </div>
@@ -1423,7 +1429,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">16 mins.</span>
+    <span title="Reading time total">15 mins.</span>
   </span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a>
