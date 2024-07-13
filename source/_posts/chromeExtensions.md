@@ -5,12 +5,11 @@ categories: 编程
 tags: chrome extensions
 ---
 
-chrome浏览器插件开发
-
 #### 1. 项目目录结构：
 * **manifest.json：插件的配置文件**
     1. 每个扩展程序的根目录（必须）中都必须包含一个 manifest.json 文件
-    1. 文档：https://developer.chrome.com/docs/extensions/reference/manifest?hl=zh-cn#minimal-manifest
+    2. 文档：https://developer.chrome.com/docs/extensions/reference/manifest?hl=zh-cn#minimal-manifest
+<!--more-->
 * **service worker**
     1. 处理和监听浏览器事件，相当于在后台运行的脚本，可以使用浏览器的全部api，但是不能和页面内容直接交互
     2. 文档：https://developer.chrome.com/docs/extensions/get-started/tutorial/service-worker-events?hl=zh-cn
