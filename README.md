@@ -24,6 +24,31 @@ npm install
 npm ci
 ```
 
+## 分支说明
+
+这个仓库使用源码分支和部署分支分离的方式：
+
+```text
+hexo-source-code  博客源码分支，保存 Markdown、配置、主题、依赖等内容
+master            GitHub Pages 部署分支，保存 Hexo 生成后的静态 HTML/CSS/JS
+```
+
+日常写文章、改配置、更新主题时，都应该在 `hexo-source-code` 分支进行。
+
+部署时不需要手动切到 `master` 分支。执行 `npx hexo deploy` 后，`hexo-deployer-git` 会把 `public/` 里的生成结果提交并推送到远端 `master` 分支。
+
+确认当前源码分支：
+
+```bash
+git branch --show-current
+```
+
+如果不在源码分支，可以切回：
+
+```bash
+git switch hexo-source-code
+```
+
 ## 本地运行
 
 清理旧生成文件并启动本地服务：
@@ -157,6 +182,8 @@ deploy:
   branch: master
 ```
 
+这表示：无论当前开发分支是 `hexo-source-code`，部署产物都会发布到远端 `master` 分支。
+
 ## Hexo 常用命令速查
 
 ```bash
@@ -256,6 +283,7 @@ npx hexo deploy
 
 - 主配置文件是 `_config.yml`。
 - NexT 主题配置文件是 `_config.next.yml`。
+- 日常源码维护使用 `hexo-source-code` 分支，线上静态页面由 `master` 分支承载。
 - 当前主题为 `next`。
 - 当前仓库存在未跟踪的 `themes/next/` 目录；如果后续整理仓库，需要确认是继续使用 npm 依赖里的 `hexo-theme-next`，还是把本地主题目录纳入版本管理。
 - `_config.yml` 里的 `url` 当前仍是示例值，正式发布前建议改成真实站点地址。
