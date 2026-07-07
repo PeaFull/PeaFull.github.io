@@ -35,6 +35,8 @@ master            GitHub Pages 部署分支，保存 Hexo 生成后的静态 HTM
 
 日常写文章、改配置、更新主题时，都应该在 `hexo-source-code` 分支进行。
 
+GitHub 仓库默认分支也应该保持为 `hexo-source-code`，方便进入仓库后直接看到源码、配置和项目说明；`master` 只作为 GitHub Pages 的部署分支使用。
+
 部署时不需要手动切到 `master` 分支。执行 `npx hexo deploy` 后，`hexo-deployer-git` 会把 `public/` 里的生成结果提交并推送到远端 `master` 分支。
 
 确认当前源码分支：
