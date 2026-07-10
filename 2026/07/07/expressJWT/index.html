@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="JWT 最大的特点是：无状态。jsonwebtoken 库本身不存储 token，它只负责两件事：  签发 token 验证 token  token 签发后交给客户端保存，服务端不需要像 session 一样存储登录状态。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="express JWT 认证流程总结">
+<meta property="og:url" content="http://example.com/2026/07/07/expressJWT/index.html">
+<meta property="og:site_name" content="PeaFull&#39;s Notes">
+<meta property="og:description" content="JWT 最大的特点是：无状态。jsonwebtoken 库本身不存储 token，它只负责两件事：  签发 token 验证 token  token 签发后交给客户端保存，服务端不需要像 session 一样存储登录状态。">
+<meta property="og:locale">
+<meta property="article:published_time" content="2026-07-07T03:30:01.000Z">
+<meta property="article:modified_time" content="2026-07-07T03:35:25.729Z">
+<meta property="article:author" content="PeaFull">
+<meta property="article:tag" content="nodejs">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2026/07/07/expressJWT/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"http://example.com/2026/07/07/expressJWT/","path":"2026/07/07/expressJWT/","title":"express JWT 认证流程总结"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>express JWT 认证流程总结 | PeaFull's Notes</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">PeaFull's Notes</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">listentoleo@gmail.com</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81JWT-%E7%AD%BE%E5%8F%91%E8%BF%87%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">一、JWT 签发过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81JWT-%E9%AA%8C%E8%AF%81%E8%BF%87%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">二、JWT 验证过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81JWT-%E7%9A%84%E6%A0%B8%E5%BF%83%E7%90%86%E8%A7%A3"><span class="nav-number">3.</span> <span class="nav-text">三、JWT 的核心理解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81AccessToken-%E5%92%8C-RefreshToken-%E7%9A%84%E5%B8%B8%E7%94%A8%E8%AE%BE%E8%AE%A1"><span class="nav-number">4.</span> <span class="nav-text">四、AccessToken 和 RefreshToken 的常用设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-accessToken"><span class="nav-number">4.1.</span> <span class="nav-text">1. accessToken</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-refreshToken"><span class="nav-number">4.2.</span> <span class="nav-text">2. refreshToken</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E5%8F%8C%E4%BB%A4%E7%89%8C%E8%AE%A4%E8%AF%81%E7%B3%BB%E7%BB%9F%E6%8E%A5%E5%8F%A3%E6%B5%81%E7%A8%8B"><span class="nav-number">5.</span> <span class="nav-text">五、双令牌认证系统接口流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%B3%A8%E5%86%8C%E6%8E%A5%E5%8F%A3"><span class="nav-number">5.1.</span> <span class="nav-text">1. 注册接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%99%BB%E5%BD%95%E6%8E%A5%E5%8F%A3"><span class="nav-number">5.2.</span> <span class="nav-text">2. 登录接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%88%B7%E6%96%B0%E4%BB%A4%E7%89%8C%E6%8E%A5%E5%8F%A3"><span class="nav-number">5.3.</span> <span class="nav-text">3. 刷新令牌接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E7%99%BB%E5%87%BA%E6%8E%A5%E5%8F%A3"><span class="nav-number">5.4.</span> <span class="nav-text">4. 登出接口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E8%AE%A4%E8%AF%81%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%B5%81%E7%A8%8B"><span class="nav-number">6.</span> <span class="nav-text">六、认证中间件流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E5%AE%89%E5%85%A8%E8%A6%81%E7%82%B9"><span class="nav-number">7.</span> <span class="nav-text">七、安全要点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%80%BB%E7%BB%93"><span class="nav-number">8.</span> <span class="nav-text">八、一句话总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="PeaFull"
+      src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">PeaFull</p>
+  <div class="site-description" itemprop="description">这么巧，你也在网上冲浪啊</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/PeaFull" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;PeaFull" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2026/07/07/expressJWT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="PeaFull">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="PeaFull's Notes">
+      <meta itemprop="description" content="这么巧，你也在网上冲浪啊">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="express JWT 认证流程总结 | PeaFull's Notes">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          express JWT 认证流程总结
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2026-07-07 11:30:01 / Modified: 11:35:25" itemprop="dateCreated datePublished" datetime="2026-07-07T11:30:01+08:00">2026-07-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/programming/" itemprop="url" rel="index"><span itemprop="name">编程</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2026/07/07/expressJWT/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2026/07/07/expressJWT/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>1.2k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>4 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>JWT 最大的特点是：无状态。<br>jsonwebtoken 库本身不存储 token，它只负责两件事：</p>
+<ol>
+<li>签发 token</li>
+<li>验证 token</li>
+</ol>
+<p>token 签发后交给客户端保存，服务端不需要像 session 一样存储登录状态。</p>
+<span id="more"></span>
+
+<h2 id="一、JWT-签发过程"><a href="#一、JWT-签发过程" class="headerlink" title="一、JWT 签发过程"></a>一、JWT 签发过程</h2><p>登录成功后，服务端会使用 jsonwebtoken 签发 token。<br>签发时主要做了几件事：</p>
+<ol>
+<li><p>构造 header<br>里面包含 token 类型和签名算法。</p>
+</li>
+<li><p>构造 payload<br>里面一般包含用户信息，例如：</p>
+</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  (userId, username, iat, exp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中：</p>
+<ul>
+<li>iat：签发时间</li>
+<li>exp：过期时间</li>
+</ul>
+<ol start="3">
+<li><p>使用 header + payload + secret 计算签名 signature</p>
+</li>
+<li><p>最终拼接成 token：</p>
+</li>
+</ol>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">header.payload.signature</span><br></pre></td></tr></table></figure>
+
+<p>需要注意：JWT 的 payload 默认不是加密的，只是 Base64URL 编码，所以不要把密码、手机号、身份证号等敏感信息放进去。</p>
+<h2 id="二、JWT-验证过程"><a href="#二、JWT-验证过程" class="headerlink" title="二、JWT 验证过程"></a>二、JWT 验证过程</h2><p>客户端请求接口时，一般会把 accessToken 放到请求头里：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Authorization</span><span class="punctuation">: </span>Bearer token</span><br></pre></td></tr></table></figure>
+
+<p>服务端认证中间件会做以下事情：</p>
+<ol>
+<li><p>从 Authorization 中取出 token</p>
+</li>
+<li><p>拆分 token，得到：</p>
+</li>
+</ol>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">header</span><br><span class="line">payload</span><br><span class="line">signature</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><p>使用同一个 secret 和相同算法，重新计算一个新的签名</p>
+</li>
+<li><p>将新签名和 token 中原来的 signature 对比</p>
+</li>
+<li><p>如果签名一致，再判断 token 是否过期</p>
+</li>
+<li><p>全部通过后，说明 token 合法</p>
+</li>
+<li><p>将解码后的用户信息挂载到：</p>
+</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">req.<span class="property">user</span>;</span><br></pre></td></tr></table></figure>
+
+<p>后续接口就可以通过 req.user 获取当前登录用户信息。</p>
+<h2 id="三、JWT-的核心理解"><a href="#三、JWT-的核心理解" class="headerlink" title="三、JWT 的核心理解"></a>三、JWT 的核心理解</h2><p>JWT 的本质是：</p>
+<p>服务端签发一个带签名的凭证，客户端保存，后续请求带回来，服务端通过 secret 自行验证这个凭证是否可信。</p>
+<p>所以全程最关键的是：</p>
+<p>签发时的 secret</p>
+<p>只要 secret 没泄露，别人就无法伪造合法 token。</p>
+<h2 id="四、AccessToken-和-RefreshToken-的常用设计"><a href="#四、AccessToken-和-RefreshToken-的常用设计" class="headerlink" title="四、AccessToken 和 RefreshToken 的常用设计"></a>四、AccessToken 和 RefreshToken 的常用设计</h2><p>实际项目中常用的是双令牌机制：</p>
+<h3 id="1-accessToken"><a href="#1-accessToken" class="headerlink" title="1. accessToken"></a>1. accessToken</h3><p>特点：<br>短时间有效，无状态，自校验</p>
+<p>常见有效期：<br>15分钟</p>
+<p>使用方式：<br>前端放在请求头 Authorization 中</p>
+<p>它主要用于访问普通业务接口。</p>
+<h3 id="2-refreshToken"><a href="#2-refreshToken" class="headerlink" title="2. refreshToken"></a>2. refreshToken</h3><p>特点：<br>长时间有效，服务端需要存储</p>
+<p>常见有效期：<br>7天</p>
+<p>使用方式：<br>存 httpOnly cookie，同时服务端数据库或 Redis 中也保存一份</p>
+<p>它主要用于在 accessToken 过期后，重新换取新的 accessToken。</p>
+<h2 id="五、双令牌认证系统接口流程"><a href="#五、双令牌认证系统接口流程" class="headerlink" title="五、双令牌认证系统接口流程"></a>五、双令牌认证系统接口流程</h2><p>以 Express + MongoDB + JWT 为例，可以设计四个核心接口：</p>
+<h3 id="1-注册接口"><a href="#1-注册接口" class="headerlink" title="1. 注册接口"></a>1. 注册接口</h3><p>流程：<br>接收用户名和密码<br>bcrypt 加密密码<br>保存用户信息到 users 集合</p>
+<p>重点：<br>数据库中不能保存明文密码</p>
+<h3 id="2-登录接口"><a href="#2-登录接口" class="headerlink" title="2. 登录接口"></a>2. 登录接口</h3><p>流程：<br>校验用户名和密码<br>bcrypt 对比密码<br>签发 accessToken<br>签发 refreshToken<br>refreshToken 存入数据库<br>refreshToken 写入 httpOnly cookie<br>accessToken 放响应体返回</p>
+<p>重点：<br>accessToken 给前端使用<br>refreshToken 放 cookie，并且服务端存一份</p>
+<h3 id="3-刷新令牌接口"><a href="#3-刷新令牌接口" class="headerlink" title="3. 刷新令牌接口"></a>3. 刷新令牌接口</h3><p>流程：<br>从 cookie 中读取 refreshToken<br>验证 refreshToken 签名和过期时间<br>查询数据库中是否存在这个 refreshToken<br>如果有效，签发新的 accessToken<br>同时轮换新的 refreshToken<br>删除旧 refreshToken<br>保存新 refreshToken<br>重新写入 cookie</p>
+<p>重点：<br>refreshToken 每次使用后都要换新的，这叫 refreshToken 轮换<br>这样可以降低 refreshToken 被盗后的风险。</p>
+<h3 id="4-登出接口"><a href="#4-登出接口" class="headerlink" title="4. 登出接口"></a>4. 登出接口</h3><p>流程：<br>从 cookie 中读取 refreshToken<br>删除数据库中的 refreshToken<br>清除 cookie</p>
+<p>重点：<br>accessToken 本身无状态，无法直接删除<br>所以登出主要是让 refreshToken 失效<br>accessToken 因为有效期很短，一般等它自然过期即可。</p>
+<h2 id="六、认证中间件流程"><a href="#六、认证中间件流程" class="headerlink" title="六、认证中间件流程"></a>六、认证中间件流程</h2><p>认证中间件主要负责保护需要登录后才能访问的接口。</p>
+<p>流程：<br>从 Authorization 请求头中读取 Bearer token<br>验证 accessToken 签名<br>判断是否过期<br>解析 payload<br>把用户信息挂载到 req.user<br>放行请求</p>
+<p>示例理解：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">req.<span class="property">user</span> = &#123;</span><br><span class="line">  userId,</span><br><span class="line">  username,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>后面的接口就可以通过 req.user.userId 判断当前是谁在操作。</p>
+<h2 id="七、安全要点"><a href="#七、安全要点" class="headerlink" title="七、安全要点"></a>七、安全要点</h2><p>需要注意几个关键点：</p>
+<ol>
+<li><p>accessToken 有效期要短<br>一般设置为 15 分钟左右。</p>
+</li>
+<li><p>refreshToken 有效期可以长一些<br>比如 7 天、14 天。</p>
+</li>
+<li><p>refreshToken 要存服务端<br>可以存 MongoDB，也可以存 Redis。</p>
+</li>
+<li><p>refreshToken 要轮换<br>每次刷新令牌后，旧 refreshToken 作废，生成新的 refreshToken。</p>
+</li>
+<li><p>accessToken 和 refreshToken 的 secret 必须分开</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ACCESS_TOKEN_SECRET=xxx</span><br><span class="line">REFRESH_TOKEN_SECRET=yyy</span><br></pre></td></tr></table></figure>
+
+<p>payload 中不要放敏感信息<br>JWT payload 可以被前端解析出来，所以只放必要信息，例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  (userId, username);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="八、一句话总结"><a href="#八、一句话总结" class="headerlink" title="八、一句话总结"></a>八、一句话总结</h2><p>JWT 是一种无状态认证方案，服务端通过 secret 对 token 进行签名和验证；实际项目中通常使用 accessToken + refreshToken 双令牌机制，accessToken 负责访问接口，refreshToken 负责续期，而串联整个认证流程的核心是 userId。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/nodejs/" rel="tag"># nodejs</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/07/07/performanceMonitor/" rel="prev" title="线上性能监控方案">
+                  <i class="fa fa-angle-left"></i> 线上性能监控方案
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2026/07/07/expressSession/" rel="next" title="Express Session 认证流程总结">
+                  Express Session 认证流程总结 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">PeaFull</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">8k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">30 mins.</span>
+  </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"https-peafull-github-io","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
