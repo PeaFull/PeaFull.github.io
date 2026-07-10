@@ -61,7 +61,7 @@ npx hexo clean
 npx hexo server
 ```
 
-运行草稿模式，适用于预览不想发布的文章
+运行草稿模式，适用于查看不想发布的文章
 
 ```bash
 npx hexo server --draft
