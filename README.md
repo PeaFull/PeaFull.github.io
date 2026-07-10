@@ -61,6 +61,12 @@ npx hexo clean
 npx hexo server
 ```
 
+运行草稿模式，适用于预览不想发布的文章
+
+```bash
+npx hexo server --draft
+```
+
 默认访问 `http://localhost:4000`。如果端口被占用，可以换一个端口：
 
 ```bash
