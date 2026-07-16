@@ -167,7 +167,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2026/07/16/sse-streaming-conversation/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2026/07/16/sse-streaming-chat/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -185,7 +185,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/07/16/sse-streaming-conversation/" class="post-title-link" itemprop="url">sse流式对话</a>
+          <a href="/2026/07/16/sse-streaming-chat/" class="post-title-link" itemprop="url">SSE流式对话</a>
         </h2>
 
         <div class="post-meta-container">
@@ -196,7 +196,7 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2026-07-16 10:25:50" itemprop="dateCreated datePublished" datetime="2026-07-16T10:25:50+08:00">2026-07-16</time>
+      <time title="Created: 2026-07-16 10:34:31" itemprop="dateCreated datePublished" datetime="2026-07-16T10:34:31+08:00">2026-07-16</time>
     </span>
 
   
@@ -208,8 +208,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2026/07/16/sse-streaming-conversation/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2026/07/16/sse-streaming-conversation/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2026/07/16/sse-streaming-chat/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2026/07/16/sse-streaming-chat/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -243,290 +243,14 @@
 <blockquote>
 <p><strong>客户端请求一次，服务器持续推送数据，直到响应结束。</strong></p>
 </blockquote>
-<hr>
-<h1 id="为什么AI对话使用SSE"><a href="#为什么AI对话使用SSE" class="headerlink" title="为什么AI对话使用SSE"></a>为什么AI对话使用SSE</h1><p>普通HTTP请求：</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">用户发送消息</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">等待模型全部生成完成</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">一次返回完整内容</span><br></pre></td></tr></table></figure>
-
-<p>SSE流式返回：</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">用户发送消息</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">服务器开始生成</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">你</span><br><span class="line">你好</span><br><span class="line">你好！</span><br><span class="line">你好！很高兴……</span><br></pre></td></tr></table></figure>
-
-<p>前端边接收边渲染，实现类似”打字机”效果，用户体验更好。</p>
-<hr>
-<h1 id="SSE通信流程"><a href="#SSE通信流程" class="headerlink" title="SSE通信流程"></a>SSE通信流程</h1><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Browser</span><br><span class="line">    │</span><br><span class="line">    │ POST /chat</span><br><span class="line">    ▼</span><br><span class="line">Server</span><br><span class="line">────────────────────────────────────</span><br><span class="line">保持HTTP连接</span><br><span class="line"></span><br><span class="line">data: &#123;&quot;content&quot;:&quot;你&quot;&#125;</span><br><span class="line"></span><br><span class="line">data: &#123;&quot;content&quot;:&quot;好&quot;&#125;</span><br><span class="line"></span><br><span class="line">data: &#123;&quot;content&quot;:&quot;！&quot;&#125;</span><br><span class="line"></span><br><span class="line">data: [DONE]</span><br><span class="line"></span><br><span class="line">────────────────────────────────────</span><br><span class="line">连接关闭</span><br></pre></td></tr></table></figure>
-
-<p>整个过程中：</p>
-<ul>
-<li>客户端发送一次请求</li>
-<li>服务器保持连接持续推送数据</li>
-<li>前端实时接收并渲染</li>
-<li>收到<code>[DONE]</code>（或服务端约定的结束标识）后结束响应</li>
-</ul>
-<hr>
-<h1 id="服务端实现（关键响应头）"><a href="#服务端实现（关键响应头）" class="headerlink" title="服务端实现（关键响应头）"></a>服务端实现（关键响应头）</h1><p>服务端需要设置SSE相关响应头：</p>
-<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>text/event-stream</span><br><span class="line"><span class="attribute">Cache-Control</span><span class="punctuation">: </span>no-cache</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>keep-alive</span><br></pre></td></tr></table></figure>
-
-<p>作用：</p>
-<ul>
-<li><strong>Content-Type: text&#x2F;event-stream</strong>：声明响应为SSE流。</li>
-<li><strong>Cache-Control: no-cache</strong>：防止浏览器缓存。</li>
-<li><strong>Connection: keep-alive</strong>：保持HTTP长连接（HTTP&#x2F;1.1下常见，HTTP&#x2F;2下意义较小）。</li>
-</ul>
-<p>服务端持续发送数据：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">res.<span class="title function_">write</span>(<span class="string">`data: <span class="subst">$&#123;<span class="built_in">JSON</span>.stringify(data)&#125;</span>\n\n`</span>);</span><br></pre></td></tr></table></figure>
-
-<p>最后结束：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">res.<span class="title function_">write</span>(<span class="string">&quot;data: [DONE]\n\n&quot;</span>);</span><br><span class="line">res.<span class="title function_">end</span>();</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="SSE数据格式"><a href="#SSE数据格式" class="headerlink" title="SSE数据格式"></a>SSE数据格式</h1><p>服务器返回的数据必须遵循SSE协议。</p>
-<p>例如：</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">data: hello</span><br><span class="line"></span><br><span class="line">data: world</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>AI接口通常返回：</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">data: &#123;&quot;content&quot;:&quot;你&quot;&#125;</span><br><span class="line"></span><br><span class="line">data: &#123;&quot;content&quot;:&quot;好&quot;&#125;</span><br><span class="line"></span><br><span class="line">data: &#123;&quot;content&quot;:&quot;！&quot;&#125;</span><br><span class="line"></span><br><span class="line">data: [DONE]</span><br></pre></td></tr></table></figure>
-
-<p>其中：</p>
-<ul>
-<li><code>data:</code>：消息内容</li>
-<li>空行：表示一条消息结束</li>
-<li><code>[DONE]</code>：流结束标识（由服务端定义，并非SSE协议强制要求）</li>
-</ul>
-<hr>
-<h1 id="前端如何接收SSE"><a href="#前端如何接收SSE" class="headerlink" title="前端如何接收SSE"></a>前端如何接收SSE</h1><p>目前主要有两种方式。</p>
-<h2 id="方式一：EventSource（原生SSE）"><a href="#方式一：EventSource（原生SSE）" class="headerlink" title="方式一：EventSource（原生SSE）"></a>方式一：EventSource（原生SSE）</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> es = <span class="keyword">new</span> <span class="title class_">EventSource</span>(<span class="string">&quot;/chat&quot;</span>);</span><br><span class="line"></span><br><span class="line">es.<span class="property">onmessage</span> = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(e.<span class="property">data</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ul>
-<li>浏览器原生支持</li>
-<li>自动重连</li>
-<li>使用简单</li>
-</ul>
-<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>只能支持：</p>
-<ul>
-<li>GET请求</li>
-</ul>
-<p>不能支持：</p>
-<ul>
-<li>POST</li>
-<li>Request Body</li>
-<li>自定义Authorization Header</li>
-</ul>
-<p>因此现代AI项目很少直接使用。</p>
-<hr>
-<h2 id="方式二：fetch-ReadableStream（推荐）"><a href="#方式二：fetch-ReadableStream（推荐）" class="headerlink" title="方式二：fetch + ReadableStream（推荐）"></a>方式二：fetch + ReadableStream（推荐）</h2><p>现代AI（OpenAI、DeepSeek、Claude等）基本都采用这种方式。</p>
-<p>发送请求：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> response = <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">&quot;/chat&quot;</span>, &#123;</span><br><span class="line">  <span class="attr">method</span>: <span class="string">&quot;POST&quot;</span>,</span><br><span class="line">  <span class="attr">headers</span>: &#123;</span><br><span class="line">    <span class="title class_">Authorization</span>: <span class="string">&quot;Bearer xxx&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Content-Type&quot;</span>: <span class="string">&quot;application/json&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">body</span>: <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(&#123;</span><br><span class="line">    <span class="attr">message</span>: <span class="string">&quot;你好&quot;</span>,</span><br><span class="line">  &#125;),</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>读取流：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> reader = response.<span class="property">body</span>.<span class="title function_">getReader</span>();</span><br><span class="line"><span class="keyword">const</span> decoder = <span class="keyword">new</span> <span class="title class_">TextDecoder</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; done, value &#125; = <span class="keyword">await</span> reader.<span class="title function_">read</span>();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (done) <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> text = decoder.<span class="title function_">decode</span>(value, &#123;</span><br><span class="line">    <span class="attr">stream</span>: <span class="literal">true</span>,</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(text);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>优势：</p>
-<ul>
-<li>支持POST</li>
-<li>支持Token认证</li>
-<li>支持Request Body</li>
-<li>支持聊天历史、模型参数等复杂数据</li>
-<li>完全兼容REST API</li>
-<li>更符合现代AI接口设计</li>
-</ul>
-<hr>
-<h1 id="为什么AI接口使用POST"><a href="#为什么AI接口使用POST" class="headerlink" title="为什么AI接口使用POST"></a>为什么AI接口使用POST</h1><p>AI接口通常需要提交大量参数，例如：</p>
-<ul>
-<li>用户消息</li>
-<li>聊天历史（History）</li>
-<li>System Prompt</li>
-<li>Temperature</li>
-<li>Top P</li>
-<li>最大Token数</li>
-<li>Token认证</li>
-</ul>
-<p>因此通常采用：</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">POST</span><br><span class="line">      +</span><br><span class="line">Request Body</span><br><span class="line">      +</span><br><span class="line">fetch</span><br><span class="line">      +</span><br><span class="line">ReadableStream</span><br></pre></td></tr></table></figure>
-
-<p>而不是<code>EventSource</code>的GET请求。</p>
-<hr>
-<h1 id="ReadableStream"><a href="#ReadableStream" class="headerlink" title="ReadableStream"></a>ReadableStream</h1><p><code>fetch</code>返回的响应体是一个<code>ReadableStream</code>。</p>
-<p>通过：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.<span class="property">body</span>.<span class="title function_">getReader</span>();</span><br></pre></td></tr></table></figure>
-
-<p>获取Reader。</p>
-<p>循环读取：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">reader.<span class="title function_">read</span>();</span><br></pre></td></tr></table></figure>
-
-<p>返回：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">done</span>: <span class="literal">false</span>,</span><br><span class="line">  <span class="attr">value</span>: <span class="title class_">Uint8Array</span>(...)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>其中：</p>
-<ul>
-<li>value：当前数据块（Chunk）</li>
-<li>done：是否读取完成</li>
-</ul>
-<hr>
-<h1 id="什么是Chunk"><a href="#什么是Chunk" class="headerlink" title="什么是Chunk"></a>什么是Chunk</h1><p>网络不会一次返回完整数据，而是分成多个<strong>Chunk（数据块）</strong>进行传输。</p>
-<p>例如：</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Chunk1</span><br><span class="line">↓</span><br><span class="line"></span><br><span class="line">Chunk2</span><br><span class="line">↓</span><br><span class="line"></span><br><span class="line">Chunk3</span><br><span class="line">↓</span><br><span class="line"></span><br><span class="line">......</span><br></pre></td></tr></table></figure>
-
-<p>浏览器通过：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">reader.<span class="title function_">read</span>();</span><br></pre></td></tr></table></figure>
-
-<p>一次读取一个Chunk，因此页面能够边接收边显示。</p>
-<p>需要注意的是：</p>
-<blockquote>
-<p><strong>Chunk并不等于Token，一个Chunk可能包含一个Token、多个Token，甚至一整段文本，具体由服务端决定。</strong></p>
-</blockquote>
-<hr>
-<h1 id="TextDecoder"><a href="#TextDecoder" class="headerlink" title="TextDecoder"></a>TextDecoder</h1><p>服务器发送的是字节流，而不是字符串。</p>
-<p>例如：</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">228 189 160</span><br></pre></td></tr></table></figure>
-
-<p>浏览器读取后得到：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Uint8Array</span>(...)</span><br></pre></td></tr></table></figure>
-
-<p>需要使用：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> decoder = <span class="keyword">new</span> <span class="title class_">TextDecoder</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> text = decoder.<span class="title function_">decode</span>(value);</span><br></pre></td></tr></table></figure>
-
-<p>转换成：</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">你</span><br></pre></td></tr></table></figure>
-
-<p>所以：</p>
-<blockquote>
-<p><strong>TextDecoder负责将Uint8Array解码成字符串。</strong></p>
-</blockquote>
-<hr>
-<h1 id="为什么使用stream-true（重点）"><a href="#为什么使用stream-true（重点）" class="headerlink" title="为什么使用stream: true（重点）"></a>为什么使用stream: true（重点）</h1><p>推荐：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">decoder.<span class="title function_">decode</span>(value, &#123;</span><br><span class="line">  <span class="attr">stream</span>: <span class="literal">true</span>,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>原因：</p>
-<p>网络数据按Chunk传输，一个中文字符可能被拆成两块。</p>
-<p>例如：</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">第一次：</span><br><span class="line">228 189</span><br><span class="line"></span><br><span class="line">第二次：</span><br><span class="line">160</span><br></pre></td></tr></table></figure>
-
-<p>如果直接：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">decoder.<span class="title function_">decode</span>(value);</span><br></pre></td></tr></table></figure>
-
-<p>可能出现乱码：</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">�</span><br></pre></td></tr></table></figure>
-
-<p>使用：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">decoder.<span class="title function_">decode</span>(value, &#123;</span><br><span class="line">  <span class="attr">stream</span>: <span class="literal">true</span>,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>会自动缓存不完整字节，等待下一块数据后一起解码，避免乱码。</p>
-<hr>
-<h1 id="停止生成（AbortController）"><a href="#停止生成（AbortController）" class="headerlink" title="停止生成（AbortController）"></a>停止生成（AbortController）</h1><p>AI聊天中的”停止生成”通常通过<code>AbortController</code>实现。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> controller = <span class="keyword">new</span> <span class="title class_">AbortController</span>();</span><br><span class="line"></span><br><span class="line"><span class="title function_">fetch</span>(<span class="string">&quot;/chat&quot;</span>, &#123;</span><br><span class="line">  <span class="attr">signal</span>: controller.<span class="property">signal</span>,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 停止生成</span></span><br><span class="line">controller.<span class="title function_">abort</span>();</span><br></pre></td></tr></table></figure>
-
-<p>作用：</p>
-<ul>
-<li>中断HTTP请求</li>
-<li>关闭SSE连接</li>
-<li>停止继续接收模型返回的数据</li>
-</ul>
-<hr>
-<h1 id="心跳（了解）"><a href="#心跳（了解）" class="headerlink" title="心跳（了解）"></a>心跳（了解）</h1><p>为了避免长连接超时，服务端可能会定时发送心跳包，例如：</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:</span><br></pre></td></tr></table></figure>
-
-<p>或者：</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">event: ping</span><br><span class="line">data: ping</span><br></pre></td></tr></table></figure>
-
-<p>作用：</p>
-<ul>
-<li>保持连接不断开</li>
-<li>防止代理服务器、负载均衡等主动关闭空闲连接</li>
-</ul>
-<p>一般由服务端实现，前端通常无需处理。</p>
-<hr>
-<h1 id="完整流程"><a href="#完整流程" class="headerlink" title="完整流程"></a>完整流程</h1><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">用户输入问题</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">fetch发送POST请求</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">服务器调用AI模型</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">模型生成内容</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">按多个Chunk持续推送</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">ReadableStream读取Chunk</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">TextDecoder解码</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">解析data:</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">JSON.parse()</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">拼接内容</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">更新页面（流式输出）</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="SSE与WebSocket对比"><a href="#SSE与WebSocket对比" class="headerlink" title="SSE与WebSocket对比"></a>SSE与WebSocket对比</h1><table>
-<thead>
-<tr>
-<th>对比项</th>
-<th>SSE</th>
-<th>WebSocket</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>通信方向</td>
-<td>单向（服务端→客户端）</td>
-<td>双向通信</td>
-</tr>
-<tr>
-<td>协议</td>
-<td>HTTP</td>
-<td>WebSocket</td>
-</tr>
-<tr>
-<td>建立连接</td>
-<td>简单</td>
-<td>需握手</td>
-</tr>
-<tr>
-<td>自动重连</td>
-<td>支持（EventSource）</td>
-<td>需自行实现</td>
-</tr>
-<tr>
-<td>是否适合流式输出</td>
-<td>⭐⭐⭐⭐⭐</td>
-<td>⭐⭐⭐</td>
-</tr>
-<tr>
-<td>聊天室、游戏</td>
-<td>⭐⭐</td>
-<td>⭐⭐⭐⭐⭐</td>
-</tr>
-</tbody></table>
-<h3 id="为什么AI更喜欢SSE？"><a href="#为什么AI更喜欢SSE？" class="headerlink" title="为什么AI更喜欢SSE？"></a>为什么AI更喜欢SSE？</h3><p>AI对话的通信模式基本都是：</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">客户端发送一次问题</span><br><span class="line">        │</span><br><span class="line">        ▼</span><br><span class="line">服务器持续返回答案</span><br></pre></td></tr></table></figure>
-
-<p>客户端几乎没有持续发送数据的需求，因此SSE更加轻量、简单，也更符合HTTP生态。</p>
-<hr>
-<h1 id="SSE的局限性"><a href="#SSE的局限性" class="headerlink" title="SSE的局限性"></a>SSE的局限性</h1><ul>
-<li>仅支持服务端向客户端单向通信。</li>
-<li>浏览器连接数受HTTP协议限制（HTTP&#x2F;2下已明显改善）。</li>
-<li>不适合聊天室、在线游戏、协同编辑等双向实时通信场景。</li>
-<li>若需要客户端频繁主动推送数据，更适合使用WebSocket。</li>
-</ul>
-<hr>
-<h1 id="面试高频问题"><a href="#面试高频问题" class="headerlink" title="面试高频问题"></a>面试高频问题</h1><h3 id="①-什么是SSE？"><a href="#①-什么是SSE？" class="headerlink" title="① 什么是SSE？"></a>① 什么是SSE？</h3><blockquote>
-<p>SSE（Server-Sent Events）是一种基于HTTP的服务器推送技术，客户端发起一次请求后，服务器保持连接并持续向客户端发送数据，非常适合AI聊天、日志推送、任务进度等单向推送场景。</p>
-</blockquote>
-<hr>
-<h3 id="②-为什么AI聊天喜欢使用SSE？"><a href="#②-为什么AI聊天喜欢使用SSE？" class="headerlink" title="② 为什么AI聊天喜欢使用SSE？"></a>② 为什么AI聊天喜欢使用SSE？</h3><ul>
-<li>支持边生成边返回，降低等待时间。</li>
-<li>实现打字机效果，用户体验更好。</li>
-<li>基于HTTP，实现简单，兼容现有鉴权、代理和网关体系。</li>
-<li>AI问答主要是单向推送，非常符合SSE使用场景。</li>
-</ul>
-<hr>
-<h3 id="③-为什么不用EventSource？"><a href="#③-为什么不用EventSource？" class="headerlink" title="③ 为什么不用EventSource？"></a>③ 为什么不用EventSource？</h3><p>因为<code>EventSource</code>只能发送GET请求，不支持：</p>
-<ul>
-<li>POST</li>
-<li>Request Body</li>
-<li>Authorization Header</li>
-</ul>
-<p>现代AI接口通常需要POST请求和Token认证，因此普遍采用<strong>fetch + ReadableStream</strong>实现流式响应。</p>
-<hr>
-<h3 id="④-ReadableStream是什么？"><a href="#④-ReadableStream是什么？" class="headerlink" title="④ ReadableStream是什么？"></a>④ ReadableStream是什么？</h3><blockquote>
-<p><code>ReadableStream</code>表示可读数据流，<code>fetch</code>返回的响应体就是一个<code>ReadableStream</code>。通过<code>getReader().read()</code>可以逐块（Chunk）读取服务器返回的数据，实现流式处理。</p>
-</blockquote>
-<hr>
-<h3 id="⑤-TextDecoder有什么作用？"><a href="#⑤-TextDecoder有什么作用？" class="headerlink" title="⑤ TextDecoder有什么作用？"></a>⑤ TextDecoder有什么作用？</h3><blockquote>
-<p><code>TextDecoder</code>用于将<code>Uint8Array</code>等二进制数据按照UTF-8解码为字符串。在SSE中，浏览器读取到的是字节流，需要通过<code>TextDecoder.decode()</code>转换为文本，再解析和渲染。</p>
-</blockquote>
-<hr>
-<h3 id="⑥-为什么推荐使用stream-true？"><a href="#⑥-为什么推荐使用stream-true？" class="headerlink" title="⑥ 为什么推荐使用stream: true？"></a>⑥ 为什么推荐使用<code>stream: true</code>？</h3><blockquote>
-<p>网络传输按Chunk进行，一个中文字符可能跨多个Chunk。<code>stream: true</code>会缓存不完整字节，等待下一块数据后再解码，避免中文乱码。</p>
-</blockquote>
-<hr>
-<h3 id="⑦-AbortController有什么作用？"><a href="#⑦-AbortController有什么作用？" class="headerlink" title="⑦ AbortController有什么作用？"></a>⑦ AbortController有什么作用？</h3><blockquote>
-<p><code>AbortController</code>用于取消<code>fetch</code>请求。在AI聊天中通常用于实现”停止生成”，调用<code>abort()</code>即可中断请求并关闭SSE连接。</p>
-</blockquote>
-<hr>
-<h1 id="一句话总结"><a href="#一句话总结" class="headerlink" title="一句话总结"></a>一句话总结</h1><blockquote>
-<p><strong>现代AI流式对话通常采用<code>fetch + ReadableStream + TextDecoder + SSE</code>方案：客户端通过<code>fetch</code>发送POST请求，服务器以SSE格式持续推送数据，前端利用<code>ReadableStream</code>逐块读取Chunk，再通过<code>TextDecoder</code>解码为字符串，解析数据后实时更新页面，实现流式输出的”打字机”效果。</strong></p>
-</blockquote>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/07/16/sse-streaming-chat/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
