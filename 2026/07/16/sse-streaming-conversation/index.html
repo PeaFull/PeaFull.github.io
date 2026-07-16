@@ -20,25 +20,27 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="这么巧，你也在网上冲浪啊">
-<meta property="og:type" content="website">
-<meta property="og:title" content="PeaFull&#39;s Notes">
-<meta property="og:url" content="http://example.com/index.html">
+    <meta name="description" content="SSE（Server-Sent Events）流式对话什么是SSESSE（Server-Sent Events）是一种基于HTTP的服务器推送技术，客户端发起一次请求后，服务器保持连接并持续向客户端发送数据，无需客户端不断轮询。 一句话：  客户端请求一次，服务器持续推送数据，直到响应结束。   为什么AI对话使用SSE普通HTTP请求： 1234567用户发送消息      │      ▼等待">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sse流式对话">
+<meta property="og:url" content="http://example.com/2026/07/16/sse-streaming-conversation/index.html">
 <meta property="og:site_name" content="PeaFull&#39;s Notes">
-<meta property="og:description" content="这么巧，你也在网上冲浪啊">
+<meta property="og:description" content="SSE（Server-Sent Events）流式对话什么是SSESSE（Server-Sent Events）是一种基于HTTP的服务器推送技术，客户端发起一次请求后，服务器保持连接并持续向客户端发送数据，无需客户端不断轮询。 一句话：  客户端请求一次，服务器持续推送数据，直到响应结束。   为什么AI对话使用SSE普通HTTP请求： 1234567用户发送消息      │      ▼等待">
 <meta property="og:locale">
+<meta property="article:published_time" content="2026-07-16T02:25:50.000Z">
+<meta property="article:modified_time" content="2026-07-16T02:25:50.194Z">
 <meta property="article:author" content="PeaFull">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://example.com/">
+<link rel="canonical" href="http://example.com/2026/07/16/sse-streaming-conversation/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-Hans","comments":"","permalink":"","path":"index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"http://example.com/2026/07/16/sse-streaming-conversation/","path":"2026/07/16/sse-streaming-conversation/","title":"sse流式对话"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>PeaFull's Notes</title>
+<title>sse流式对话 | PeaFull's Notes</title>
   
 
 
@@ -71,7 +73,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">PeaFull's Notes</h1>
+      <p class="site-title">PeaFull's Notes</p>
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">listentoleo@gmail.com</p>
@@ -98,7 +100,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           Table of Contents
@@ -111,6 +113,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SSE%EF%BC%88Server-Sent-Events%EF%BC%89%E6%B5%81%E5%BC%8F%E5%AF%B9%E8%AF%9D"><span class="nav-number">1.</span> <span class="nav-text">SSE（Server-Sent Events）流式对话</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFSSE"><span class="nav-number">1.1.</span> <span class="nav-text">什么是SSE</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88AI%E5%AF%B9%E8%AF%9D%E4%BD%BF%E7%94%A8SSE"><span class="nav-number">2.</span> <span class="nav-text">为什么AI对话使用SSE</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSE%E9%80%9A%E4%BF%A1%E6%B5%81%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">SSE通信流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%AE%9E%E7%8E%B0%EF%BC%88%E5%85%B3%E9%94%AE%E5%93%8D%E5%BA%94%E5%A4%B4%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">服务端实现（关键响应头）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSE%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F"><span class="nav-number">5.</span> <span class="nav-text">SSE数据格式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF%E5%A6%82%E4%BD%95%E6%8E%A5%E6%94%B6SSE"><span class="nav-number">6.</span> <span class="nav-text">前端如何接收SSE</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F%E4%B8%80%EF%BC%9AEventSource%EF%BC%88%E5%8E%9F%E7%94%9FSSE%EF%BC%89"><span class="nav-number">6.1.</span> <span class="nav-text">方式一：EventSource（原生SSE）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E7%82%B9"><span class="nav-number">6.1.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%BA%E7%82%B9"><span class="nav-number">6.1.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F%E4%BA%8C%EF%BC%9Afetch-ReadableStream%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89"><span class="nav-number">6.2.</span> <span class="nav-text">方式二：fetch + ReadableStream（推荐）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88AI%E6%8E%A5%E5%8F%A3%E4%BD%BF%E7%94%A8POST"><span class="nav-number">7.</span> <span class="nav-text">为什么AI接口使用POST</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ReadableStream"><span class="nav-number">8.</span> <span class="nav-text">ReadableStream</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFChunk"><span class="nav-number">9.</span> <span class="nav-text">什么是Chunk</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TextDecoder"><span class="nav-number">10.</span> <span class="nav-text">TextDecoder</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8stream-true%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%89"><span class="nav-number">11.</span> <span class="nav-text">为什么使用stream: true（重点）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%81%9C%E6%AD%A2%E7%94%9F%E6%88%90%EF%BC%88AbortController%EF%BC%89"><span class="nav-number">12.</span> <span class="nav-text">停止生成（AbortController）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BF%83%E8%B7%B3%EF%BC%88%E4%BA%86%E8%A7%A3%EF%BC%89"><span class="nav-number">13.</span> <span class="nav-text">心跳（了解）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E6%B5%81%E7%A8%8B"><span class="nav-number">14.</span> <span class="nav-text">完整流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSE%E4%B8%8EWebSocket%E5%AF%B9%E6%AF%94"><span class="nav-number">15.</span> <span class="nav-text">SSE与WebSocket对比</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88AI%E6%9B%B4%E5%96%9C%E6%AC%A2SSE%EF%BC%9F"><span class="nav-number">15.0.1.</span> <span class="nav-text">为什么AI更喜欢SSE？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSE%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7"><span class="nav-number">16.</span> <span class="nav-text">SSE的局限性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9D%A2%E8%AF%95%E9%AB%98%E9%A2%91%E9%97%AE%E9%A2%98"><span class="nav-number">17.</span> <span class="nav-text">面试高频问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A0-%E4%BB%80%E4%B9%88%E6%98%AFSSE%EF%BC%9F"><span class="nav-number">17.0.1.</span> <span class="nav-text">① 什么是SSE？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A1-%E4%B8%BA%E4%BB%80%E4%B9%88AI%E8%81%8A%E5%A4%A9%E5%96%9C%E6%AC%A2%E4%BD%BF%E7%94%A8SSE%EF%BC%9F"><span class="nav-number">17.0.2.</span> <span class="nav-text">② 为什么AI聊天喜欢使用SSE？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A2-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E7%94%A8EventSource%EF%BC%9F"><span class="nav-number">17.0.3.</span> <span class="nav-text">③ 为什么不用EventSource？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A3-ReadableStream%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">17.0.4.</span> <span class="nav-text">④ ReadableStream是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A4-TextDecoder%E6%9C%89%E4%BB%80%E4%B9%88%E4%BD%9C%E7%94%A8%EF%BC%9F"><span class="nav-number">17.0.5.</span> <span class="nav-text">⑤ TextDecoder有什么作用？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A5-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%8E%A8%E8%8D%90%E4%BD%BF%E7%94%A8stream-true%EF%BC%9F"><span class="nav-number">17.0.6.</span> <span class="nav-text">⑥ 为什么推荐使用stream: true？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A6-AbortController%E6%9C%89%E4%BB%80%E4%B9%88%E4%BD%9C%E7%94%A8%EF%BC%9F"><span class="nav-number">17.0.7.</span> <span class="nav-text">⑦ AbortController有什么作用？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%80%BB%E7%BB%93"><span class="nav-number">18.</span> <span class="nav-text">一句话总结</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -157,16 +160,17 @@
 
     </div>
 
-    <div class="main-inner index posts-expand">
+    <div class="main-inner post posts-expand">
 
-    
+
+  
 
 
 <div class="post-block">
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="http://example.com/2026/07/16/sse-streaming-conversation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -180,13 +184,13 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | PeaFull's Notes">
+      <meta itemprop="name" content="sse流式对话 | PeaFull's Notes">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/07/16/sse-streaming-conversation/" class="post-title-link" itemprop="url">sse流式对话</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          sse流式对话
+        </h1>
 
         <div class="post-meta-container">
           <div class="post-meta">
@@ -237,8 +241,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="SSE（Server-Sent-Events）流式对话"><a href="#SSE（Server-Sent-Events）流式对话" class="headerlink" title="SSE（Server-Sent Events）流式对话"></a>SSE（Server-Sent Events）流式对话</h1><h2 id="什么是SSE"><a href="#什么是SSE" class="headerlink" title="什么是SSE"></a>什么是SSE</h2><p>SSE（Server-Sent Events）是一种基于HTTP的<strong>服务器推送技术</strong>，客户端发起一次请求后，服务器保持连接并持续向客户端发送数据，无需客户端不断轮询。</p>
+    <div class="post-body" itemprop="articleBody"><h1 id="SSE（Server-Sent-Events）流式对话"><a href="#SSE（Server-Sent-Events）流式对话" class="headerlink" title="SSE（Server-Sent Events）流式对话"></a>SSE（Server-Sent Events）流式对话</h1><h2 id="什么是SSE"><a href="#什么是SSE" class="headerlink" title="什么是SSE"></a>什么是SSE</h2><p>SSE（Server-Sent Events）是一种基于HTTP的<strong>服务器推送技术</strong>，客户端发起一次请求后，服务器保持连接并持续向客户端发送数据，无需客户端不断轮询。</p>
 <p><strong>一句话：</strong></p>
 <blockquote>
 <p><strong>客户端请求一次，服务器持续推送数据，直到响应结束。</strong></p>
@@ -527,7 +530,6 @@
 <p><strong>现代AI流式对话通常采用<code>fetch + ReadableStream + TextDecoder + SSE</code>方案：客户端通过<code>fetch</code>发送POST请求，服务器以SSE格式持续推送数据，前端利用<code>ReadableStream</code>逐块读取Chunk，再通过<code>TextDecoder</code>解码为字符串，解析数据后实时更新页面，实现流式输出的”打字机”效果。</strong></p>
 </blockquote>
 
-      
     </div>
 
     
@@ -535,373 +537,18 @@
     
 
     <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
 
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2026/07/07/expressSession/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-      <meta itemprop="name" content="PeaFull">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="PeaFull's Notes">
-      <meta itemprop="description" content="这么巧，你也在网上冲浪啊">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | PeaFull's Notes">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/07/07/expressSession/" class="post-title-link" itemprop="url">Express Session 认证流程总结</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2026-07-07 11:32:03 / Modified: 11:35:17" itemprop="dateCreated datePublished" datetime="2026-07-07T11:32:03+08:00">2026-07-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/programming/" itemprop="url" rel="index"><span itemprop="name">编程</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2026/07/07/expressSession/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2026/07/07/expressSession/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Word count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Word count in article: </span>
-      <span>603</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>2 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>Session 认证的核心特点是：</p>
-<p><strong>登录状态保存在服务端，客户端只保存一个 sessionId。</strong></p>
-<p>客户端通过 cookie 保存 <code>sid</code>，服务端通过这个 <code>sid</code> 去 MongoDB 中查找对应的 session 数据。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/07/07/expressSession/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2026/07/07/expressJWT/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-      <meta itemprop="name" content="PeaFull">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="PeaFull's Notes">
-      <meta itemprop="description" content="这么巧，你也在网上冲浪啊">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | PeaFull's Notes">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/07/07/expressJWT/" class="post-title-link" itemprop="url">express JWT 认证流程总结</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2026-07-07 11:30:01 / Modified: 11:35:25" itemprop="dateCreated datePublished" datetime="2026-07-07T11:30:01+08:00">2026-07-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/programming/" itemprop="url" rel="index"><span itemprop="name">编程</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2026/07/07/expressJWT/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2026/07/07/expressJWT/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Word count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Word count in article: </span>
-      <span>1.2k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>4 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>JWT 最大的特点是：无状态。<br>jsonwebtoken 库本身不存储 token，它只负责两件事：</p>
-<ol>
-<li>签发 token</li>
-<li>验证 token</li>
-</ol>
-<p>token 签发后交给客户端保存，服务端不需要像 session 一样存储登录状态。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/07/07/expressJWT/#more" rel="contents">
-                Read more &raquo;
-              </a>
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/07/07/expressSession/" rel="prev" title="Express Session 认证流程总结">
+                  <i class="fa fa-angle-left"></i> Express Session 认证流程总结
+                </a>
             </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2026/07/07/performanceMonitor/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-      <meta itemprop="name" content="PeaFull">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="PeaFull's Notes">
-      <meta itemprop="description" content="这么巧，你也在网上冲浪啊">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | PeaFull's Notes">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/07/07/performanceMonitor/" class="post-title-link" itemprop="url">线上性能监控方案</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2026-07-07 10:50:36" itemprop="dateCreated datePublished" datetime="2026-07-07T10:50:36+08:00">2026-07-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-07-08 09:49:12" itemprop="dateModified" datetime="2026-07-08T09:49:12+08:00">2026-07-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/programming/" itemprop="url" rel="index"><span itemprop="name">编程</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2026/07/07/performanceMonitor/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2026/07/07/performanceMonitor/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Word count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Word count in article: </span>
-      <span>2.2k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>8 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="一、监控目标"><a href="#一、监控目标" class="headerlink" title="一、监控目标"></a>一、监控目标</h2><p>前端性能监控的核心目的不是单纯看页面快不快，而是：</p>
-<ol>
-<li>发现页面加载慢、白屏、卡顿等问题；</li>
-<li>定位是网络、资源、接口、渲染还是 JS 执行导致；</li>
-<li>量化用户真实体验；</li>
-<li>为性能优化提供数据依据；</li>
-<li>线上出现性能劣化时能及时报警。</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/07/07/performanceMonitor/#more" rel="contents">
-                Read more &raquo;
-              </a>
+            <div class="post-nav-item">
             </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
+          </div>
     </footer>
   </article>
 </div>
@@ -909,746 +556,13 @@
 
 
 
+
+
     
-
-
-<div class="post-block">
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
   
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/07/15/vscodeFormat/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-      <meta itemprop="name" content="PeaFull">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="PeaFull's Notes">
-      <meta itemprop="description" content="这么巧，你也在网上冲浪啊">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | PeaFull's Notes">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/07/15/vscodeFormat/" class="post-title-link" itemprop="url">vscode 代码格式化设置</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-07-15 09:44:23" itemprop="dateCreated datePublished" datetime="2024-07-15T09:44:23+08:00">2024-07-15</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-07-07 11:07:40" itemprop="dateModified" datetime="2026-07-07T11:07:40+08:00">2026-07-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/programming/" itemprop="url" rel="index"><span itemprop="name">编程</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2024/07/15/vscodeFormat/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2024/07/15/vscodeFormat/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Word count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Word count in article: </span>
-      <span>126</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="1-设置默认格式化工具"><a href="#1-设置默认格式化工具" class="headerlink" title="1.设置默认格式化工具"></a>1.设置默认格式化工具</h4><h5 id="cmd-shift-P，筛选“Format-Document”，设置-Prettier-为默认"><a href="#cmd-shift-P，筛选“Format-Document”，设置-Prettier-为默认" class="headerlink" title="cmd+shift+P，筛选“Format Document”，设置 Prettier 为默认"></a>cmd+shift+P，筛选“Format Document”，设置 Prettier 为默认</h5><img src="/2024/07/15/vscodeFormat/img0.png" class="">
-
-<img src="/2024/07/15/vscodeFormat/img1.png" class="">
-
-<h4 id="2-设置保存自动格式化"><a href="#2-设置保存自动格式化" class="headerlink" title="2.设置保存自动格式化"></a>2.设置保存自动格式化</h4><ul>
-<li>打开 VSCode，并打开你想要格式化的代码文件。</li>
-<li>在菜单栏中，选择“文件”&gt;“首选项”&gt;“设置”（快捷键 Ctrl+,）。</li>
-<li>在搜索框中输入“format on save”，然后点击“编辑 in settings.json”选项。</li>
-<li>在打开的“settings.json”文件中，找到“editor.formatOnSave”选项，并将其设置为“true”。</li>
-<li>保存“settings.json”文件，并关闭它。</li>
-</ul>
-<img src="/2024/07/15/vscodeFormat/img2.png" class="">
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/07/13/chromeExtensions/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-      <meta itemprop="name" content="PeaFull">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="PeaFull's Notes">
-      <meta itemprop="description" content="这么巧，你也在网上冲浪啊">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | PeaFull's Notes">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/07/13/chromeExtensions/" class="post-title-link" itemprop="url">Chrome浏览器插件开发</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-07-13 16:22:24" itemprop="dateCreated datePublished" datetime="2024-07-13T16:22:24+08:00">2024-07-13</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-07-07 11:07:40" itemprop="dateModified" datetime="2026-07-07T11:07:40+08:00">2026-07-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/programming/" itemprop="url" rel="index"><span itemprop="name">编程</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2024/07/13/chromeExtensions/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2024/07/13/chromeExtensions/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Word count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Word count in article: </span>
-      <span>702</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>3 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="1-项目目录结构："><a href="#1-项目目录结构：" class="headerlink" title="1. 项目目录结构："></a>1. 项目目录结构：</h4><ul>
-<li><strong>manifest.json：插件的配置文件</strong><ol>
-<li>每个扩展程序的根目录（必须）中都必须包含一个 manifest.json 文件</li>
-<li>文档：<a target="_blank" rel="noopener" href="https://developer.chrome.com/docs/extensions/reference/manifest?hl=zh-cn#minimal-manifest">https://developer.chrome.com/docs/extensions/reference/manifest?hl=zh-cn#minimal-manifest</a>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/07/13/chromeExtensions/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/07/10/someTalkingShit/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-      <meta itemprop="name" content="PeaFull">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="PeaFull's Notes">
-      <meta itemprop="description" content="这么巧，你也在网上冲浪啊">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | PeaFull's Notes">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/07/10/someTalkingShit/" class="post-title-link" itemprop="url">一切都会变得更美好</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-07-10 16:08:29" itemprop="dateCreated datePublished" datetime="2024-07-10T16:08:29+08:00">2024-07-10</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-07-07 11:07:40" itemprop="dateModified" datetime="2026-07-07T11:07:40+08:00">2026-07-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/life/" itemprop="url" rel="index"><span itemprop="name">生活</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2024/07/10/someTalkingShit/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2024/07/10/someTalkingShit/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Word count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Word count in article: </span>
-      <span>118</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="假如生活欺骗了你，"><a href="#假如生活欺骗了你，" class="headerlink" title="假如生活欺骗了你，"></a><center>假如生活欺骗了你，</center></h3>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/07/10/someTalkingShit/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2019/05/08/iosCrashAnalyse/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-      <meta itemprop="name" content="PeaFull">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="PeaFull's Notes">
-      <meta itemprop="description" content="这么巧，你也在网上冲浪啊">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | PeaFull's Notes">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/05/08/iosCrashAnalyse/" class="post-title-link" itemprop="url">分析ios闪退日志的简易方法</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2019-05-08 17:40:41" itemprop="dateCreated datePublished" datetime="2019-05-08T17:40:41+08:00">2019-05-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-07-07 11:07:40" itemprop="dateModified" datetime="2026-07-07T11:07:40+08:00">2026-07-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/programming/" itemprop="url" rel="index"><span itemprop="name">编程</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2019/05/08/iosCrashAnalyse/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/05/08/iosCrashAnalyse/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Word count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Word count in article: </span>
-      <span>310</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <ol>
-<li>首先在打包机上找到dSYM文件，每次发布都会被覆盖为最新的，具体目录为jenkins对应的pipeline下platform&#x2F;ios&#x2F;build&#x2F;device&#x2F;，拷贝至桌面方便操作；</li>
-<li>将设备链接至mac，在xcode的window-&gt;devices and simulators-&gt;下点击view device logs，在this device下等待所有的日志加载好后点击type排序，在对应的app里找到闪退时间一致的闪退日志，查看日志；
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/05/08/iosCrashAnalyse/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2018/11/28/weapp/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-      <meta itemprop="name" content="PeaFull">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="PeaFull's Notes">
-      <meta itemprop="description" content="这么巧，你也在网上冲浪啊">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | PeaFull's Notes">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/11/28/weapp/" class="post-title-link" itemprop="url">小程序开发笔记</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2018-11-28 10:28:21" itemprop="dateCreated datePublished" datetime="2018-11-28T10:28:21+08:00">2018-11-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-07-07 11:07:40" itemprop="dateModified" datetime="2026-07-07T11:07:40+08:00">2026-07-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/programming/" itemprop="url" rel="index"><span itemprop="name">编程</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2018/11/28/weapp/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/11/28/weapp/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Word count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Word count in article: </span>
-      <span>530</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>2 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="在小程序里如何关注公众号（公众号如何关联小程序）"><a href="#在小程序里如何关注公众号（公众号如何关联小程序）" class="headerlink" title="在小程序里如何关注公众号（公众号如何关联小程序）"></a>在小程序里如何关注公众号（公众号如何关联小程序）</h2><h4 id="首先你需要在公众号里给小程序发送一个关联邀请，如下图："><a href="#首先你需要在公众号里给小程序发送一个关联邀请，如下图：" class="headerlink" title="首先你需要在公众号里给小程序发送一个关联邀请，如下图："></a>首先你需要在公众号里给小程序发送一个关联邀请，如下图：</h4><img src="/2018/11/28/weapp/yaoqing.png" class="" title="yaoqing">
-<h4 id="发送之后小程序的管理员会在微信端收到一条邀请通知，点开消息之后点击确认就行，如下图："><a href="#发送之后小程序的管理员会在微信端收到一条邀请通知，点开消息之后点击确认就行，如下图：" class="headerlink" title="发送之后小程序的管理员会在微信端收到一条邀请通知，点开消息之后点击确认就行，如下图："></a>发送之后小程序的管理员会在微信端收到一条邀请通知，点开消息之后点击确认就行，如下图：</h4>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/11/28/weapp/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/06/notes/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-      <meta itemprop="name" content="PeaFull">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="PeaFull's Notes">
-      <meta itemprop="description" content="这么巧，你也在网上冲浪啊">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | PeaFull's Notes">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/08/06/notes/" class="post-title-link" itemprop="url">记录一些零散的知识点</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2018-08-06 14:56:48" itemprop="dateCreated datePublished" datetime="2018-08-06T14:56:48+08:00">2018-08-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-07-07 11:07:40" itemprop="dateModified" datetime="2026-07-07T11:07:40+08:00">2026-07-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/programming/" itemprop="url" rel="index"><span itemprop="name">编程</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2018/08/06/notes/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/08/06/notes/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Word count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Word count in article: </span>
-      <span>565</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>2 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="1、JS的for-in循环可以用来遍历对象，用在取用对象中不确定的属性名。"><a href="#1、JS的for-in循环可以用来遍历对象，用在取用对象中不确定的属性名。" class="headerlink" title="1、JS的for in循环可以用来遍历对象，用在取用对象中不确定的属性名。"></a>1、JS的for in循环可以用来遍历对象，用在取用对象中不确定的属性名。</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = &#123;<span class="attr">fname</span>:<span class="string">&quot;John&quot;</span>, <span class="attr">lname</span>:<span class="string">&quot;Doe&quot;</span>, <span class="attr">age</span>:<span class="number">25</span>&#125;;</span><br><span class="line"><span class="keyword">var</span> text = <span class="string">&quot;&quot;</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> person) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(text += person[key] + <span class="string">&quot; &quot;</span>);<span class="comment">//John Doe 25</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/08/06/notes/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
 </div>
   </main>
 

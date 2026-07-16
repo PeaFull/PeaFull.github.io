@@ -13,62 +13,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Chrome浏览器插件开发</title>
-    <url>/2024/07/13/chromeExtensions/</url>
-    <content><![CDATA[<h4 id="1-项目目录结构："><a href="#1-项目目录结构：" class="headerlink" title="1. 项目目录结构："></a>1. 项目目录结构：</h4><ul>
-<li><strong>manifest.json：插件的配置文件</strong><ol>
-<li>每个扩展程序的根目录（必须）中都必须包含一个 manifest.json 文件</li>
-<li>文档：<a href="https://developer.chrome.com/docs/extensions/reference/manifest?hl=zh-cn#minimal-manifest">https://developer.chrome.com/docs/extensions/reference/manifest?hl=zh-cn#minimal-manifest</a><span id="more"></span></li>
-</ol>
-</li>
-<li><strong>service worker</strong><ol>
-<li>处理和监听浏览器事件，相当于在后台运行的脚本，可以使用浏览器的全部api，但是不能和页面内容直接交互</li>
-<li>文档：<a href="https://developer.chrome.com/docs/extensions/get-started/tutorial/service-worker-events?hl=zh-cn">https://developer.chrome.com/docs/extensions/get-started/tutorial/service-worker-events?hl=zh-cn</a></li>
-<li>由于mv3版本的service_worker在五分钟后就会终止进程，其中所有的状态和定时任务都将丢失。所以不要再service_worker中直接定义变量和使用setTimeout、setInterval等定时任务。改用chrome.storage储存需要的变量。使用chrome.alarm来执行定时任务。</li>
-</ol>
-</li>
-<li><strong>Content scripts</strong><ol>
-<li>在网页环境中运行的文件。通过使用标准文档对象模型 (DOM)，用户能够读取浏览器所访问网页的详细信息，对这些网页进行更改，并将信息传递给父级扩展程序</li>
-<li>文档：<a href="https://developer.chrome.com/docs/extensions/develop/concepts/content-scripts?hl=zh-cn">https://developer.chrome.com/docs/extensions/develop/concepts/content-scripts?hl=zh-cn</a></li>
-</ol>
-</li>
-<li><strong>插件的页面</strong><ol>
-<li>浏览器的图标以及点击后的效果，例如popup页面：default_popup</li>
-<li>options页面：右键插件图标后，下拉框中点击选项后，弹出的页面：options_page</li>
-<li>除过上述之外的其他插件页面</li>
-<li>注意：所有的插件页面都可以使用浏览器api</li>
-</ol>
-</li>
-</ul>
-<h4 id="2-两种options页面的区别：整页、嵌入式页"><a href="#2-两种options页面的区别：整页、嵌入式页" class="headerlink" title="2.两种options页面的区别：整页、嵌入式页"></a>2.两种options页面的区别：整页、嵌入式页</h4><ul>
-<li>整页：系统会在新标签页中显示整页options页面。在manifest中的 “options_page” 字段中注册选项 HTML 文件</li>
-<li>嵌入式：在当前页面以弹窗形式展示options页面。如需声明嵌入式选项，请在manifest中的 “options_ui” 字段下注册 HTML 文件，并将 “open_in_tab” 键设置为 false。但如果open_in_tab设置为true，效果与整页一致。</li>
-</ul>
-<h4 id="3-不同script运行的位置："><a href="#3-不同script运行的位置：" class="headerlink" title="3.不同script运行的位置："></a>3.不同script运行的位置：</h4><ul>
-<li>service_worker中的script，当启用插件后，运行在整个后台，日志在插件的service_worker检查视图中查看</li>
-<li>插入的script，运行在网页环境中，日志在具体页面的控制台中查看<ol>
-<li>静态注入的content_scripts，只要打开matches中匹配到的网页即可执行</li>
-<li>通过chrome.scripting.executeScript动态注入的，只有在指定动作触发后才执行。例如：通过service_worker监听tab后，动态注入一段脚本</li>
-<li>注意：插入的script，如果不设置其运行环境，默认为”ISOLATED”，运行在该插件的隔离环境中，如果设置 world: “MAIN” ，则该脚本运行在Top中</li>
-</ol>
-</li>
-</ul>
-<h4 id="4-参考文档："><a href="#4-参考文档：" class="headerlink" title="4.参考文档："></a>4.参考文档：</h4><ul>
-<li><a href="https://docs.plasmo.com/">https://docs.plasmo.com/</a></li>
-<li><a href="https://developer.chrome.com/docs/extensions/get-started?hl=zh-cn">https://developer.chrome.com/docs/extensions/get-started?hl=zh-cn</a></li>
-<li>官网源码：<a href="https://github.com/GoogleChrome/chrome-extensions-samples/tree/main">https://github.com/GoogleChrome/chrome-extensions-samples/tree/main</a> </li>
-<li>B站教程源码： <a href="https://github.com/tuntun0609/chrome-extension-study">https://github.com/tuntun0609/chrome-extension-study</a></li>
-<li>B站教程文档：<a href="https://www.yuque.com/tuntun-nozomi/gurht0">https://www.yuque.com/tuntun-nozomi/gurht0</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>chrome extensions</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hexo使用小记</title>
     <url>/2018/05/04/Hexo/</url>
     <content><![CDATA[<h3 id="1-关于部署到github时用户名密码报错的问题"><a href="#1-关于部署到github时用户名密码报错的问题" class="headerlink" title="1.  关于部署到github时用户名密码报错的问题"></a>1.  关于部署到github时用户名密码报错的问题</h3><p>刚开始部署的配置如下</p>
@@ -339,6 +283,62 @@
       </categories>
       <tags>
         <tag>js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Chrome浏览器插件开发</title>
+    <url>/2024/07/13/chromeExtensions/</url>
+    <content><![CDATA[<h4 id="1-项目目录结构："><a href="#1-项目目录结构：" class="headerlink" title="1. 项目目录结构："></a>1. 项目目录结构：</h4><ul>
+<li><strong>manifest.json：插件的配置文件</strong><ol>
+<li>每个扩展程序的根目录（必须）中都必须包含一个 manifest.json 文件</li>
+<li>文档：<a href="https://developer.chrome.com/docs/extensions/reference/manifest?hl=zh-cn#minimal-manifest">https://developer.chrome.com/docs/extensions/reference/manifest?hl=zh-cn#minimal-manifest</a><span id="more"></span></li>
+</ol>
+</li>
+<li><strong>service worker</strong><ol>
+<li>处理和监听浏览器事件，相当于在后台运行的脚本，可以使用浏览器的全部api，但是不能和页面内容直接交互</li>
+<li>文档：<a href="https://developer.chrome.com/docs/extensions/get-started/tutorial/service-worker-events?hl=zh-cn">https://developer.chrome.com/docs/extensions/get-started/tutorial/service-worker-events?hl=zh-cn</a></li>
+<li>由于mv3版本的service_worker在五分钟后就会终止进程，其中所有的状态和定时任务都将丢失。所以不要再service_worker中直接定义变量和使用setTimeout、setInterval等定时任务。改用chrome.storage储存需要的变量。使用chrome.alarm来执行定时任务。</li>
+</ol>
+</li>
+<li><strong>Content scripts</strong><ol>
+<li>在网页环境中运行的文件。通过使用标准文档对象模型 (DOM)，用户能够读取浏览器所访问网页的详细信息，对这些网页进行更改，并将信息传递给父级扩展程序</li>
+<li>文档：<a href="https://developer.chrome.com/docs/extensions/develop/concepts/content-scripts?hl=zh-cn">https://developer.chrome.com/docs/extensions/develop/concepts/content-scripts?hl=zh-cn</a></li>
+</ol>
+</li>
+<li><strong>插件的页面</strong><ol>
+<li>浏览器的图标以及点击后的效果，例如popup页面：default_popup</li>
+<li>options页面：右键插件图标后，下拉框中点击选项后，弹出的页面：options_page</li>
+<li>除过上述之外的其他插件页面</li>
+<li>注意：所有的插件页面都可以使用浏览器api</li>
+</ol>
+</li>
+</ul>
+<h4 id="2-两种options页面的区别：整页、嵌入式页"><a href="#2-两种options页面的区别：整页、嵌入式页" class="headerlink" title="2.两种options页面的区别：整页、嵌入式页"></a>2.两种options页面的区别：整页、嵌入式页</h4><ul>
+<li>整页：系统会在新标签页中显示整页options页面。在manifest中的 “options_page” 字段中注册选项 HTML 文件</li>
+<li>嵌入式：在当前页面以弹窗形式展示options页面。如需声明嵌入式选项，请在manifest中的 “options_ui” 字段下注册 HTML 文件，并将 “open_in_tab” 键设置为 false。但如果open_in_tab设置为true，效果与整页一致。</li>
+</ul>
+<h4 id="3-不同script运行的位置："><a href="#3-不同script运行的位置：" class="headerlink" title="3.不同script运行的位置："></a>3.不同script运行的位置：</h4><ul>
+<li>service_worker中的script，当启用插件后，运行在整个后台，日志在插件的service_worker检查视图中查看</li>
+<li>插入的script，运行在网页环境中，日志在具体页面的控制台中查看<ol>
+<li>静态注入的content_scripts，只要打开matches中匹配到的网页即可执行</li>
+<li>通过chrome.scripting.executeScript动态注入的，只有在指定动作触发后才执行。例如：通过service_worker监听tab后，动态注入一段脚本</li>
+<li>注意：插入的script，如果不设置其运行环境，默认为”ISOLATED”，运行在该插件的隔离环境中，如果设置 world: “MAIN” ，则该脚本运行在Top中</li>
+</ol>
+</li>
+</ul>
+<h4 id="4-参考文档："><a href="#4-参考文档：" class="headerlink" title="4.参考文档："></a>4.参考文档：</h4><ul>
+<li><a href="https://docs.plasmo.com/">https://docs.plasmo.com/</a></li>
+<li><a href="https://developer.chrome.com/docs/extensions/get-started?hl=zh-cn">https://developer.chrome.com/docs/extensions/get-started?hl=zh-cn</a></li>
+<li>官网源码：<a href="https://github.com/GoogleChrome/chrome-extensions-samples/tree/main">https://github.com/GoogleChrome/chrome-extensions-samples/tree/main</a> </li>
+<li>B站教程源码： <a href="https://github.com/tuntun0609/chrome-extension-study">https://github.com/tuntun0609/chrome-extension-study</a></li>
+<li>B站教程文档：<a href="https://www.yuque.com/tuntun-nozomi/gurht0">https://www.yuque.com/tuntun-nozomi/gurht0</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>chrome extensions</tag>
       </tags>
   </entry>
   <entry>
@@ -770,6 +770,20 @@
       </tags>
   </entry>
   <entry>
+    <title>React的Ref属性在TypeScript中的写法</title>
+    <url>/2018/05/04/reactRefs/</url>
+    <content><![CDATA[<h4 id="在TypeScript中使用ref属性的时候，如果不定义它的类型直接去使用this-refs-XXX，就会在编译的时候报错。参考如下代码："><a href="#在TypeScript中使用ref属性的时候，如果不定义它的类型直接去使用this-refs-XXX，就会在编译的时候报错。参考如下代码：" class="headerlink" title="在TypeScript中使用ref属性的时候，如果不定义它的类型直接去使用this.refs.XXX，就会在编译的时候报错。参考如下代码："></a>在TypeScript中使用ref属性的时候，如果不定义它的类型直接去使用this.refs.XXX，就会在编译的时候报错。参考如下代码：</h4><span id="more"></span>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">CustomTextInput</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span>&lt;&#123;&#125;, &#123;&#125;&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//在此处统一定义refs</span></span><br><span class="line">    <span class="keyword">public</span> <span class="attr">refs</span>: &#123;</span><br><span class="line">        <span class="attr">textInput</span>: <span class="title class_">HTMLInputElement</span>,</span><br><span class="line">        <span class="attr">loadMoreDiv</span>: <span class="title class_">HTMLElement</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">componentDidMount</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> loadMore = <span class="variable language_">this</span>.<span class="property">refs</span>.<span class="property">loadMoreDiv</span>;</span><br><span class="line">        <span class="keyword">const</span> myInput = <span class="variable language_">this</span>.<span class="property">refs</span>.<span class="property">textInput</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">ref</span>= <span class="string">&quot;textInput&quot;</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">ref</span>= <span class="string">&quot;loadMoreDiv&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>转自：<a href="https://goenning.net/2016/11/02/strongly-typed-react-refs-with-typescript/">Strongly Typed React Refs with TypeScript</a></p>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>React</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>react如何在组件外部调用组件内的方法</title>
     <url>/2018/07/04/reactTechnology/</url>
     <content><![CDATA[<h4 id="在开发中，难免会遇到这种场景：我们需要在组件外部调用组件内的方法，从而达到在外部操作组件或者获取组件内部数据的目的。"><a href="#在开发中，难免会遇到这种场景：我们需要在组件外部调用组件内的方法，从而达到在外部操作组件或者获取组件内部数据的目的。" class="headerlink" title="在开发中，难免会遇到这种场景：我们需要在组件外部调用组件内的方法，从而达到在外部操作组件或者获取组件内部数据的目的。"></a>在开发中，难免会遇到这种场景：我们需要在组件外部调用组件内的方法，从而达到在外部操作组件或者获取组件内部数据的目的。</h4><h4 id="示例代码如下："><a href="#示例代码如下：" class="headerlink" title="示例代码如下："></a>示例代码如下：</h4><span id="more"></span>
@@ -795,18 +809,297 @@
       </tags>
   </entry>
   <entry>
-    <title>React的Ref属性在TypeScript中的写法</title>
-    <url>/2018/05/04/reactRefs/</url>
-    <content><![CDATA[<h4 id="在TypeScript中使用ref属性的时候，如果不定义它的类型直接去使用this-refs-XXX，就会在编译的时候报错。参考如下代码："><a href="#在TypeScript中使用ref属性的时候，如果不定义它的类型直接去使用this-refs-XXX，就会在编译的时候报错。参考如下代码：" class="headerlink" title="在TypeScript中使用ref属性的时候，如果不定义它的类型直接去使用this.refs.XXX，就会在编译的时候报错。参考如下代码："></a>在TypeScript中使用ref属性的时候，如果不定义它的类型直接去使用this.refs.XXX，就会在编译的时候报错。参考如下代码：</h4><span id="more"></span>
-<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">CustomTextInput</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span>&lt;&#123;&#125;, &#123;&#125;&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//在此处统一定义refs</span></span><br><span class="line">    <span class="keyword">public</span> <span class="attr">refs</span>: &#123;</span><br><span class="line">        <span class="attr">textInput</span>: <span class="title class_">HTMLInputElement</span>,</span><br><span class="line">        <span class="attr">loadMoreDiv</span>: <span class="title class_">HTMLElement</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">componentDidMount</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> loadMore = <span class="variable language_">this</span>.<span class="property">refs</span>.<span class="property">loadMoreDiv</span>;</span><br><span class="line">        <span class="keyword">const</span> myInput = <span class="variable language_">this</span>.<span class="property">refs</span>.<span class="property">textInput</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">ref</span>= <span class="string">&quot;textInput&quot;</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">ref</span>= <span class="string">&quot;loadMoreDiv&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>转自：<a href="https://goenning.net/2016/11/02/strongly-typed-react-refs-with-typescript/">Strongly Typed React Refs with TypeScript</a></p>
+    <title>sse流式对话</title>
+    <url>/2026/07/16/sse-streaming-conversation/</url>
+    <content><![CDATA[<h1 id="SSE（Server-Sent-Events）流式对话"><a href="#SSE（Server-Sent-Events）流式对话" class="headerlink" title="SSE（Server-Sent Events）流式对话"></a>SSE（Server-Sent Events）流式对话</h1><h2 id="什么是SSE"><a href="#什么是SSE" class="headerlink" title="什么是SSE"></a>什么是SSE</h2><p>SSE（Server-Sent Events）是一种基于HTTP的<strong>服务器推送技术</strong>，客户端发起一次请求后，服务器保持连接并持续向客户端发送数据，无需客户端不断轮询。</p>
+<p><strong>一句话：</strong></p>
+<blockquote>
+<p><strong>客户端请求一次，服务器持续推送数据，直到响应结束。</strong></p>
+</blockquote>
+<hr>
+<h1 id="为什么AI对话使用SSE"><a href="#为什么AI对话使用SSE" class="headerlink" title="为什么AI对话使用SSE"></a>为什么AI对话使用SSE</h1><p>普通HTTP请求：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">用户发送消息</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">等待模型全部生成完成</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">一次返回完整内容</span><br></pre></td></tr></table></figure>
+
+<p>SSE流式返回：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">用户发送消息</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">服务器开始生成</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">你</span><br><span class="line">你好</span><br><span class="line">你好！</span><br><span class="line">你好！很高兴……</span><br></pre></td></tr></table></figure>
+
+<p>前端边接收边渲染，实现类似”打字机”效果，用户体验更好。</p>
+<hr>
+<h1 id="SSE通信流程"><a href="#SSE通信流程" class="headerlink" title="SSE通信流程"></a>SSE通信流程</h1><figure class="highlight text"><table><tr><td class="code"><pre><span class="line">Browser</span><br><span class="line">    │</span><br><span class="line">    │ POST /chat</span><br><span class="line">    ▼</span><br><span class="line">Server</span><br><span class="line">────────────────────────────────────</span><br><span class="line">保持HTTP连接</span><br><span class="line"></span><br><span class="line">data: &#123;&quot;content&quot;:&quot;你&quot;&#125;</span><br><span class="line"></span><br><span class="line">data: &#123;&quot;content&quot;:&quot;好&quot;&#125;</span><br><span class="line"></span><br><span class="line">data: &#123;&quot;content&quot;:&quot;！&quot;&#125;</span><br><span class="line"></span><br><span class="line">data: [DONE]</span><br><span class="line"></span><br><span class="line">────────────────────────────────────</span><br><span class="line">连接关闭</span><br></pre></td></tr></table></figure>
+
+<p>整个过程中：</p>
+<ul>
+<li>客户端发送一次请求</li>
+<li>服务器保持连接持续推送数据</li>
+<li>前端实时接收并渲染</li>
+<li>收到<code>[DONE]</code>（或服务端约定的结束标识）后结束响应</li>
+</ul>
+<hr>
+<h1 id="服务端实现（关键响应头）"><a href="#服务端实现（关键响应头）" class="headerlink" title="服务端实现（关键响应头）"></a>服务端实现（关键响应头）</h1><p>服务端需要设置SSE相关响应头：</p>
+<figure class="highlight http"><table><tr><td class="code"><pre><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>text/event-stream</span><br><span class="line"><span class="attribute">Cache-Control</span><span class="punctuation">: </span>no-cache</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>keep-alive</span><br></pre></td></tr></table></figure>
+
+<p>作用：</p>
+<ul>
+<li><strong>Content-Type: text&#x2F;event-stream</strong>：声明响应为SSE流。</li>
+<li><strong>Cache-Control: no-cache</strong>：防止浏览器缓存。</li>
+<li><strong>Connection: keep-alive</strong>：保持HTTP长连接（HTTP&#x2F;1.1下常见，HTTP&#x2F;2下意义较小）。</li>
+</ul>
+<p>服务端持续发送数据：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">res.<span class="title function_">write</span>(<span class="string">`data: <span class="subst">$&#123;<span class="built_in">JSON</span>.stringify(data)&#125;</span>\n\n`</span>);</span><br></pre></td></tr></table></figure>
+
+<p>最后结束：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">res.<span class="title function_">write</span>(<span class="string">&quot;data: [DONE]\n\n&quot;</span>);</span><br><span class="line">res.<span class="title function_">end</span>();</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="SSE数据格式"><a href="#SSE数据格式" class="headerlink" title="SSE数据格式"></a>SSE数据格式</h1><p>服务器返回的数据必须遵循SSE协议。</p>
+<p>例如：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">data: hello</span><br><span class="line"></span><br><span class="line">data: world</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>AI接口通常返回：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">data: &#123;&quot;content&quot;:&quot;你&quot;&#125;</span><br><span class="line"></span><br><span class="line">data: &#123;&quot;content&quot;:&quot;好&quot;&#125;</span><br><span class="line"></span><br><span class="line">data: &#123;&quot;content&quot;:&quot;！&quot;&#125;</span><br><span class="line"></span><br><span class="line">data: [DONE]</span><br></pre></td></tr></table></figure>
+
+<p>其中：</p>
+<ul>
+<li><code>data:</code>：消息内容</li>
+<li>空行：表示一条消息结束</li>
+<li><code>[DONE]</code>：流结束标识（由服务端定义，并非SSE协议强制要求）</li>
+</ul>
+<hr>
+<h1 id="前端如何接收SSE"><a href="#前端如何接收SSE" class="headerlink" title="前端如何接收SSE"></a>前端如何接收SSE</h1><p>目前主要有两种方式。</p>
+<h2 id="方式一：EventSource（原生SSE）"><a href="#方式一：EventSource（原生SSE）" class="headerlink" title="方式一：EventSource（原生SSE）"></a>方式一：EventSource（原生SSE）</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> es = <span class="keyword">new</span> <span class="title class_">EventSource</span>(<span class="string">&quot;/chat&quot;</span>);</span><br><span class="line"></span><br><span class="line">es.<span class="property">onmessage</span> = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(e.<span class="property">data</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ul>
+<li>浏览器原生支持</li>
+<li>自动重连</li>
+<li>使用简单</li>
+</ul>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>只能支持：</p>
+<ul>
+<li>GET请求</li>
+</ul>
+<p>不能支持：</p>
+<ul>
+<li>POST</li>
+<li>Request Body</li>
+<li>自定义Authorization Header</li>
+</ul>
+<p>因此现代AI项目很少直接使用。</p>
+<hr>
+<h2 id="方式二：fetch-ReadableStream（推荐）"><a href="#方式二：fetch-ReadableStream（推荐）" class="headerlink" title="方式二：fetch + ReadableStream（推荐）"></a>方式二：fetch + ReadableStream（推荐）</h2><p>现代AI（OpenAI、DeepSeek、Claude等）基本都采用这种方式。</p>
+<p>发送请求：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> response = <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">&quot;/chat&quot;</span>, &#123;</span><br><span class="line">  <span class="attr">method</span>: <span class="string">&quot;POST&quot;</span>,</span><br><span class="line">  <span class="attr">headers</span>: &#123;</span><br><span class="line">    <span class="title class_">Authorization</span>: <span class="string">&quot;Bearer xxx&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Content-Type&quot;</span>: <span class="string">&quot;application/json&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">body</span>: <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(&#123;</span><br><span class="line">    <span class="attr">message</span>: <span class="string">&quot;你好&quot;</span>,</span><br><span class="line">  &#125;),</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>读取流：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> reader = response.<span class="property">body</span>.<span class="title function_">getReader</span>();</span><br><span class="line"><span class="keyword">const</span> decoder = <span class="keyword">new</span> <span class="title class_">TextDecoder</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; done, value &#125; = <span class="keyword">await</span> reader.<span class="title function_">read</span>();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (done) <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> text = decoder.<span class="title function_">decode</span>(value, &#123;</span><br><span class="line">    <span class="attr">stream</span>: <span class="literal">true</span>,</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(text);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>优势：</p>
+<ul>
+<li>支持POST</li>
+<li>支持Token认证</li>
+<li>支持Request Body</li>
+<li>支持聊天历史、模型参数等复杂数据</li>
+<li>完全兼容REST API</li>
+<li>更符合现代AI接口设计</li>
+</ul>
+<hr>
+<h1 id="为什么AI接口使用POST"><a href="#为什么AI接口使用POST" class="headerlink" title="为什么AI接口使用POST"></a>为什么AI接口使用POST</h1><p>AI接口通常需要提交大量参数，例如：</p>
+<ul>
+<li>用户消息</li>
+<li>聊天历史（History）</li>
+<li>System Prompt</li>
+<li>Temperature</li>
+<li>Top P</li>
+<li>最大Token数</li>
+<li>Token认证</li>
+</ul>
+<p>因此通常采用：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">POST</span><br><span class="line">      +</span><br><span class="line">Request Body</span><br><span class="line">      +</span><br><span class="line">fetch</span><br><span class="line">      +</span><br><span class="line">ReadableStream</span><br></pre></td></tr></table></figure>
+
+<p>而不是<code>EventSource</code>的GET请求。</p>
+<hr>
+<h1 id="ReadableStream"><a href="#ReadableStream" class="headerlink" title="ReadableStream"></a>ReadableStream</h1><p><code>fetch</code>返回的响应体是一个<code>ReadableStream</code>。</p>
+<p>通过：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">response.<span class="property">body</span>.<span class="title function_">getReader</span>();</span><br></pre></td></tr></table></figure>
+
+<p>获取Reader。</p>
+<p>循环读取：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">reader.<span class="title function_">read</span>();</span><br></pre></td></tr></table></figure>
+
+<p>返回：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">done</span>: <span class="literal">false</span>,</span><br><span class="line">  <span class="attr">value</span>: <span class="title class_">Uint8Array</span>(...)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中：</p>
+<ul>
+<li>value：当前数据块（Chunk）</li>
+<li>done：是否读取完成</li>
+</ul>
+<hr>
+<h1 id="什么是Chunk"><a href="#什么是Chunk" class="headerlink" title="什么是Chunk"></a>什么是Chunk</h1><p>网络不会一次返回完整数据，而是分成多个<strong>Chunk（数据块）</strong>进行传输。</p>
+<p>例如：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">Chunk1</span><br><span class="line">↓</span><br><span class="line"></span><br><span class="line">Chunk2</span><br><span class="line">↓</span><br><span class="line"></span><br><span class="line">Chunk3</span><br><span class="line">↓</span><br><span class="line"></span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+
+<p>浏览器通过：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">reader.<span class="title function_">read</span>();</span><br></pre></td></tr></table></figure>
+
+<p>一次读取一个Chunk，因此页面能够边接收边显示。</p>
+<p>需要注意的是：</p>
+<blockquote>
+<p><strong>Chunk并不等于Token，一个Chunk可能包含一个Token、多个Token，甚至一整段文本，具体由服务端决定。</strong></p>
+</blockquote>
+<hr>
+<h1 id="TextDecoder"><a href="#TextDecoder" class="headerlink" title="TextDecoder"></a>TextDecoder</h1><p>服务器发送的是字节流，而不是字符串。</p>
+<p>例如：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">228 189 160</span><br></pre></td></tr></table></figure>
+
+<p>浏览器读取后得到：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="title class_">Uint8Array</span>(...)</span><br></pre></td></tr></table></figure>
+
+<p>需要使用：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> decoder = <span class="keyword">new</span> <span class="title class_">TextDecoder</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> text = decoder.<span class="title function_">decode</span>(value);</span><br></pre></td></tr></table></figure>
+
+<p>转换成：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">你</span><br></pre></td></tr></table></figure>
+
+<p>所以：</p>
+<blockquote>
+<p><strong>TextDecoder负责将Uint8Array解码成字符串。</strong></p>
+</blockquote>
+<hr>
+<h1 id="为什么使用stream-true（重点）"><a href="#为什么使用stream-true（重点）" class="headerlink" title="为什么使用stream: true（重点）"></a>为什么使用stream: true（重点）</h1><p>推荐：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">decoder.<span class="title function_">decode</span>(value, &#123;</span><br><span class="line">  <span class="attr">stream</span>: <span class="literal">true</span>,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>原因：</p>
+<p>网络数据按Chunk传输，一个中文字符可能被拆成两块。</p>
+<p>例如：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">第一次：</span><br><span class="line">228 189</span><br><span class="line"></span><br><span class="line">第二次：</span><br><span class="line">160</span><br></pre></td></tr></table></figure>
+
+<p>如果直接：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">decoder.<span class="title function_">decode</span>(value);</span><br></pre></td></tr></table></figure>
+
+<p>可能出现乱码：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">�</span><br></pre></td></tr></table></figure>
+
+<p>使用：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">decoder.<span class="title function_">decode</span>(value, &#123;</span><br><span class="line">  <span class="attr">stream</span>: <span class="literal">true</span>,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>会自动缓存不完整字节，等待下一块数据后一起解码，避免乱码。</p>
+<hr>
+<h1 id="停止生成（AbortController）"><a href="#停止生成（AbortController）" class="headerlink" title="停止生成（AbortController）"></a>停止生成（AbortController）</h1><p>AI聊天中的”停止生成”通常通过<code>AbortController</code>实现。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> controller = <span class="keyword">new</span> <span class="title class_">AbortController</span>();</span><br><span class="line"></span><br><span class="line"><span class="title function_">fetch</span>(<span class="string">&quot;/chat&quot;</span>, &#123;</span><br><span class="line">  <span class="attr">signal</span>: controller.<span class="property">signal</span>,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 停止生成</span></span><br><span class="line">controller.<span class="title function_">abort</span>();</span><br></pre></td></tr></table></figure>
+
+<p>作用：</p>
+<ul>
+<li>中断HTTP请求</li>
+<li>关闭SSE连接</li>
+<li>停止继续接收模型返回的数据</li>
+</ul>
+<hr>
+<h1 id="心跳（了解）"><a href="#心跳（了解）" class="headerlink" title="心跳（了解）"></a>心跳（了解）</h1><p>为了避免长连接超时，服务端可能会定时发送心跳包，例如：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">:</span><br></pre></td></tr></table></figure>
+
+<p>或者：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">event: ping</span><br><span class="line">data: ping</span><br></pre></td></tr></table></figure>
+
+<p>作用：</p>
+<ul>
+<li>保持连接不断开</li>
+<li>防止代理服务器、负载均衡等主动关闭空闲连接</li>
+</ul>
+<p>一般由服务端实现，前端通常无需处理。</p>
+<hr>
+<h1 id="完整流程"><a href="#完整流程" class="headerlink" title="完整流程"></a>完整流程</h1><figure class="highlight text"><table><tr><td class="code"><pre><span class="line">用户输入问题</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">fetch发送POST请求</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">服务器调用AI模型</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">模型生成内容</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">按多个Chunk持续推送</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">ReadableStream读取Chunk</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">TextDecoder解码</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">解析data:</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">JSON.parse()</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">拼接内容</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">更新页面（流式输出）</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="SSE与WebSocket对比"><a href="#SSE与WebSocket对比" class="headerlink" title="SSE与WebSocket对比"></a>SSE与WebSocket对比</h1><table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>SSE</th>
+<th>WebSocket</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>通信方向</td>
+<td>单向（服务端→客户端）</td>
+<td>双向通信</td>
+</tr>
+<tr>
+<td>协议</td>
+<td>HTTP</td>
+<td>WebSocket</td>
+</tr>
+<tr>
+<td>建立连接</td>
+<td>简单</td>
+<td>需握手</td>
+</tr>
+<tr>
+<td>自动重连</td>
+<td>支持（EventSource）</td>
+<td>需自行实现</td>
+</tr>
+<tr>
+<td>是否适合流式输出</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐⭐⭐</td>
+</tr>
+<tr>
+<td>聊天室、游戏</td>
+<td>⭐⭐</td>
+<td>⭐⭐⭐⭐⭐</td>
+</tr>
+</tbody></table>
+<h3 id="为什么AI更喜欢SSE？"><a href="#为什么AI更喜欢SSE？" class="headerlink" title="为什么AI更喜欢SSE？"></a>为什么AI更喜欢SSE？</h3><p>AI对话的通信模式基本都是：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">客户端发送一次问题</span><br><span class="line">        │</span><br><span class="line">        ▼</span><br><span class="line">服务器持续返回答案</span><br></pre></td></tr></table></figure>
+
+<p>客户端几乎没有持续发送数据的需求，因此SSE更加轻量、简单，也更符合HTTP生态。</p>
+<hr>
+<h1 id="SSE的局限性"><a href="#SSE的局限性" class="headerlink" title="SSE的局限性"></a>SSE的局限性</h1><ul>
+<li>仅支持服务端向客户端单向通信。</li>
+<li>浏览器连接数受HTTP协议限制（HTTP&#x2F;2下已明显改善）。</li>
+<li>不适合聊天室、在线游戏、协同编辑等双向实时通信场景。</li>
+<li>若需要客户端频繁主动推送数据，更适合使用WebSocket。</li>
+</ul>
+<hr>
+<h1 id="面试高频问题"><a href="#面试高频问题" class="headerlink" title="面试高频问题"></a>面试高频问题</h1><h3 id="①-什么是SSE？"><a href="#①-什么是SSE？" class="headerlink" title="① 什么是SSE？"></a>① 什么是SSE？</h3><blockquote>
+<p>SSE（Server-Sent Events）是一种基于HTTP的服务器推送技术，客户端发起一次请求后，服务器保持连接并持续向客户端发送数据，非常适合AI聊天、日志推送、任务进度等单向推送场景。</p>
+</blockquote>
+<hr>
+<h3 id="②-为什么AI聊天喜欢使用SSE？"><a href="#②-为什么AI聊天喜欢使用SSE？" class="headerlink" title="② 为什么AI聊天喜欢使用SSE？"></a>② 为什么AI聊天喜欢使用SSE？</h3><ul>
+<li>支持边生成边返回，降低等待时间。</li>
+<li>实现打字机效果，用户体验更好。</li>
+<li>基于HTTP，实现简单，兼容现有鉴权、代理和网关体系。</li>
+<li>AI问答主要是单向推送，非常符合SSE使用场景。</li>
+</ul>
+<hr>
+<h3 id="③-为什么不用EventSource？"><a href="#③-为什么不用EventSource？" class="headerlink" title="③ 为什么不用EventSource？"></a>③ 为什么不用EventSource？</h3><p>因为<code>EventSource</code>只能发送GET请求，不支持：</p>
+<ul>
+<li>POST</li>
+<li>Request Body</li>
+<li>Authorization Header</li>
+</ul>
+<p>现代AI接口通常需要POST请求和Token认证，因此普遍采用<strong>fetch + ReadableStream</strong>实现流式响应。</p>
+<hr>
+<h3 id="④-ReadableStream是什么？"><a href="#④-ReadableStream是什么？" class="headerlink" title="④ ReadableStream是什么？"></a>④ ReadableStream是什么？</h3><blockquote>
+<p><code>ReadableStream</code>表示可读数据流，<code>fetch</code>返回的响应体就是一个<code>ReadableStream</code>。通过<code>getReader().read()</code>可以逐块（Chunk）读取服务器返回的数据，实现流式处理。</p>
+</blockquote>
+<hr>
+<h3 id="⑤-TextDecoder有什么作用？"><a href="#⑤-TextDecoder有什么作用？" class="headerlink" title="⑤ TextDecoder有什么作用？"></a>⑤ TextDecoder有什么作用？</h3><blockquote>
+<p><code>TextDecoder</code>用于将<code>Uint8Array</code>等二进制数据按照UTF-8解码为字符串。在SSE中，浏览器读取到的是字节流，需要通过<code>TextDecoder.decode()</code>转换为文本，再解析和渲染。</p>
+</blockquote>
+<hr>
+<h3 id="⑥-为什么推荐使用stream-true？"><a href="#⑥-为什么推荐使用stream-true？" class="headerlink" title="⑥ 为什么推荐使用stream: true？"></a>⑥ 为什么推荐使用<code>stream: true</code>？</h3><blockquote>
+<p>网络传输按Chunk进行，一个中文字符可能跨多个Chunk。<code>stream: true</code>会缓存不完整字节，等待下一块数据后再解码，避免中文乱码。</p>
+</blockquote>
+<hr>
+<h3 id="⑦-AbortController有什么作用？"><a href="#⑦-AbortController有什么作用？" class="headerlink" title="⑦ AbortController有什么作用？"></a>⑦ AbortController有什么作用？</h3><blockquote>
+<p><code>AbortController</code>用于取消<code>fetch</code>请求。在AI聊天中通常用于实现”停止生成”，调用<code>abort()</code>即可中断请求并关闭SSE连接。</p>
+</blockquote>
+<hr>
+<h1 id="一句话总结"><a href="#一句话总结" class="headerlink" title="一句话总结"></a>一句话总结</h1><blockquote>
+<p><strong>现代AI流式对话通常采用<code>fetch + ReadableStream + TextDecoder + SSE</code>方案：客户端通过<code>fetch</code>发送POST请求，服务器以SSE格式持续推送数据，前端利用<code>ReadableStream</code>逐块读取Chunk，再通过<code>TextDecoder</code>解码为字符串，解析数据后实时更新页面，实现流式输出的”打字机”效果。</strong></p>
+</blockquote>
 ]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>React</tag>
-      </tags>
   </entry>
   <entry>
     <title>vscode 代码格式化设置</title>
@@ -829,31 +1122,6 @@
       </categories>
       <tags>
         <tag>vscode</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>如何通过url跳转到微信公众号关注页</title>
-    <url>/2018/05/24/wechatFollow/</url>
-    <content><![CDATA[<h2 id="微信端"><a href="#微信端" class="headerlink" title="微信端"></a>微信端</h2><h4 id="微信端实现相对比较简单，首先需要获取公众号关注页的url，步骤如下："><a href="#微信端实现相对比较简单，首先需要获取公众号关注页的url，步骤如下：" class="headerlink" title="微信端实现相对比较简单，首先需要获取公众号关注页的url，步骤如下："></a>微信端实现相对比较简单，首先需要获取公众号关注页的url，步骤如下：</h4><p>1.点击公众号的历史消息</p>
-
-<span id="more"></span>
-<p>2.复制链接</p>
-
-<p>3.接下来在微信里直接跳转这个链接即可</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">location</span>.<span class="property">href</span>=<span class="string">&quot;https://mp.weixin.qq.com/mp/profile_ext?action=home&amp;__biz=MzAxNjU0MjEyNA==&amp;scene=123&amp;from=singlemessage&amp;isappinstalled=0#wechat_redirect&quot;</span></span><br></pre></td></tr></table></figure>
-<h2 id="手机QQ"><a href="#手机QQ" class="headerlink" title="手机QQ"></a>手机QQ</h2><p>直接跳转这个链接即可唤起微信：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">location</span>.<span class="property">href</span> = <span class="string">&#x27;weixin://&#x27;</span>;</span><br></pre></td></tr></table></figure>
-<p>但是不能在QQ里跳转微信的那个链接，如下图</p>
-<img src="/2018/05/24/wechatFollow/qq_error.png" class="" title="qq_error">
-
-<h2 id="平台的判断"><a href="#平台的判断" class="headerlink" title="平台的判断"></a>平台的判断</h2><p>这里用的到是userAgent，代码如下</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> ua = navigator.<span class="property">userAgent</span>.<span class="title function_">toLowerCase</span>();</span><br><span class="line"><span class="keyword">if</span> (ua.<span class="title function_">indexOf</span>(<span class="string">&quot;micromessenger&quot;</span>) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">//微信端</span></span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (ua.<span class="title function_">indexOf</span>(<span class="string">&quot;qq&quot;</span>) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">//手机qq</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>js</tag>
       </tags>
   </entry>
   <entry>
@@ -880,6 +1148,31 @@
       </categories>
       <tags>
         <tag>小程序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何通过url跳转到微信公众号关注页</title>
+    <url>/2018/05/24/wechatFollow/</url>
+    <content><![CDATA[<h2 id="微信端"><a href="#微信端" class="headerlink" title="微信端"></a>微信端</h2><h4 id="微信端实现相对比较简单，首先需要获取公众号关注页的url，步骤如下："><a href="#微信端实现相对比较简单，首先需要获取公众号关注页的url，步骤如下：" class="headerlink" title="微信端实现相对比较简单，首先需要获取公众号关注页的url，步骤如下："></a>微信端实现相对比较简单，首先需要获取公众号关注页的url，步骤如下：</h4><p>1.点击公众号的历史消息</p>
+
+<span id="more"></span>
+<p>2.复制链接</p>
+
+<p>3.接下来在微信里直接跳转这个链接即可</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">location</span>.<span class="property">href</span>=<span class="string">&quot;https://mp.weixin.qq.com/mp/profile_ext?action=home&amp;__biz=MzAxNjU0MjEyNA==&amp;scene=123&amp;from=singlemessage&amp;isappinstalled=0#wechat_redirect&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="手机QQ"><a href="#手机QQ" class="headerlink" title="手机QQ"></a>手机QQ</h2><p>直接跳转这个链接即可唤起微信：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">location</span>.<span class="property">href</span> = <span class="string">&#x27;weixin://&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>但是不能在QQ里跳转微信的那个链接，如下图</p>
+<img src="/2018/05/24/wechatFollow/qq_error.png" class="" title="qq_error">
+
+<h2 id="平台的判断"><a href="#平台的判断" class="headerlink" title="平台的判断"></a>平台的判断</h2><p>这里用的到是userAgent，代码如下</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> ua = navigator.<span class="property">userAgent</span>.<span class="title function_">toLowerCase</span>();</span><br><span class="line"><span class="keyword">if</span> (ua.<span class="title function_">indexOf</span>(<span class="string">&quot;micromessenger&quot;</span>) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">//微信端</span></span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (ua.<span class="title function_">indexOf</span>(<span class="string">&quot;qq&quot;</span>) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">//手机qq</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>js</tag>
       </tags>
   </entry>
 </search>
