@@ -1,0 +1,4 @@
+interface:
+  display_name: "Hexo 一键发文"
+  short_description: "根据标题和正文新建 Hexo 文章并部署"
+  default_prompt: "Use $hexo-publish-post to publish a Hexo article with a title and body."
