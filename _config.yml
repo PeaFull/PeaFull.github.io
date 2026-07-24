@@ -106,7 +106,7 @@ theme: next
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/PeaFull/PeaFull.github.io.git
+  repo: git@github.com:PeaFull/PeaFull.github.io.git
   branch: master
 
 disqus_shortname: https-peafull-github-io
