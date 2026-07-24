@@ -5,3 +5,6 @@ db.json
 node_modules/
 public/
 .deploy*/
+
+# Hexo 草稿仅保存在本地
+source/_drafts/
