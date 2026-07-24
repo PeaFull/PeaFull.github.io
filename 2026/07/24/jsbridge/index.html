@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="JSBridge是什么JSBridge是一种让Web页面里的JavaScript与原生应用代码相互通信的机制。 常见场景：  App中嵌入H5页面 JavaScript调用原生能力 原生代码主动通知H5页面  例如，H5页面本身不能直接访问手机通讯录、相机、定位、支付等能力，就需要通过JSBridge让原生端代为执行。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JSBridge">
+<meta property="og:url" content="http://example.com/2026/07/24/jsbridge/index.html">
+<meta property="og:site_name" content="PeaFull&#39;s Notes">
+<meta property="og:description" content="JSBridge是什么JSBridge是一种让Web页面里的JavaScript与原生应用代码相互通信的机制。 常见场景：  App中嵌入H5页面 JavaScript调用原生能力 原生代码主动通知H5页面  例如，H5页面本身不能直接访问手机通讯录、相机、定位、支付等能力，就需要通过JSBridge让原生端代为执行。">
+<meta property="og:locale">
+<meta property="article:published_time" content="2026-07-24T07:27:29.000Z">
+<meta property="article:modified_time" content="2026-07-24T07:27:29.740Z">
+<meta property="article:author" content="PeaFull">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2026/07/24/jsbridge/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"http://example.com/2026/07/24/jsbridge/","path":"2026/07/24/jsbridge/","title":"JSBridge"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>JSBridge | PeaFull's Notes</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">PeaFull's Notes</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">listentoleo@gmail.com</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JSBridge%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.</span> <span class="nav-text">JSBridge是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E9%80%9A%E4%BF%A1%E8%BF%87%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">基本通信过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSBridge%E8%83%BD%E5%81%9A%E4%BB%80%E4%B9%88"><span class="nav-number">3.</span> <span class="nav-text">JSBridge能做什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%A4%E4%B8%AA%E9%80%9A%E4%BF%A1%E6%96%B9%E5%90%91"><span class="nav-number">4.</span> <span class="nav-text">两个通信方向</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JavaScript%E8%B0%83%E7%94%A8%E5%8E%9F%E7%94%9F"><span class="nav-number">4.1.</span> <span class="nav-text">JavaScript调用原生</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%94%9F%E8%B0%83%E7%94%A8JavaScript"><span class="nav-number">4.2.</span> <span class="nav-text">原生调用JavaScript</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="nav-number">5.</span> <span class="nav-text">常见实现方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Android"><span class="nav-number">5.1.</span> <span class="nav-text">Android</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iOS"><span class="nav-number">5.2.</span> <span class="nav-text">iOS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#React-Native"><span class="nav-number">5.3.</span> <span class="nav-text">React Native</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%99%85%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E7%BB%9F%E4%B8%80%E5%B0%81%E8%A3%85"><span class="nav-number">6.</span> <span class="nav-text">实际项目中的统一封装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81callbackId"><span class="nav-number">7.</span> <span class="nav-text">为什么需要callbackId</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSBridge%E7%9A%84%E6%9C%AC%E8%B4%A8"><span class="nav-number">8.</span> <span class="nav-text">JSBridge的本质</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%99%85%E5%BC%80%E5%8F%91%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F"><span class="nav-number">9.</span> <span class="nav-text">实际开发需要注意</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E6%8E%A7%E5%88%B6"><span class="nav-number">9.1.</span> <span class="nav-text">安全控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E6%A0%A1%E9%AA%8C"><span class="nav-number">9.2.</span> <span class="nav-text">参数校验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B6%85%E6%97%B6%E5%A4%84%E7%90%86"><span class="nav-number">9.3.</span> <span class="nav-text">超时处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%88%E6%9C%AC%E5%85%BC%E5%AE%B9"><span class="nav-number">9.4.</span> <span class="nav-text">版本兼容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B5%E9%9D%A2%E9%94%80%E6%AF%81%E6%97%B6%E6%B8%85%E7%90%86"><span class="nav-number">9.5.</span> <span class="nav-text">页面销毁时清理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%92%8C%E6%99%AE%E9%80%9AAjax%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">10.</span> <span class="nav-text">和普通Ajax的区别</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="PeaFull"
+      src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">PeaFull</p>
+  <div class="site-description" itemprop="description">这么巧，你也在网上冲浪啊</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/PeaFull" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;PeaFull" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2026/07/24/jsbridge/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="PeaFull">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="PeaFull's Notes">
+      <meta itemprop="description" content="这么巧，你也在网上冲浪啊">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="JSBridge | PeaFull's Notes">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JSBridge
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2026-07-24 15:27:29" itemprop="dateCreated datePublished" datetime="2026-07-24T15:27:29+08:00">2026-07-24</time>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2026/07/24/jsbridge/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2026/07/24/jsbridge/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>1.1k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>4 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="JSBridge是什么"><a href="#JSBridge是什么" class="headerlink" title="JSBridge是什么"></a>JSBridge是什么</h2><p>JSBridge是一种让<strong>Web页面里的JavaScript</strong>与<strong>原生应用代码</strong>相互通信的机制。</p>
+<p>常见场景：</p>
+<ul>
+<li>App中嵌入H5页面</li>
+<li>JavaScript调用原生能力</li>
+<li>原生代码主动通知H5页面</li>
+</ul>
+<p>例如，H5页面本身不能直接访问手机通讯录、相机、定位、支付等能力，就需要通过JSBridge让原生端代为执行。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="基本通信过程"><a href="#基本通信过程" class="headerlink" title="基本通信过程"></a>基本通信过程</h2><p>以H5调用相机为例：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">H5 JavaScript</span><br><span class="line">    ↓ 调用Bridge方法</span><br><span class="line">JSBridge</span><br><span class="line">    ↓ 传递方法名和参数</span><br><span class="line">Android/iOS原生代码</span><br><span class="line">    ↓ 调用相机</span><br><span class="line">执行完成</span><br><span class="line">    ↓ 返回结果</span><br><span class="line">JSBridge</span><br><span class="line">    ↓</span><br><span class="line">JavaScript回调或Promise</span><br></pre></td></tr></table></figure>
+
+<p>H5侧可能这样调用：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">JSBridge</span>.<span class="title function_">invoke</span>(<span class="string">&#x27;openCamera&#x27;</span>, &#123;</span><br><span class="line">  <span class="attr">quality</span>: <span class="number">0.8</span></span><br><span class="line">&#125;).<span class="title function_">then</span>(<span class="function"><span class="params">result</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(result.<span class="property">imageUrl</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>原生端接收到：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;method&quot;</span><span class="punctuation">:</span> <span class="string">&quot;openCamera&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;params&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;quality&quot;</span><span class="punctuation">:</span> <span class="number">0.8</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>执行完成后，再把结果返回给JavaScript。</p>
+<hr>
+<h2 id="JSBridge能做什么"><a href="#JSBridge能做什么" class="headerlink" title="JSBridge能做什么"></a>JSBridge能做什么</h2><p>常见能力包括：</p>
+<ul>
+<li>获取设备信息</li>
+<li>获取定位</li>
+<li>调用相机和相册</li>
+<li>扫码</li>
+<li>文件上传和下载</li>
+<li>分享</li>
+<li>支付</li>
+<li>设置导航栏</li>
+<li>关闭当前WebView</li>
+<li>获取登录用户信息</li>
+<li>原生页面跳转</li>
+<li>原生向H5推送事件</li>
+</ul>
+<hr>
+<h2 id="两个通信方向"><a href="#两个通信方向" class="headerlink" title="两个通信方向"></a>两个通信方向</h2><h3 id="JavaScript调用原生"><a href="#JavaScript调用原生" class="headerlink" title="JavaScript调用原生"></a>JavaScript调用原生</h3><p>例如H5调用扫码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bridge.<span class="title function_">invoke</span>(<span class="string">&#x27;scanQRCode&#x27;</span>, &#123;</span><br><span class="line">  <span class="attr">type</span>: <span class="string">&#x27;qr&#x27;</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>原生端根据<code>scanQRCode</code>找到对应处理方法并执行。</p>
+<h3 id="原生调用JavaScript"><a href="#原生调用JavaScript" class="headerlink" title="原生调用JavaScript"></a>原生调用JavaScript</h3><p>原生端可以直接执行WebView中的JavaScript：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="title function_">onNetworkChange</span>(&#123;</span><br><span class="line">  <span class="attr">type</span>: <span class="string">&#x27;wifi&#x27;</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>H5提前注册方法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">onNetworkChange</span> = <span class="keyword">function</span> (<span class="params">data</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;网络发生变化&#x27;</span>, data);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>实际项目中通常会封装成事件机制：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bridge.<span class="title function_">on</span>(<span class="string">&#x27;networkChange&#x27;</span>, <span class="function"><span class="params">data</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(data);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="常见实现方式"><a href="#常见实现方式" class="headerlink" title="常见实现方式"></a>常见实现方式</h2><h3 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h3><p>Android WebView常见方式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">webView.addJavascriptInterface(</span><br><span class="line">    <span class="keyword">new</span> <span class="title class_">NativeBridge</span>(),</span><br><span class="line">    <span class="string">&quot;NativeBridge&quot;</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>JavaScript调用：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">NativeBridge</span>.<span class="title function_">openCamera</span>();</span><br></pre></td></tr></table></figure>
+
+<p>也可以通过拦截URL、<code>postMessage</code>等方式通信。</p>
+<h3 id="iOS"><a href="#iOS" class="headerlink" title="iOS"></a>iOS</h3><p>iOS的WKWebView常使用：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">webkit</span>.<span class="property">messageHandlers</span>.<span class="property">nativeBridge</span>.<span class="title function_">postMessage</span>(&#123;</span><br><span class="line">  <span class="attr">method</span>: <span class="string">&#x27;openCamera&#x27;</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>iOS原生端监听<code>nativeBridge</code>并处理消息。</p>
+<h3 id="React-Native"><a href="#React-Native" class="headerlink" title="React Native"></a>React Native</h3><p>React Native的WebView通常使用：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">ReactNativeWebView</span>.<span class="title function_">postMessage</span>(</span><br><span class="line">  <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(&#123;</span><br><span class="line">    <span class="attr">method</span>: <span class="string">&#x27;openCamera&#x27;</span></span><br><span class="line">  &#125;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>React Native侧通过<code>onMessage</code>接收。</p>
+<hr>
+<h2 id="实际项目中的统一封装"><a href="#实际项目中的统一封装" class="headerlink" title="实际项目中的统一封装"></a>实际项目中的统一封装</h2><p>为了屏蔽Android、iOS之间的差异，前端一般不会直接调用底层API，而是统一封装：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">JSBridge</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">callbacks</span> = <span class="keyword">new</span> <span class="title class_">Map</span>();</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">callbackId</span> = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">invoke</span>(<span class="params">method, params = &#123;&#125;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> callbackId = <span class="string">`callback_<span class="subst">$&#123;++<span class="variable language_">this</span>.callbackId&#125;</span>`</span>;</span><br><span class="line"></span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">callbacks</span>.<span class="title function_">set</span>(callbackId, &#123;</span><br><span class="line">        resolve,</span><br><span class="line">        reject</span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">      <span class="keyword">const</span> message = &#123;</span><br><span class="line">        method,</span><br><span class="line">        params,</span><br><span class="line">        callbackId</span><br><span class="line">      &#125;;</span><br><span class="line"></span><br><span class="line">      <span class="variable language_">this</span>.<span class="title function_">send</span>(message);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">send</span>(<span class="params">message</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> data = <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(message);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="variable language_">window</span>.<span class="property">webkit</span>?.<span class="property">messageHandlers</span>?.<span class="property">nativeBridge</span>) &#123;</span><br><span class="line">      <span class="variable language_">window</span>.<span class="property">webkit</span>.<span class="property">messageHandlers</span>.<span class="property">nativeBridge</span>.<span class="title function_">postMessage</span>(message);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="variable language_">window</span>.<span class="property">ReactNativeWebView</span>) &#123;</span><br><span class="line">      <span class="variable language_">window</span>.<span class="property">ReactNativeWebView</span>.<span class="title function_">postMessage</span>(data);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="variable language_">window</span>.<span class="property">NativeBridge</span>?.<span class="property">postMessage</span>) &#123;</span><br><span class="line">      <span class="variable language_">window</span>.<span class="property">NativeBridge</span>.<span class="title function_">postMessage</span>(data);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;当前环境不支持JSBridge&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">handleCallback</span>(<span class="params">callbackId, result, error</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> callback = <span class="variable language_">this</span>.<span class="property">callbacks</span>.<span class="title function_">get</span>(callbackId);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!callback) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (error) &#123;</span><br><span class="line">      callback.<span class="title function_">reject</span>(error);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      callback.<span class="title function_">resolve</span>(result);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">callbacks</span>.<span class="title function_">delete</span>(callbackId);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>调用：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> bridge = <span class="keyword">new</span> <span class="title class_">JSBridge</span>();</span><br><span class="line"></span><br><span class="line">bridge.<span class="title function_">invoke</span>(<span class="string">&#x27;getLocation&#x27;</span>).<span class="title function_">then</span>(<span class="function"><span class="params">location</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(location);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>原生执行完成后调用：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">bridge.<span class="title function_">handleCallback</span>(</span><br><span class="line">  <span class="string">&#x27;callback_1&#x27;</span>,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">latitude</span>: <span class="number">34.34</span>,</span><br><span class="line">    <span class="attr">longitude</span>: <span class="number">108.94</span></span><br><span class="line">  &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="为什么需要callbackId"><a href="#为什么需要callbackId" class="headerlink" title="为什么需要callbackId"></a>为什么需要callbackId</h2><p>调用原生能力通常是异步的，而且可能同时发起多个请求：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bridge.<span class="title function_">invoke</span>(<span class="string">&#x27;getLocation&#x27;</span>);</span><br><span class="line">bridge.<span class="title function_">invoke</span>(<span class="string">&#x27;openCamera&#x27;</span>);</span><br><span class="line">bridge.<span class="title function_">invoke</span>(<span class="string">&#x27;getDeviceInfo&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>因此每次调用都生成唯一的<code>callbackId</code>：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;method&quot;</span><span class="punctuation">:</span> <span class="string">&quot;getLocation&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;params&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;callbackId&quot;</span><span class="punctuation">:</span> <span class="string">&quot;callback_1&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>原生返回时携带相同的<code>callbackId</code>：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;callbackId&quot;</span><span class="punctuation">:</span> <span class="string">&quot;callback_1&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;result&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;latitude&quot;</span><span class="punctuation">:</span> <span class="number">34.34</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>JSBridge根据它找到对应的Promise或回调函数。</p>
+<hr>
+<h2 id="JSBridge的本质"><a href="#JSBridge的本质" class="headerlink" title="JSBridge的本质"></a>JSBridge的本质</h2><p>JSBridge本质上就是一个<strong>消息协议和调用映射机制</strong>：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">方法名 + 参数 + 请求ID</span><br></pre></td></tr></table></figure>
+
+<p>请求格式：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;method&quot;</span><span class="punctuation">:</span> <span class="string">&quot;openCamera&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;params&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;callbackId&quot;</span><span class="punctuation">:</span> <span class="string">&quot;callback_1&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>响应格式：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;callbackId&quot;</span><span class="punctuation">:</span> <span class="string">&quot;callback_1&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;success&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;data&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>所以JSBridge并不是某个固定框架，而是一套Web与原生之间约定好的通信方案。</p>
+<hr>
+<h2 id="实际开发需要注意"><a href="#实际开发需要注意" class="headerlink" title="实际开发需要注意"></a>实际开发需要注意</h2><h3 id="安全控制"><a href="#安全控制" class="headerlink" title="安全控制"></a>安全控制</h3><p>不能允许H5随意调用所有原生方法，应设置白名单：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> allowedMethods = [</span><br><span class="line">  <span class="string">&#x27;getDeviceInfo&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;openCamera&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;scanQRCode&#x27;</span></span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>还要校验当前H5页面的域名，防止恶意网页调用支付、登录信息等敏感能力。</p>
+<h3 id="参数校验"><a href="#参数校验" class="headerlink" title="参数校验"></a>参数校验</h3><p>原生端不能完全信任前端参数：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;method&quot;</span><span class="punctuation">:</span> <span class="string">&quot;openCamera&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;params&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;quality&quot;</span><span class="punctuation">:</span> <span class="string">&quot;错误类型&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>双方都需要约定参数类型和必填字段。</p>
+<h3 id="超时处理"><a href="#超时处理" class="headerlink" title="超时处理"></a>超时处理</h3><p>原生端可能没有返回结果，需要设置超时：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Promise</span>.<span class="title function_">race</span>([</span><br><span class="line">  bridge.<span class="title function_">invoke</span>(<span class="string">&#x27;getLocation&#x27;</span>),</span><br><span class="line">  <span class="title function_">timeout</span>(<span class="number">5000</span>)</span><br><span class="line">]);</span><br></pre></td></tr></table></figure>
+
+<h3 id="版本兼容"><a href="#版本兼容" class="headerlink" title="版本兼容"></a>版本兼容</h3><p>新版本App可能增加Bridge方法，而旧版本没有，因此通常需要能力判断：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bridge.<span class="title function_">supports</span>(<span class="string">&#x27;openCamera&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>或者维护版本号：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bridge.<span class="title function_">getVersion</span>();</span><br></pre></td></tr></table></figure>
+
+<h3 id="页面销毁时清理"><a href="#页面销毁时清理" class="headerlink" title="页面销毁时清理"></a>页面销毁时清理</h3><p>页面关闭后，应清理未完成的回调和事件监听，避免内存泄漏。</p>
+<hr>
+<h2 id="和普通Ajax的区别"><a href="#和普通Ajax的区别" class="headerlink" title="和普通Ajax的区别"></a>和普通Ajax的区别</h2><table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>JSBridge</th>
+<th>Ajax&#x2F;Fetch</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>通信对象</td>
+<td>JavaScript与原生App</td>
+<td>浏览器与服务器</td>
+</tr>
+<tr>
+<td>通信范围</td>
+<td>当前WebView和App</td>
+<td>HTTP网络</td>
+</tr>
+<tr>
+<td>主要用途</td>
+<td>调用设备和App能力</td>
+<td>请求后端数据</td>
+</tr>
+<tr>
+<td>是否一定联网</td>
+<td>不一定</td>
+<td>通常需要</td>
+</tr>
+<tr>
+<td>常见能力</td>
+<td>相机、定位、支付、页面跳转</td>
+<td>查询、提交业务数据</td>
+</tr>
+</tbody></table>
+<hr>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/07/16/sse-streaming-chat/" rel="prev" title="SSE流式对话">
+                  <i class="fa fa-angle-left"></i> SSE流式对话
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">PeaFull</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">11k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">41 mins.</span>
+  </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"https-peafull-github-io","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
